@@ -1,0 +1,23 @@
+{
+  "name": "darelkhair",
+  "version": "0.1.0",
+  "private": true,
+  "description": "DarElKhair — production apartment booking platform (feature-based modular monolith)",
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9"
+  },
+  "scripts": {
+    "dev": "pnpm --parallel -r dev",
+    "dev:api": "pnpm --filter @darelkhair/api dev",
+    "dev:web": "pnpm --filter @darelkhair/web dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "db:generate": "pnpm --filter @darelkhair/api prisma:generate",
+    "db:migrate": "pnpm --filter @darelkhair/api prisma:migrate",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down"
+  },
+  "packageManager": "pnpm@9.15.0"
+}

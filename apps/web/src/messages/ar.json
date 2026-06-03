@@ -1,0 +1,35 @@
+{
+  "common": {
+    "appName": "دار الخير",
+    "tagline": "احجز شقتك بكل ثقة",
+    "loading": "جارٍ التحميل…",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "back": "رجوع",
+    "search": "بحث",
+    "language": "اللغة"
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "apartments": "الشقق",
+    "bookings": "حجوزاتي",
+    "dashboard": "لوحة التحكم",
+    "login": "تسجيل الدخول",
+    "register": "إنشاء حساب",
+    "logout": "تسجيل الخروج"
+  },
+  "home": {
+    "heroTitle": "ابحث واحجز شقتك القادمة",
+    "heroSubtitle": "تصفّح الشقق، تحقق من التوفر، واحجز في دقائق.",
+    "browse": "تصفّح الشقق"
+  },
+  "status": {
+    "PENDING": "قيد الانتظار",
+    "WAITING_PAYMENT": "بانتظار الدفع",
+    "PROOF_SUBMITTED": "تم إرسال الإثبات",
+    "CONFIRMED": "مؤكَّد",
+    "CANCELLED": "ملغى"
+  }
+}

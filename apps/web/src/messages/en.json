@@ -1,0 +1,35 @@
+{
+  "common": {
+    "appName": "DarElKhair",
+    "tagline": "Book your apartment with confidence",
+    "loading": "Loading…",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "search": "Search",
+    "language": "Language"
+  },
+  "nav": {
+    "home": "Home",
+    "apartments": "Apartments",
+    "bookings": "My bookings",
+    "dashboard": "Dashboard",
+    "login": "Log in",
+    "register": "Sign up",
+    "logout": "Log out"
+  },
+  "home": {
+    "heroTitle": "Find and book your next apartment",
+    "heroSubtitle": "Browse apartments, check availability, and book in minutes.",
+    "browse": "Browse apartments"
+  },
+  "status": {
+    "PENDING": "Pending",
+    "WAITING_PAYMENT": "Awaiting payment",
+    "PROOF_SUBMITTED": "Proof submitted",
+    "CONFIRMED": "Confirmed",
+    "CANCELLED": "Cancelled"
+  }
+}

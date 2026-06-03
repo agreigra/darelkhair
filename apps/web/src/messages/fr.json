@@ -1,0 +1,35 @@
+{
+  "common": {
+    "appName": "DarElKhair",
+    "tagline": "Réservez votre appartement en toute confiance",
+    "loading": "Chargement…",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "back": "Retour",
+    "search": "Rechercher",
+    "language": "Langue"
+  },
+  "nav": {
+    "home": "Accueil",
+    "apartments": "Appartements",
+    "bookings": "Mes réservations",
+    "dashboard": "Tableau de bord",
+    "login": "Connexion",
+    "register": "Inscription",
+    "logout": "Déconnexion"
+  },
+  "home": {
+    "heroTitle": "Trouvez et réservez votre prochain appartement",
+    "heroSubtitle": "Parcourez les appartements, vérifiez la disponibilité et réservez en quelques minutes.",
+    "browse": "Parcourir les appartements"
+  },
+  "status": {
+    "PENDING": "En attente",
+    "WAITING_PAYMENT": "En attente de paiement",
+    "PROOF_SUBMITTED": "Preuve soumise",
+    "CONFIRMED": "Confirmée",
+    "CANCELLED": "Annulée"
+  }
+}
