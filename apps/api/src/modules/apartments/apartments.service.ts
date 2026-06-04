@@ -1,6 +1,13 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { AuditService } from '@/common/audit/audit.service';
+import { StorageService } from '@/common/storage/storage.service';
+import { AppConfigService } from '@/config/app.config';
 import type { LocalizedText } from '@/common/i18n/localized-text';
 import type { RequestContext } from '@/modules/auth/types/auth.types';
 import {
@@ -19,9 +26,13 @@ import type {
 
 @Injectable()
 export class ApartmentsService {
+  private readonly logger = new Logger(ApartmentsService.name);
+
   constructor(
     private readonly repo: ApartmentsRepository,
     private readonly audit: AuditService,
+    private readonly storage: StorageService,
+    private readonly config: AppConfigService,
   ) {}
 
   // ── public ──
@@ -131,16 +142,55 @@ export class ApartmentsService {
 
   // ── images ──
 
+  /** Register an externally-hosted image by URL (no storage object). */
   async addImage(
     apartmentId: string,
     dto: ApartmentImageInputDto,
   ): Promise<ApartmentDto> {
-    await this.requireApartment(apartmentId);
+    const apartment = await this.requireApartment(apartmentId);
     await this.repo.addImage(apartmentId, {
       url: dto.url,
       alt: dto.alt ?? null,
-      isCover: dto.isCover ?? false,
-      sortOrder: dto.sortOrder ?? 0,
+      isCover: dto.isCover ?? apartment.images.length === 0,
+      sortOrder: dto.sortOrder ?? apartment.images.length,
+    });
+    return this.toDto(await this.requireApartment(apartmentId));
+  }
+
+  /** Upload a file to storage (R2/local) and attach it as an apartment image. */
+  async uploadImage(
+    apartmentId: string,
+    file: Express.Multer.File | undefined,
+  ): Promise<ApartmentDto> {
+    if (!file) {
+      throw new BadRequestException('No file uploaded');
+    }
+    const extension = this.storage.extensionFor(file.mimetype);
+    if (!extension) {
+      throw new BadRequestException(
+        `Unsupported file type. Allowed: ${this.storage.allowedMimeTypes.join(', ')}`,
+      );
+    }
+    const maxBytes = this.config.storage.maxSizeMb * 1024 * 1024;
+    if (file.size > maxBytes) {
+      throw new BadRequestException(
+        `File too large (max ${this.config.storage.maxSizeMb} MB)`,
+      );
+    }
+
+    const apartment = await this.requireApartment(apartmentId);
+    const { url, key } = await this.storage.upload({
+      buffer: file.buffer,
+      contentType: file.mimetype,
+      keyPrefix: `apartments/${apartmentId}`,
+      extension,
+    });
+
+    await this.repo.addImage(apartmentId, {
+      url,
+      storageKey: key,
+      isCover: apartment.images.length === 0,
+      sortOrder: apartment.images.length,
     });
     return this.toDto(await this.requireApartment(apartmentId));
   }
@@ -153,6 +203,18 @@ export class ApartmentsService {
     const image = await this.repo.findImage(imageId);
     if (!image || image.apartmentId !== apartmentId) {
       throw new NotFoundException('Image not found');
+    }
+    // Best-effort delete from storage; never block the DB removal on it.
+    if (image.storageKey) {
+      try {
+        await this.storage.delete(image.storageKey);
+      } catch (err) {
+        this.logger.warn(
+          `Failed to delete storage object ${image.storageKey}: ${
+            err instanceof Error ? err.message : String(err)
+          }`,
+        );
+      }
     }
     await this.repo.removeImage(imageId);
     return this.toDto(await this.requireApartment(apartmentId));

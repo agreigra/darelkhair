@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
-import { Loader2, Star, Trash2, Plus } from 'lucide-react';
+import { Loader2, Star, Trash2, Upload } from 'lucide-react';
 import {
   Card,
   CardContent,
@@ -12,12 +12,13 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
+import { getApiErrorMessage } from '@/lib/api-error';
 import { useApartmentImages } from '../hooks/use-admin-apartments';
 import type { ApartmentImage } from '../types/apartment.types';
 
-/** Edit-mode image manager: add by URL, set cover, remove. (Uploads come in Feature 7.) */
+/** Edit-mode image manager: upload files (→ Cloudflare R2 / local), set cover, remove. */
 export function ApartmentImages({
   apartmentId,
   images,
@@ -26,16 +27,17 @@ export function ApartmentImages({
   images: ApartmentImage[];
 }) {
   const t = useTranslations('apartments.images');
-  const { addImage, removeImage, setCover } = useApartmentImages(apartmentId);
-  const [url, setUrl] = useState('');
+  const { uploadImage, removeImage, setCover } = useApartmentImages(apartmentId);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [dragOver, setDragOver] = useState(false);
 
-  function onAdd() {
-    const value = url.trim();
-    if (!value) return;
-    addImage.mutate(
-      { url: value, isCover: images.length === 0 },
-      { onSuccess: () => setUrl('') },
-    );
+  async function uploadFiles(files: FileList | null) {
+    if (!files?.length) return;
+    // Upload sequentially so cover/sort order stays deterministic.
+    for (const file of Array.from(files)) {
+      await uploadImage.mutateAsync(file).catch(() => undefined);
+    }
+    if (inputRef.current) inputRef.current.value = '';
   }
 
   return (
@@ -45,30 +47,50 @@ export function ApartmentImages({
         <CardDescription>{t('subtitle')}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="flex gap-2">
-          <Input
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            placeholder="https://…"
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                e.preventDefault();
-                onAdd();
-              }
-            }}
-          />
-          <Button type="button" onClick={onAdd} disabled={addImage.isPending}>
-            {addImage.isPending ? (
-              <Loader2 className="animate-spin" />
-            ) : (
-              <Plus />
-            )}
-            {t('add')}
-          </Button>
-        </div>
+        <input
+          ref={inputRef}
+          type="file"
+          accept="image/png,image/jpeg,image/webp,image/avif"
+          multiple
+          className="hidden"
+          onChange={(e) => void uploadFiles(e.target.files)}
+        />
+        <button
+          type="button"
+          onClick={() => inputRef.current?.click()}
+          onDragOver={(e) => {
+            e.preventDefault();
+            setDragOver(true);
+          }}
+          onDragLeave={() => setDragOver(false)}
+          onDrop={(e) => {
+            e.preventDefault();
+            setDragOver(false);
+            void uploadFiles(e.dataTransfer.files);
+          }}
+          disabled={uploadImage.isPending}
+          className={cn(
+            'flex w-full flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed p-8 text-sm text-muted-foreground transition-colors hover:border-primary hover:text-foreground',
+            dragOver && 'border-primary bg-accent',
+          )}
+        >
+          {uploadImage.isPending ? (
+            <Loader2 className="size-6 animate-spin" />
+          ) : (
+            <Upload className="size-6" />
+          )}
+          <span>{uploadImage.isPending ? t('uploading') : t('dropzone')}</span>
+          <span className="text-xs">{t('hint')}</span>
+        </button>
+
+        {uploadImage.isError ? (
+          <p className="text-sm font-medium text-destructive">
+            {getApiErrorMessage(uploadImage.error, t('uploadFailed'))}
+          </p>
+        ) : null}
 
         {images.length === 0 ? (
-          <p className="py-6 text-center text-sm text-muted-foreground">
+          <p className="py-2 text-center text-sm text-muted-foreground">
             {t('empty')}
           </p>
         ) : (

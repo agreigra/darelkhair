@@ -83,8 +83,11 @@
     },
     "images": {
       "title": "Photos",
-      "subtitle": "Ajoutez des photos par URL. La première devient la couverture.",
-      "add": "Ajouter",
+      "subtitle": "Téléversez des photos. La première devient la couverture.",
+      "dropzone": "Cliquez pour téléverser ou glissez-déposez",
+      "hint": "PNG, JPG, WebP ou AVIF — jusqu'à 5 Mo",
+      "uploading": "Téléversement…",
+      "uploadFailed": "Échec du téléversement. Veuillez réessayer.",
       "empty": "Aucune photo pour l'instant.",
       "cover": "Couverture",
       "makeCover": "Définir comme couverture"

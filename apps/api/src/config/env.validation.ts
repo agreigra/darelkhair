@@ -19,9 +19,38 @@ export const envSchema = z.object({
 
   CORS_ORIGINS: z.string().default('http://localhost:3000'),
 
+  // ── File storage ──
+  // 'local' serves files from disk (dev); 'r2' uploads to Cloudflare R2.
+  STORAGE_DRIVER: z.enum(['local', 'r2']).default('local'),
   UPLOAD_DIR: z.string().default('./uploads'),
   MAX_UPLOAD_SIZE_MB: z.coerce.number().int().positive().default(5),
-});
+  // Absolute base URL of this API — used to build public URLs for local files.
+  API_PUBLIC_URL: z.string().url().default('http://localhost:4000'),
+
+  // Cloudflare R2 (required only when STORAGE_DRIVER=r2)
+  R2_ACCOUNT_ID: z.string().optional(),
+  R2_ACCESS_KEY_ID: z.string().optional(),
+  R2_SECRET_ACCESS_KEY: z.string().optional(),
+  R2_BUCKET: z.string().optional(),
+  // Public base URL the bucket is served from (r2.dev domain or a custom domain).
+  R2_PUBLIC_URL: z.string().url().optional(),
+})
+  .refine(
+    (env) =>
+      env.STORAGE_DRIVER !== 'r2' ||
+      Boolean(
+        env.R2_ACCOUNT_ID &&
+          env.R2_ACCESS_KEY_ID &&
+          env.R2_SECRET_ACCESS_KEY &&
+          env.R2_BUCKET &&
+          env.R2_PUBLIC_URL,
+      ),
+    {
+      message:
+        'STORAGE_DRIVER=r2 requires R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET, and R2_PUBLIC_URL',
+      path: ['STORAGE_DRIVER'],
+    },
+  );
 
 export type Env = z.infer<typeof envSchema>;
 

@@ -10,7 +10,10 @@ import {
   Post,
   Query,
   Req,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import type { Request } from 'express';
 import { UserRole } from '@prisma/client';
 import { Roles } from '@/modules/auth/decorators/roles.decorator';
@@ -77,6 +80,16 @@ export class AdminApartmentsController {
     @Body() dto: ApartmentImageInputDto,
   ): Promise<ApartmentDto> {
     return this.apartments.addImage(id, dto);
+  }
+
+  /** Multipart file upload → stored in R2/local, attached as an image. */
+  @Post(':id/images/upload')
+  @UseInterceptors(FileInterceptor('file'))
+  uploadImage(
+    @Param('id') id: string,
+    @UploadedFile() file: Express.Multer.File,
+  ): Promise<ApartmentDto> {
+    return this.apartments.uploadImage(id, file);
   }
 
   @Patch(':id/images/:imageId/cover')

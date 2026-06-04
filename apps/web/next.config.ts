@@ -11,6 +11,8 @@ const nextConfig: NextConfig = {
       { protocol: 'http', hostname: 'localhost' },
       { protocol: 'https', hostname: 'picsum.photos' },
       { protocol: 'https', hostname: 'images.unsplash.com' },
+      // Cloudflare R2 public buckets (r2.dev). For a custom domain, add it here.
+      { protocol: 'https', hostname: '*.r2.dev' },
     ],
   },
 };

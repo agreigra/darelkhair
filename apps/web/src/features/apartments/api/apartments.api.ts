@@ -65,6 +65,19 @@ export const apartmentsApi = {
     return unwrap<Apartment>(data);
   },
 
+  /** Upload an image file (multipart) to storage (R2/local) and attach it. */
+  async uploadImage(id: string, file: File): Promise<Apartment> {
+    const form = new FormData();
+    form.append('file', file);
+    const { data } = await apiClient.post(
+      `/admin/apartments/${id}/images/upload`,
+      form,
+      // Clear the default JSON content-type so the browser sets multipart + boundary.
+      { headers: { 'Content-Type': undefined } },
+    );
+    return unwrap<Apartment>(data);
+  },
+
   async removeImage(id: string, imageId: string): Promise<Apartment> {
     const { data } = await apiClient.delete(
       `/admin/apartments/${id}/images/${imageId}`,

@@ -67,6 +67,10 @@ export function useApartmentImages(id: string) {
     mutationFn: (input: ApartmentImageInput) => apartmentsApi.addImage(id, input),
     onSuccess: invalidate,
   });
+  const uploadImage = useMutation({
+    mutationFn: (file: File) => apartmentsApi.uploadImage(id, file),
+    onSuccess: invalidate,
+  });
   const removeImage = useMutation({
     mutationFn: (imageId: string) => apartmentsApi.removeImage(id, imageId),
     onSuccess: invalidate,
@@ -76,5 +80,5 @@ export function useApartmentImages(id: string) {
     onSuccess: invalidate,
   });
 
-  return { addImage, removeImage, setCover };
+  return { addImage, uploadImage, removeImage, setCover };
 }

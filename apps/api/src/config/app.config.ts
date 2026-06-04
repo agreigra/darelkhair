@@ -51,4 +51,25 @@ export class AppConfigService {
       maxSizeMb: this.config.get('MAX_UPLOAD_SIZE_MB', { infer: true }),
     };
   }
+
+  get apiPublicUrl(): string {
+    return this.config.get('API_PUBLIC_URL', { infer: true });
+  }
+
+  get storage() {
+    return {
+      driver: this.config.get('STORAGE_DRIVER', { infer: true }),
+      uploadDir: this.config.get('UPLOAD_DIR', { infer: true }),
+      maxSizeMb: this.config.get('MAX_UPLOAD_SIZE_MB', { infer: true }),
+      r2: {
+        accountId: this.config.get('R2_ACCOUNT_ID', { infer: true }),
+        accessKeyId: this.config.get('R2_ACCESS_KEY_ID', { infer: true }),
+        secretAccessKey: this.config.get('R2_SECRET_ACCESS_KEY', {
+          infer: true,
+        }),
+        bucket: this.config.get('R2_BUCKET', { infer: true }),
+        publicUrl: this.config.get('R2_PUBLIC_URL', { infer: true }),
+      },
+    };
+  }
 }

@@ -124,6 +124,9 @@ model ApartmentImage {
   id          String   @id @default(cuid())
   apartmentId String
   url         String
+  // Storage key (R2 object key or local path) — set for uploaded files so the
+  // object can be removed from storage on delete. Null for externally-hosted URLs.
+  storageKey  String?
   alt         String?
   isCover     Boolean  @default(false)
   sortOrder   Int      @default(0)

@@ -49,6 +49,7 @@ A feature-based build, executed **one feature at a time**. Each step is self-con
 ## Feature 3 — Apartments 🏢 ✅ DONE
 
 > Built: localized-JSON `{fr,ar,en}` content with jsonb cross-locale search; public browse (`/apartments`) + detail (`/apartments/[id]`); admin CRUD (`/admin/apartments`) with the per-language tabbed `LocalizedField` form, publish switch, and image manager; `ApartmentCard` renders via `localized()`; 6 seeded apartments. Decimal price → number in the API. Shared UI added: `tabs`, `switch`, `textarea`.
+> **Image uploads → Cloudflare R2:** reusable global `StorageModule` (R2 via the S3 API + local-disk fallback chosen by `STORAGE_DRIVER`); multipart upload endpoint with type/size validation + RBAC; `ApartmentImage.storageKey` persisted so objects are deleted from storage on remove; drag-&-drop upload UI. Set `STORAGE_DRIVER=r2` + the `R2_*` env vars for production (add the r2.dev/custom host to `next.config`).
 
 - **Multilingual content (decided):** translatable fields — `title`, `description`, `city`/`address` — stored as **localized JSON** `{ fr, ar, en }` (not `title_en/_fr/_ar` columns, not a separate table). Non-text fields (price, bedrooms, bathrooms, guests) stay normal columns. Adding a 4th language later = zero schema change.
   - Prisma: `title Json`, `description Json`, `city Json` on `Apartment`; a shared `LocalizedText` TS type mirrors `{ fr; ar; en }`.
@@ -79,7 +80,8 @@ A feature-based build, executed **one feature at a time**. Each step is self-con
 
 ## Feature 7 — Uploads 📤
 
-- Backend `modules/uploads`: secure file upload (payment proof images), validation, storage
+- ✅ **Storage layer already built in Feature 3** — global `StorageModule` (Cloudflare R2 + local fallback), reused here for payment-proof uploads.
+- Backend `modules/uploads`: secure file upload (payment proof images), validation, storage (via `StorageService`)
 - Frontend `features/uploads`: proof image upload UI, wired into the booking/payment flow
 
 ## Feature 8 — Notifications 🔔

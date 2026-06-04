@@ -83,8 +83,11 @@
     },
     "images": {
       "title": "Photos",
-      "subtitle": "Add photos by URL. The first photo becomes the cover.",
-      "add": "Add",
+      "subtitle": "Upload photos. The first one becomes the cover.",
+      "dropzone": "Click to upload or drag & drop",
+      "hint": "PNG, JPG, WebP or AVIF — up to 5 MB",
+      "uploading": "Uploading…",
+      "uploadFailed": "Upload failed. Please try again.",
       "empty": "No photos yet.",
       "cover": "Cover",
       "makeCover": "Set cover"

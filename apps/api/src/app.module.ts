@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppConfigModule } from './config/config.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuditModule } from './common/audit/audit.module';
+import { StorageModule } from './common/storage/storage.module';
 import { HealthModule } from './modules/health/health.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
@@ -17,6 +18,7 @@ import { ApartmentsModule } from './modules/apartments/apartments.module';
     AppConfigModule,
     PrismaModule,
     AuditModule,
+    StorageModule,
     HealthModule,
     // ── Features (added one at a time, in plan order) ──
     AuthModule,
