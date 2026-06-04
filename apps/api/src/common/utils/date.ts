@@ -15,3 +15,16 @@ export function parseDateOnly(value: string): Date {
 export function formatDateOnly(date: Date): string {
   return date.toISOString().slice(0, 10);
 }
+
+/** Today at UTC midnight — the lower bound for new bookings (matches @db.Date). */
+export function todayUtc(): Date {
+  const now = new Date();
+  return new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
+  );
+}
+
+/** Whole nights between two UTC-midnight dates. */
+export function nightsBetween(checkIn: Date, checkOut: Date): number {
+  return Math.round((checkOut.getTime() - checkIn.getTime()) / 86_400_000);
+}

@@ -5,11 +5,10 @@ import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
 import { BedDouble, Bath, Users, MapPin } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 import { localized } from '@/lib/i18n-content';
-import { AvailabilityCalendar } from '@/features/availability/components/availability-calendar';
+import { BookingPanel } from '@/features/bookings/components/booking-panel';
 import { useApartment } from '../hooks/use-apartments';
 
 export function ApartmentDetail({ id }: { id: string }) {
@@ -109,10 +108,6 @@ export function ApartmentDetail({ id }: { id: string }) {
                   </span>
                 ))}
               </div>
-              {/* TODO(Feature 5): wire the booking flow to this CTA. */}
-              <Button className="w-full" size="lg">
-                {t('book')}
-              </Button>
               <p className="text-center text-xs text-muted-foreground">
                 {t('bookHint')}
               </p>
@@ -139,15 +134,12 @@ export function ApartmentDetail({ id }: { id: string }) {
         ) : null}
       </div>
 
-      {/* Availability */}
+      {/* Availability & booking */}
       <div className="max-w-3xl space-y-4">
         <h2 className="text-xl font-semibold tracking-tight">
           {t('availabilityTitle')}
         </h2>
-        <AvailabilityCalendar
-          apartmentId={apt.id}
-          pricePerNight={apt.pricePerNight}
-        />
+        <BookingPanel apartment={apt} />
       </div>
     </div>
   );

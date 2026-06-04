@@ -68,13 +68,17 @@ A feature-based build, executed **one feature at a time**. Each step is self-con
 - Backend `modules/availability`: availability slots, date-range checks, conflict detection
 - Frontend `features/availability`: `CalendarView`, availability checking on apartment detail, admin availability management
 
-## Feature 5 — Bookings 🧾
+## Feature 5 — Bookings 🧾 ✅ DONE
+
+> Built: guest booking flow + admin management on a server-enforced **status machine** (`PENDING → WAITING_PAYMENT → PROOF_SUBMITTED → CONFIRMED`, `CANCELLED` terminal; illegal jumps → 400). Backend `modules/bookings`: create validates published apartment, guest count ≤ max, no past dates, and **reuses Feature 4's `availability.check`** (409 on overlap); `totalPrice` computed server-side (nights × price); every transition appends an atomic `BookingStatusHistory` row (nested write). Guest routes are own-bookings-only (404 on others); admin routes `@Roles(ADMIN)` with search by reference/email + status filter; audit logs on create + status change. Frontend `features/bookings`: `BookingPanel` on the apartment detail (dates via the availability calendar → guests → auth-gated create, anon users routed to login + back), `/bookings` list (`BookingCard`, status chips) + `/bookings/[id]` (status timeline + self-cancel), `/admin/bookings` (`DataTable`) + `/admin/bookings/[id]` (guest info, transition controls mirroring the machine). `StatusBadge` everywhere; nav links added. Verified: typecheck + build both apps; ICU plurals valid in all 3 locales; lifecycle smoke (create→advance→confirm→cancel), overlap 409, guest/past/RBAC 400/401/403, date release on cancel, 1500 = 3×500 pricing.
 
 - Backend `modules/bookings`: create booking, status machine (`PENDING → WAITING_PAYMENT → PROOF_SUBMITTED → CONFIRMED → CANCELLED`), `BookingStatusHistory`
 - Frontend `features/bookings`: booking flow (select apartment → dates → availability → auth → create), `BookingCard`, status tracking, admin booking management
 - `StatusBadge` for booking states
 
-## Feature 6 — Payments 💳
+## Feature 6 — Payments 💳 ✅ DONE
+
+> Built: **offline payment** records (bank transfer / mobile money / cash) wired into Feature 5's status machine. Backend `modules/payments`: guest `POST /bookings/:id/payment` (only when booking is `WAITING_PAYMENT`; amount taken server-side from the booking total, upsert so a rejected payment can be re-armed) drives the booking `WAITING_PAYMENT → PROOF_SUBMITTED`; admin `verify` → `VERIFIED` + booking `CONFIRMED`; admin `reject` (with note) → `REJECTED` + booking back to `WAITING_PAYMENT`. Transitions go through `BookingsService.applyTransition` so the **single state machine stays authoritative** and every step is recorded in `BookingStatusHistory`; audit logs on submit/verify/reject. Public `GET /payments/instructions` serves bank/mobile-money/WhatsApp details from validated env config. Frontend `features/payments`: guest **`PaymentSection`** on the booking detail (method picker + live instructions + reference + WhatsApp link; under-review / verified / rejected states), admin **`/admin/payments`** validation queue (`DataTable`, defaults to the SUBMITTED queue) **and** a payment card with verify/reject on the admin booking page (shared `PaymentReviewActions`). `PaymentStatusBadge`, nav link added. Verified: typecheck + build both apps; ICU valid in all 3 locales; full lifecycle smoke (approve → submit → verify → CONFIRMED; reject → resubmit), 400 on submit-before-approval / verify-when-not-submitted, 403 on non-owner submit + non-admin review, server-side amount (1500), and the booking history captures every payment event with notes.
 
 - Backend `modules/payments`: offline payment records (bank transfer, mobile money, cash), admin verification flow
 - Frontend `features/payments`: payment instructions page, payment method selection, admin validation UI
@@ -95,6 +99,20 @@ A feature-based build, executed **one feature at a time**. Each step is self-con
 
 - Backend: analytics aggregation endpoints
 - Frontend `features/dashboard`: admin dashboard (Linear-style), `DashboardCard` metrics, bookings/payments overview, `DataTable` listings
+
+## Home page
+
+## Feature 10 - About us
+
+## Feature 11 - Contact us
+
+## Feature 12 - appartment review
+
+## Feature 13 - Billing
+
+## Unit tests
+
+## Optional : admin can have slider on home page that he can change
 
 ---
 

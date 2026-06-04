@@ -34,6 +34,16 @@ export const envSchema = z.object({
   R2_BUCKET: z.string().optional(),
   // Public base URL the bucket is served from (r2.dev domain or a custom domain).
   R2_PUBLIC_URL: z.string().url().optional(),
+
+  // ── Offline payment instructions (Feature 6) ──
+  // Shown to guests on the payment page. Dev defaults are placeholders.
+  PAYMENT_BANK_NAME: z.string().default('DarElKhair Bank'),
+  PAYMENT_BANK_ACCOUNT_NAME: z.string().default('DarElKhair SARL'),
+  PAYMENT_BANK_ACCOUNT_NUMBER: z.string().default('000123456789'),
+  PAYMENT_BANK_IBAN: z.string().optional(),
+  PAYMENT_MOBILE_MONEY_NUMBER: z.string().default('22200000000'),
+  // International format, no '+'. Reused for the WhatsApp support link.
+  PAYMENT_WHATSAPP_NUMBER: z.string().default('22200000000'),
 })
   .refine(
     (env) =>

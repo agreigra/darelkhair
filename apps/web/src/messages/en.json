@@ -20,7 +20,9 @@
     "register": "Sign up",
     "logout": "Log out",
     "account": "Account",
-    "users": "Users"
+    "users": "Users",
+    "manageBookings": "Bookings",
+    "payments": "Payments"
   },
   "home": {
     "heroTitle": "Find and book your next apartment",
@@ -113,6 +115,137 @@
       "blockedTitle": "Blocked periods",
       "loading": "Loading…",
       "none": "No blocked periods yet."
+    }
+  },
+  "bookings": {
+    "create": {
+      "guests": "Guests",
+      "maxGuests": "Up to {count, plural, one {# guest} other {# guests}}",
+      "summary": "{nights, plural, one {# night} other {# nights}}",
+      "confirm": "Request booking",
+      "loginToBook": "Log in to book"
+    },
+    "errors": {
+      "generic": "Something went wrong. Please try again."
+    },
+    "list": {
+      "title": "My bookings",
+      "subtitle": "Track your stays and their status.",
+      "all": "All",
+      "empty": "You have no bookings yet.",
+      "prev": "Previous",
+      "next": "Next",
+      "pageOf": "Page {page} of {total}"
+    },
+    "detail": {
+      "back": "Back to bookings",
+      "timeline": "Status history",
+      "dates": "Dates",
+      "nights": "Nights",
+      "guests": "Guests",
+      "total": "Total",
+      "email": "Email",
+      "phone": "Phone",
+      "viewApartment": "View apartment",
+      "cancel": "Cancel booking",
+      "cancelTitle": "Cancel this booking?",
+      "cancelDescription": "This will cancel your booking and free up the dates. This cannot be undone.",
+      "cancelConfirm": "Cancel booking",
+      "notFound": "Booking not found."
+    },
+    "admin": {
+      "title": "Bookings",
+      "subtitle": "Review and manage every booking.",
+      "searchPlaceholder": "Search by reference or email",
+      "all": "All",
+      "empty": "No bookings found.",
+      "manage": "Manage",
+      "back": "Back to bookings",
+      "total": "{count} bookings",
+      "pageOf": "Page {page} of {total}",
+      "columns": {
+        "reference": "Ref",
+        "apartment": "Apartment",
+        "guest": "Guest",
+        "dates": "Dates",
+        "total": "Total",
+        "status": "Status"
+      },
+      "detailsTitle": "Details",
+      "updateStatus": "Update status",
+      "note": "Note (optional)",
+      "notePlaceholder": "Add a note for the history…",
+      "moveTo": "Move to {status}",
+      "terminal": "This booking is cancelled — no further changes."
+    }
+  },
+  "paymentStatus": {
+    "PENDING": "Pending",
+    "SUBMITTED": "Submitted",
+    "VERIFIED": "Verified",
+    "REJECTED": "Rejected"
+  },
+  "payments": {
+    "title": "Payment",
+    "awaitingApproval": "Your booking is awaiting host approval. You'll be able to pay once it's confirmed.",
+    "amount": "Amount to pay",
+    "chooseMethod": "Choose a payment method",
+    "methods": {
+      "BANK_TRANSFER": "Bank transfer",
+      "MOBILE_MONEY": "Mobile money",
+      "CASH": "Cash"
+    },
+    "bank": {
+      "name": "Bank",
+      "accountName": "Account name",
+      "accountNumber": "Account number",
+      "iban": "IBAN"
+    },
+    "mobileMoney": {
+      "number": "Mobile money number"
+    },
+    "cash": {
+      "note": "Pay in cash on arrival, or contact us to arrange payment."
+    },
+    "referenceLabel": "Transaction reference (optional)",
+    "referencePlaceholder": "Transaction ID or sender name",
+    "submit": "I've paid — submit for review",
+    "whatsapp": "Contact us on WhatsApp",
+    "submittedMethod": "Method",
+    "underReview": {
+      "title": "Payment under review",
+      "body": "We've received your payment details and are verifying them. You'll be notified once confirmed."
+    },
+    "verified": {
+      "title": "Payment verified",
+      "body": "Your booking is confirmed. We look forward to hosting you."
+    },
+    "rejected": {
+      "title": "Your previous payment was rejected. Please check the details and submit again."
+    },
+    "errors": {
+      "generic": "Something went wrong. Please try again."
+    }
+  },
+  "paymentsAdmin": {
+    "title": "Payments",
+    "subtitle": "Verify offline payments and confirm bookings.",
+    "all": "All",
+    "empty": "No payments found.",
+    "noPayment": "No payment submitted for this booking yet.",
+    "total": "{count} payments",
+    "pageOf": "Page {page} of {total}",
+    "verify": "Verify",
+    "reject": "Reject",
+    "rejectTitle": "Reject this payment?",
+    "rejectDescription": "The booking returns to awaiting payment so the guest can submit again.",
+    "columns": {
+      "booking": "Booking",
+      "guest": "Guest",
+      "method": "Method",
+      "amount": "Amount",
+      "submitted": "Submitted",
+      "status": "Status"
     }
   },
   "auth": {

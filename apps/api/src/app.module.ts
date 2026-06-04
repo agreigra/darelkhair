@@ -8,6 +8,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { ApartmentsModule } from './modules/apartments/apartments.module';
 import { AvailabilityModule } from './modules/availability/availability.module';
+import { BookingsModule } from './modules/bookings/bookings.module';
+import { PaymentsModule } from './modules/payments/payments.module';
 
 /**
  * Root module. Each FEATURE is its own module under src/modules and gets
@@ -26,8 +28,8 @@ import { AvailabilityModule } from './modules/availability/availability.module';
     UsersModule,
     ApartmentsModule,
     AvailabilityModule,
-    // BookingsModule,
-    // PaymentsModule,
+    BookingsModule,
+    PaymentsModule,
     // UploadsModule,
     // NotificationsModule,
     // DashboardModule,

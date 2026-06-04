@@ -56,6 +56,27 @@ export class AppConfigService {
     return this.config.get('API_PUBLIC_URL', { infer: true });
   }
 
+  get payments() {
+    return {
+      bank: {
+        name: this.config.get('PAYMENT_BANK_NAME', { infer: true }),
+        accountName: this.config.get('PAYMENT_BANK_ACCOUNT_NAME', {
+          infer: true,
+        }),
+        accountNumber: this.config.get('PAYMENT_BANK_ACCOUNT_NUMBER', {
+          infer: true,
+        }),
+        iban: this.config.get('PAYMENT_BANK_IBAN', { infer: true }) ?? null,
+      },
+      mobileMoneyNumber: this.config.get('PAYMENT_MOBILE_MONEY_NUMBER', {
+        infer: true,
+      }),
+      whatsappNumber: this.config.get('PAYMENT_WHATSAPP_NUMBER', {
+        infer: true,
+      }),
+    };
+  }
+
   get storage() {
     return {
       driver: this.config.get('STORAGE_DRIVER', { infer: true }),

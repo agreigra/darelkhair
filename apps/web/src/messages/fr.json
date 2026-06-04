@@ -20,7 +20,9 @@
     "register": "Inscription",
     "logout": "Déconnexion",
     "account": "Compte",
-    "users": "Utilisateurs"
+    "users": "Utilisateurs",
+    "manageBookings": "Réservations",
+    "payments": "Paiements"
   },
   "home": {
     "heroTitle": "Trouvez et réservez votre prochain appartement",
@@ -113,6 +115,137 @@
       "blockedTitle": "Périodes bloquées",
       "loading": "Chargement…",
       "none": "Aucune période bloquée pour l'instant."
+    }
+  },
+  "bookings": {
+    "create": {
+      "guests": "Voyageurs",
+      "maxGuests": "Jusqu'à {count, plural, one {# voyageur} other {# voyageurs}}",
+      "summary": "{nights, plural, one {# nuit} other {# nuits}}",
+      "confirm": "Demander la réservation",
+      "loginToBook": "Connectez-vous pour réserver"
+    },
+    "errors": {
+      "generic": "Une erreur est survenue. Veuillez réessayer."
+    },
+    "list": {
+      "title": "Mes réservations",
+      "subtitle": "Suivez vos séjours et leur statut.",
+      "all": "Toutes",
+      "empty": "Vous n'avez aucune réservation pour l'instant.",
+      "prev": "Précédent",
+      "next": "Suivant",
+      "pageOf": "Page {page} sur {total}"
+    },
+    "detail": {
+      "back": "Retour aux réservations",
+      "timeline": "Historique du statut",
+      "dates": "Dates",
+      "nights": "Nuits",
+      "guests": "Voyageurs",
+      "total": "Total",
+      "email": "E-mail",
+      "phone": "Téléphone",
+      "viewApartment": "Voir l'appartement",
+      "cancel": "Annuler la réservation",
+      "cancelTitle": "Annuler cette réservation ?",
+      "cancelDescription": "Cela annulera votre réservation et libérera les dates. Cette action est irréversible.",
+      "cancelConfirm": "Annuler la réservation",
+      "notFound": "Réservation introuvable."
+    },
+    "admin": {
+      "title": "Réservations",
+      "subtitle": "Consultez et gérez toutes les réservations.",
+      "searchPlaceholder": "Rechercher par référence ou e-mail",
+      "all": "Toutes",
+      "empty": "Aucune réservation trouvée.",
+      "manage": "Gérer",
+      "back": "Retour aux réservations",
+      "total": "{count} réservations",
+      "pageOf": "Page {page} sur {total}",
+      "columns": {
+        "reference": "Réf",
+        "apartment": "Appartement",
+        "guest": "Client",
+        "dates": "Dates",
+        "total": "Total",
+        "status": "Statut"
+      },
+      "detailsTitle": "Détails",
+      "updateStatus": "Mettre à jour le statut",
+      "note": "Note (facultatif)",
+      "notePlaceholder": "Ajouter une note à l'historique…",
+      "moveTo": "Passer à {status}",
+      "terminal": "Cette réservation est annulée — aucune modification possible."
+    }
+  },
+  "paymentStatus": {
+    "PENDING": "En attente",
+    "SUBMITTED": "Soumis",
+    "VERIFIED": "Vérifié",
+    "REJECTED": "Rejeté"
+  },
+  "payments": {
+    "title": "Paiement",
+    "awaitingApproval": "Votre réservation est en attente d'approbation par l'hôte. Vous pourrez payer une fois confirmée.",
+    "amount": "Montant à payer",
+    "chooseMethod": "Choisissez un mode de paiement",
+    "methods": {
+      "BANK_TRANSFER": "Virement bancaire",
+      "MOBILE_MONEY": "Mobile money",
+      "CASH": "Espèces"
+    },
+    "bank": {
+      "name": "Banque",
+      "accountName": "Titulaire du compte",
+      "accountNumber": "Numéro de compte",
+      "iban": "IBAN"
+    },
+    "mobileMoney": {
+      "number": "Numéro mobile money"
+    },
+    "cash": {
+      "note": "Payez en espèces à l'arrivée, ou contactez-nous pour organiser le paiement."
+    },
+    "referenceLabel": "Référence de la transaction (facultatif)",
+    "referencePlaceholder": "ID de transaction ou nom de l'expéditeur",
+    "submit": "J'ai payé — soumettre pour vérification",
+    "whatsapp": "Contactez-nous sur WhatsApp",
+    "submittedMethod": "Mode",
+    "underReview": {
+      "title": "Paiement en cours de vérification",
+      "body": "Nous avons reçu vos informations de paiement et les vérifions. Vous serez notifié une fois confirmé."
+    },
+    "verified": {
+      "title": "Paiement vérifié",
+      "body": "Votre réservation est confirmée. Au plaisir de vous accueillir."
+    },
+    "rejected": {
+      "title": "Votre paiement précédent a été rejeté. Veuillez vérifier les informations et soumettre à nouveau."
+    },
+    "errors": {
+      "generic": "Une erreur est survenue. Veuillez réessayer."
+    }
+  },
+  "paymentsAdmin": {
+    "title": "Paiements",
+    "subtitle": "Vérifiez les paiements hors ligne et confirmez les réservations.",
+    "all": "Tous",
+    "empty": "Aucun paiement trouvé.",
+    "noPayment": "Aucun paiement soumis pour cette réservation.",
+    "total": "{count} paiements",
+    "pageOf": "Page {page} sur {total}",
+    "verify": "Vérifier",
+    "reject": "Rejeter",
+    "rejectTitle": "Rejeter ce paiement ?",
+    "rejectDescription": "La réservation repasse en attente de paiement afin que le client puisse soumettre à nouveau.",
+    "columns": {
+      "booking": "Réservation",
+      "guest": "Client",
+      "method": "Mode",
+      "amount": "Montant",
+      "submitted": "Soumis le",
+      "status": "Statut"
     }
   },
   "auth": {

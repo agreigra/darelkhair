@@ -1,7 +1,15 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { LogOut, LayoutDashboard, User as UserIcon, Users, Building2 } from 'lucide-react';
+import {
+  LogOut,
+  LayoutDashboard,
+  User as UserIcon,
+  Users,
+  Building2,
+  CalendarCheck,
+  CreditCard,
+} from 'lucide-react';
 import { Link, useRouter } from '@/i18n/navigation';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -86,6 +94,11 @@ export function HeaderAuth() {
             <UserIcon /> {t('account')}
           </Link>
         </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/bookings">
+            <CalendarCheck /> {t('bookings')}
+          </Link>
+        </DropdownMenuItem>
         {isAdmin ? (
           <>
             <DropdownMenuItem asChild>
@@ -96,6 +109,16 @@ export function HeaderAuth() {
             <DropdownMenuItem asChild>
               <Link href="/admin/apartments">
                 <Building2 /> {t('apartments')}
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/admin/bookings">
+                <CalendarCheck /> {t('manageBookings')}
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/admin/payments">
+                <CreditCard /> {t('payments')}
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>

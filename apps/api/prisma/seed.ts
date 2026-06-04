@@ -211,6 +211,64 @@ async function seedApartments(): Promise<void> {
   console.log(`Seeded ${APARTMENTS.length} apartments.`);
 }
 
+/** A YYYY-MM-DD string `days` from today, as a UTC-midnight Date (@db.Date). */
+function dateOnly(daysFromNow: number): Date {
+  const now = new Date();
+  const base = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  return new Date(base + daysFromNow * 86_400_000);
+}
+
+function reference(): string {
+  return `DK-${Math.random().toString(36).slice(2, 10).toUpperCase()}`;
+}
+
+/** Give the sample guest a couple of bookings so /bookings has rows to show. */
+async function seedBookings(): Promise<void> {
+  const existing = await prisma.booking.count();
+  if (existing > 0) {
+    // eslint-disable-next-line no-console
+    console.log(`Bookings already present (${existing}) — skipping.`);
+    return;
+  }
+
+  const guest = await prisma.user.findUnique({
+    where: { email: 'user@darelkhair.xyz' },
+    select: { id: true },
+  });
+  const apartments = await prisma.apartment.findMany({
+    where: { isPublished: true },
+    select: { id: true, pricePerNight: true },
+    take: 2,
+  });
+  if (!guest || apartments.length < 2) return;
+
+  const seeds = [
+    { apt: apartments[0], checkIn: 7, checkOut: 11, guests: 2, status: 'PENDING' as const },
+    { apt: apartments[1], checkIn: 20, checkOut: 23, guests: 1, status: 'CONFIRMED' as const },
+  ];
+
+  for (const s of seeds) {
+    const nights = s.checkOut - s.checkIn;
+    await prisma.booking.create({
+      data: {
+        reference: reference(),
+        userId: guest.id,
+        apartmentId: s.apt.id,
+        checkIn: dateOnly(s.checkIn),
+        checkOut: dateOnly(s.checkOut),
+        guests: s.guests,
+        totalPrice: nights * Number(s.apt.pricePerNight),
+        status: s.status,
+        history: {
+          create: { fromStatus: null, toStatus: s.status, changedBy: guest.id },
+        },
+      },
+    });
+  }
+  // eslint-disable-next-line no-console
+  console.log(`Seeded ${seeds.length} bookings for user@darelkhair.xyz.`);
+}
+
 async function main(): Promise<void> {
   await upsertUser({
     email: 'admin@darelkhair.xyz',
@@ -237,6 +295,7 @@ async function main(): Promise<void> {
   }
 
   await seedApartments();
+  await seedBookings();
 
   // eslint-disable-next-line no-console
   console.log('Seed complete: admin@darelkhair.xyz / Admin12345, user@darelkhair.xyz / User12345 (+5 guests).');
