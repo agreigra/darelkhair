@@ -25,6 +25,38 @@
     "heroSubtitle": "Parcourez les appartements, vérifiez la disponibilité et réservez en quelques minutes.",
     "browse": "Parcourir les appartements"
   },
+  "auth": {
+    "login": {
+      "title": "Bon retour",
+      "subtitle": "Connectez-vous à votre compte pour continuer.",
+      "submit": "Se connecter",
+      "noAccount": "Vous n'avez pas de compte ?",
+      "registerLink": "S'inscrire"
+    },
+    "register": {
+      "title": "Créer votre compte",
+      "subtitle": "Inscrivez-vous pour réserver des appartements et suivre vos réservations.",
+      "submit": "Créer le compte",
+      "hasAccount": "Vous avez déjà un compte ?",
+      "loginLink": "Se connecter"
+    },
+    "fields": {
+      "email": "E-mail",
+      "password": "Mot de passe",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "phone": "Téléphone"
+    },
+    "errors": {
+      "invalidEmail": "Saisissez une adresse e-mail valide.",
+      "passwordRequired": "Le mot de passe est requis.",
+      "passwordTooShort": "Le mot de passe doit comporter au moins 8 caractères.",
+      "passwordTooLong": "Le mot de passe est trop long.",
+      "invalidCredentials": "E-mail ou mot de passe incorrect.",
+      "emailTaken": "Cet e-mail est déjà enregistré.",
+      "generic": "Une erreur est survenue. Veuillez réessayer."
+    }
+  },
   "status": {
     "PENDING": "En attente",
     "WAITING_PAYMENT": "En attente de paiement",

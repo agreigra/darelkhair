@@ -17,7 +17,7 @@ A feature-based build, executed **one feature at a time**. Each step is self-con
 
 ---
 
-## Phase 0 — Foundation & Scaffolding ⚙️
+## Phase 0 — Foundation & Scaffolding ⚙️ ✅ DONE
 
 > Must come before any feature. Sets up the skeleton so every later feature drops cleanly into place.
 
@@ -31,12 +31,13 @@ A feature-based build, executed **one feature at a time**. Each step is self-con
 
 ---
 
-## Feature 1 — Auth 🔐
+## Feature 1 — Auth 🔐 ✅ DONE
 
-- Backend `modules/auth`: register, login, refresh token rotation, logout, JWT guards, RBAC guard/decorator, password hashing
-- DTOs + validation, `AuditLog` on auth events
-- Frontend `features/auth`: login/register forms (`FormWrapper`), `api/`, `hooks/` (React Query), `store/` (Zustand auth/session), route protection middleware
-- i18n strings (FR/AR/EN)
+- Backend `modules/auth`: register, login, refresh token rotation (+reuse detection), logout, JWT guards, RBAC guard/decorator, bcrypt hashing
+- DTOs + validation, `AuditLog` on auth events (via global `AuditModule`)
+- Access token in memory + refresh token as httpOnly cookie; global `JwtAuthGuard` (secure-by-default, `@Public()` opt-out) + `RolesGuard`
+- Frontend `features/auth`: login/register forms (`FormWrapper` + shadcn `Form`), `api/`, `hooks/` (React Query), `store/` (Zustand), silent-refresh axios interceptor, `AuthProvider`, auth-aware header, route-protection middleware
+- i18n strings (FR/AR/EN), design system applied from darelkhair.xyz (teal/orange/gold, Inter + Noto Sans Arabic)
 
 ## Feature 2 — Users 👤
 

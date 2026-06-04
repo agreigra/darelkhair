@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
 import { AppConfigModule } from './config/config.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { AuditModule } from './common/audit/audit.module';
 import { HealthModule } from './modules/health/health.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 /**
  * Root module. Each FEATURE is its own module under src/modules and gets
@@ -12,9 +14,10 @@ import { HealthModule } from './modules/health/health.module';
   imports: [
     AppConfigModule,
     PrismaModule,
+    AuditModule,
     HealthModule,
     // ── Features (added one at a time, in plan order) ──
-    // AuthModule,
+    AuthModule,
     // UsersModule,
     // ApartmentsModule,
     // AvailabilityModule,

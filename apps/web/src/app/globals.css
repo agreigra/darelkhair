@@ -2,80 +2,103 @@
 @tailwind components;
 @tailwind utilities;
 
-/* shadcn/ui design tokens — Vercel/Linear-minimal neutral palette. */
+/*
+ * DarElKhair design system — inspired by darelkhair.xyz.
+ * Brand: deep teal #006666 (primary) · warm orange #e67300 (accent/CTA)
+ * · tan/gold #b38c66 (gold). Luxury, minimal, warm. Fonts: Inter + Noto Sans Arabic.
+ */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222 47% 11%;
+    /* warm off-white background, teal-tinted near-black text */
+    --background: 40 30% 99%;
+    --foreground: 180 25% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 180 25% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover-foreground: 180 25% 10%;
 
-    --primary: 222 47% 11%;
-    --primary-foreground: 210 40% 98%;
+    /* primary = deep teal #006666 */
+    --primary: 180 100% 20%;
+    --primary-foreground: 40 30% 98%;
 
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222 47% 11%;
+    /* secondary = subtle teal surface */
+    --secondary: 180 24% 95%;
+    --secondary-foreground: 180 100% 15%;
 
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 40 16% 95%;
+    --muted-foreground: 180 8% 40%;
 
-    --accent: 210 40% 96%;
-    --accent-foreground: 222 47% 11%;
+    /* accent surface (hover) = light teal */
+    --accent: 180 30% 94%;
+    --accent-foreground: 180 100% 15%;
 
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 210 40% 98%;
+    /* brand accent = warm orange #e67300, gold = tan #b38c66 */
+    --brand: 180 100% 20%;
+    --brand-foreground: 40 30% 98%;
+    --brand-orange: 30 100% 45%;
+    --brand-orange-foreground: 40 30% 98%;
+    --brand-gold: 30 34% 55%;
+    --brand-gold-foreground: 180 25% 10%;
 
-    --success: 142 71% 45%;
-    --success-foreground: 210 40% 98%;
+    --destructive: 0 72% 48%;
+    --destructive-foreground: 40 30% 98%;
 
-    --warning: 38 92% 50%;
-    --warning-foreground: 222 47% 11%;
+    --success: 160 84% 32%;
+    --success-foreground: 40 30% 98%;
 
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 222 47% 11%;
+    --warning: 30 100% 45%;
+    --warning-foreground: 40 30% 98%;
+
+    --border: 180 14% 88%;
+    --input: 180 14% 88%;
+    --ring: 180 100% 20%;
 
     --radius: 0.625rem;
   }
 
   .dark {
-    --background: 222 47% 7%;
-    --foreground: 210 40% 98%;
+    --background: 180 30% 6%;
+    --foreground: 40 30% 96%;
 
-    --card: 222 47% 9%;
-    --card-foreground: 210 40% 98%;
+    --card: 180 28% 8%;
+    --card-foreground: 40 30% 96%;
 
-    --popover: 222 47% 9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 180 28% 8%;
+    --popover-foreground: 40 30% 96%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222 47% 11%;
+    --primary: 174 70% 56%;
+    --primary-foreground: 180 40% 8%;
 
-    --secondary: 217 33% 17%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 180 20% 14%;
+    --secondary-foreground: 40 30% 96%;
 
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 180 15% 14%;
+    --muted-foreground: 180 10% 62%;
 
-    --accent: 217 33% 17%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 180 22% 16%;
+    --accent-foreground: 40 30% 96%;
 
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
+    --brand: 174 70% 56%;
+    --brand-foreground: 180 40% 8%;
+    --brand-orange: 30 100% 52%;
+    --brand-orange-foreground: 180 40% 8%;
+    --brand-gold: 30 38% 60%;
+    --brand-gold-foreground: 180 40% 8%;
 
-    --success: 142 71% 45%;
-    --success-foreground: 210 40% 98%;
+    --destructive: 0 63% 40%;
+    --destructive-foreground: 40 30% 96%;
 
-    --warning: 38 92% 50%;
-    --warning-foreground: 222 47% 11%;
+    --success: 160 70% 42%;
+    --success-foreground: 180 40% 8%;
 
-    --border: 217 33% 17%;
-    --input: 217 33% 17%;
-    --ring: 213 27% 84%;
+    --warning: 30 100% 52%;
+    --warning-foreground: 180 40% 8%;
+
+    --border: 180 18% 18%;
+    --input: 180 18% 18%;
+    --ring: 174 70% 56%;
   }
 }
 
@@ -85,6 +108,12 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-sans), system-ui, sans-serif;
     font-feature-settings: 'rlig' 1, 'calt' 1;
+  }
+  /* Arabic locale renders in Noto Sans Arabic (RTL). */
+  [dir='rtl'] body,
+  :lang(ar) {
+    font-family: var(--font-arabic), var(--font-sans), sans-serif;
   }
 }

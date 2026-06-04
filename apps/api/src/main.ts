@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
 import { AppConfigService } from './config/app.config';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
@@ -11,6 +12,7 @@ async function bootstrap(): Promise<void> {
   const config = app.get(AppConfigService);
 
   app.setGlobalPrefix('api');
+  app.use(cookieParser());
 
   // Strict DTO validation everywhere — required by the security rules.
   app.useGlobalPipes(

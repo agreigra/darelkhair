@@ -1,5 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { PrismaService } from '@/prisma/prisma.service';
+import { Public } from '@/modules/auth/decorators/public.decorator';
 
 /**
  * Liveness/readiness probe. Used by docker-compose and load balancers.
@@ -9,6 +10,7 @@ import { PrismaService } from '@/prisma/prisma.service';
 export class HealthController {
   constructor(private readonly prisma: PrismaService) {}
 
+  @Public()
   @Get()
   async check() {
     let database = 'down';

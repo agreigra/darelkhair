@@ -25,6 +25,38 @@
     "heroSubtitle": "Browse apartments, check availability, and book in minutes.",
     "browse": "Browse apartments"
   },
+  "auth": {
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Log in to your account to continue.",
+      "submit": "Log in",
+      "noAccount": "Don't have an account?",
+      "registerLink": "Sign up"
+    },
+    "register": {
+      "title": "Create your account",
+      "subtitle": "Sign up to book apartments and track your reservations.",
+      "submit": "Create account",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Log in"
+    },
+    "fields": {
+      "email": "Email",
+      "password": "Password",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "phone": "Phone"
+    },
+    "errors": {
+      "invalidEmail": "Enter a valid email address.",
+      "passwordRequired": "Password is required.",
+      "passwordTooShort": "Password must be at least 8 characters.",
+      "passwordTooLong": "Password is too long.",
+      "invalidCredentials": "Incorrect email or password.",
+      "emailTaken": "This email is already registered.",
+      "generic": "Something went wrong. Please try again."
+    }
+  },
   "status": {
     "PENDING": "Pending",
     "WAITING_PAYMENT": "Awaiting payment",

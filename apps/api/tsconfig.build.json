@@ -1,7 +1,10 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "rootDir": "./src"
+    "rootDir": "./src",
+    // Always emit on build. (Incremental + deleteOutDir leaves a stale
+    // .tsbuildinfo that makes tsc skip emit — disable it here.)
+    "incremental": false
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "prisma", "test", "**/*.spec.ts"]

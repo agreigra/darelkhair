@@ -61,6 +61,14 @@ const config: Config = {
           DEFAULT: 'hsl(var(--warning))',
           foreground: 'hsl(var(--warning-foreground))',
         },
+        brand: {
+          DEFAULT: 'hsl(var(--brand))',
+          foreground: 'hsl(var(--brand-foreground))',
+          orange: 'hsl(var(--brand-orange))',
+          'orange-foreground': 'hsl(var(--brand-orange-foreground))',
+          gold: 'hsl(var(--brand-gold))',
+          'gold-foreground': 'hsl(var(--brand-gold-foreground))',
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -69,6 +77,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        arabic: ['var(--font-arabic)', 'var(--font-sans)', 'sans-serif'],
       },
       keyframes: {
         'accordion-down': {

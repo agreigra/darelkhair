@@ -1,9 +1,9 @@
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { Button } from '@/components/ui/button';
 import { LanguageSwitcher } from './language-switcher';
+import { HeaderAuth } from './header-auth';
 
-/** App top bar. Auth-aware nav (login/logout) is wired in Feature 1. */
+/** App top bar. Auth controls (login/logout) are client-rendered via HeaderAuth. */
 export function SiteHeader() {
   const t = useTranslations('nav');
   const tc = useTranslations('common');
@@ -26,12 +26,7 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-3">
           <LanguageSwitcher />
-          <Button asChild variant="ghost" size="sm">
-            <Link href="/login">{t('login')}</Link>
-          </Button>
-          <Button asChild size="sm">
-            <Link href="/register">{t('register')}</Link>
-          </Button>
+          <HeaderAuth />
         </div>
       </div>
     </header>
