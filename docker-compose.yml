@@ -7,6 +7,9 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-darelkhair}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-darelkhair_dev_password}
       POSTGRES_DB: ${POSTGRES_DB:-darelkhair}
+    # HOST:CONTAINER — left is the port published on your machine (override via
+    # POSTGRES_PORT to avoid local conflicts); right is fixed: Postgres always
+    # listens on 5432 inside the container.
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:
@@ -29,6 +32,8 @@ services:
     environment:
       NODE_ENV: ${NODE_ENV:-development}
       API_PORT: ${API_PORT:-4000}
+      # Inside the docker network the API reaches Postgres on the CONTAINER port
+      # (5432) via the service name `postgres` — never the published host port.
       DATABASE_URL: postgresql://${POSTGRES_USER:-darelkhair}:${POSTGRES_PASSWORD:-darelkhair_dev_password}@postgres:5432/${POSTGRES_DB:-darelkhair}?schema=public
       JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:-change_me_access_secret}
       JWT_ACCESS_EXPIRES_IN: ${JWT_ACCESS_EXPIRES_IN:-15m}

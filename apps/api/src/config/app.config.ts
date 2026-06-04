@@ -22,6 +22,10 @@ export class AppConfigService {
     return this.config.get('API_PORT', { infer: true });
   }
 
+  get databaseUrl(): string {
+    return this.config.get('DATABASE_URL', { infer: true });
+  }
+
   get corsOrigins(): string[] {
     return this.config
       .get('CORS_ORIGINS', { infer: true })

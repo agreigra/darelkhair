@@ -5,10 +5,13 @@ import {
   OnModuleInit,
 } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
+import { PrismaPg } from '@prisma/adapter-pg';
+import { AppConfigService } from '@/config/app.config';
 
 /**
  * Thin wrapper around PrismaClient with lifecycle hooks wired to Nest.
- * Features inject this service to access the database; they never `new` a client.
+ * Prisma 7 connects through a driver adapter — we build a pg adapter from the
+ * validated DATABASE_URL. Features inject this service; they never `new` a client.
  */
 @Injectable()
 export class PrismaService
@@ -16,6 +19,10 @@ export class PrismaService
   implements OnModuleInit, OnModuleDestroy
 {
   private readonly logger = new Logger(PrismaService.name);
+
+  constructor(config: AppConfigService) {
+    super({ adapter: new PrismaPg(config.databaseUrl) });
+  }
 
   async onModuleInit(): Promise<void> {
     await this.$connect();
