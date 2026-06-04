@@ -46,7 +46,9 @@ A feature-based build, executed **one feature at a time**. Each step is self-con
 - Shared UI added: shadcn `dropdown-menu`, `avatar`, `dialog`, `ConfirmDialog`, `PageHeader`; auth-aware header user menu; `AdminGuard` + `/admin` route protection
 - Seed: `admin@darelkhair.xyz / Admin12345`, `user@darelkhair.xyz / User12345` (+5 guests). i18n FR/AR/EN
 
-## Feature 3 — Apartments 🏢
+## Feature 3 — Apartments 🏢 ✅ DONE
+
+> Built: localized-JSON `{fr,ar,en}` content with jsonb cross-locale search; public browse (`/apartments`) + detail (`/apartments/[id]`); admin CRUD (`/admin/apartments`) with the per-language tabbed `LocalizedField` form, publish switch, and image manager; `ApartmentCard` renders via `localized()`; 6 seeded apartments. Decimal price → number in the API. Shared UI added: `tabs`, `switch`, `textarea`.
 
 - **Multilingual content (decided):** translatable fields — `title`, `description`, `city`/`address` — stored as **localized JSON** `{ fr, ar, en }` (not `title_en/_fr/_ar` columns, not a separate table). Non-text fields (price, bedrooms, bathrooms, guests) stay normal columns. Adding a 4th language later = zero schema change.
   - Prisma: `title Json`, `description Json`, `city Json` on `Apartment`; a shared `LocalizedText` TS type mirrors `{ fr; ar; en }`.

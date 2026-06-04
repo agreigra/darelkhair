@@ -27,6 +27,75 @@
     "heroSubtitle": "Browse apartments, check availability, and book in minutes.",
     "browse": "Browse apartments"
   },
+  "apartments": {
+    "browse": {
+      "title": "Apartments",
+      "subtitle": "Browse our apartments and find your next stay.",
+      "searchPlaceholder": "Search by title or city",
+      "anyGuests": "Any",
+      "empty": "No apartments found.",
+      "pageOf": "Page {page} of {total}"
+    },
+    "detail": {
+      "perNight": "/ night",
+      "book": "Book now",
+      "bookHint": "You won't be charged yet.",
+      "bedrooms": "{count, plural, one {# bedroom} other {# bedrooms}}",
+      "bathrooms": "{count, plural, one {# bathroom} other {# bathrooms}}",
+      "guests": "{count, plural, one {# guest} other {# guests}}",
+      "notFound": "Apartment not found."
+    },
+    "table": {
+      "title": "Apartments",
+      "subtitle": "Create and manage apartment listings.",
+      "new": "New apartment",
+      "searchPlaceholder": "Search apartments",
+      "empty": "No apartments yet.",
+      "total": "{count} apartments",
+      "pageOf": "Page {page} of {total}",
+      "deleteTitle": "Delete apartment",
+      "deleteDescription": "This permanently deletes the apartment and its photos.",
+      "columns": { "title": "Title", "city": "City", "price": "Price", "status": "Status" },
+      "status": { "published": "Published", "draft": "Draft" }
+    },
+    "form": {
+      "createTitle": "New apartment",
+      "createSubtitle": "Add a new listing. You can add photos after creating it.",
+      "editTitle": "Edit apartment",
+      "editSubtitle": "Update the listing details and photos.",
+      "contentSection": "Content",
+      "detailsSection": "Details",
+      "title": "Title",
+      "description": "Description",
+      "city": "City",
+      "address": "Address",
+      "pricePerNight": "Price / night",
+      "bedrooms": "Bedrooms",
+      "bathrooms": "Bathrooms",
+      "maxGuests": "Max guests",
+      "published": "Published",
+      "publishedHint": "Visible to the public when enabled.",
+      "save": "Save changes",
+      "createSubmit": "Create apartment",
+      "cancel": "Cancel",
+      "saved": "Saved",
+      "notFound": "Apartment not found."
+    },
+    "images": {
+      "title": "Photos",
+      "subtitle": "Add photos by URL. The first photo becomes the cover.",
+      "add": "Add",
+      "empty": "No photos yet.",
+      "cover": "Cover",
+      "makeCover": "Set cover"
+    },
+    "errors": {
+      "required": "Required",
+      "priceInvalid": "Enter a valid price",
+      "guestsInvalid": "At least 1 guest",
+      "generic": "Something went wrong. Please try again."
+    }
+  },
   "auth": {
     "login": {
       "title": "Welcome back",

@@ -27,6 +27,75 @@
     "heroSubtitle": "تصفّح الشقق، تحقق من التوفر، واحجز في دقائق.",
     "browse": "تصفّح الشقق"
   },
+  "apartments": {
+    "browse": {
+      "title": "الشقق",
+      "subtitle": "تصفّح شققنا واعثر على إقامتك القادمة.",
+      "searchPlaceholder": "ابحث بالعنوان أو المدينة",
+      "anyGuests": "الكل",
+      "empty": "لا توجد شقق.",
+      "pageOf": "صفحة {page} من {total}"
+    },
+    "detail": {
+      "perNight": "/ ليلة",
+      "book": "احجز الآن",
+      "bookHint": "لن يتم خصم أي مبلغ الآن.",
+      "bedrooms": "{count, plural, other {# غرف نوم}}",
+      "bathrooms": "{count, plural, other {# حمّامات}}",
+      "guests": "{count, plural, other {# ضيوف}}",
+      "notFound": "الشقة غير موجودة."
+    },
+    "table": {
+      "title": "الشقق",
+      "subtitle": "أنشئ وأدر إعلانات الشقق.",
+      "new": "شقة جديدة",
+      "searchPlaceholder": "ابحث عن الشقق",
+      "empty": "لا توجد شقق بعد.",
+      "total": "{count} شقة",
+      "pageOf": "صفحة {page} من {total}",
+      "deleteTitle": "حذف الشقة",
+      "deleteDescription": "سيؤدي هذا إلى حذف الشقة وصورها نهائيًا.",
+      "columns": { "title": "العنوان", "city": "المدينة", "price": "السعر", "status": "الحالة" },
+      "status": { "published": "منشورة", "draft": "مسودة" }
+    },
+    "form": {
+      "createTitle": "شقة جديدة",
+      "createSubtitle": "أضف إعلانًا جديدًا. يمكنك إضافة الصور بعد الإنشاء.",
+      "editTitle": "تعديل الشقة",
+      "editSubtitle": "حدّث تفاصيل الإعلان والصور.",
+      "contentSection": "المحتوى",
+      "detailsSection": "التفاصيل",
+      "title": "العنوان",
+      "description": "الوصف",
+      "city": "المدينة",
+      "address": "العنوان التفصيلي",
+      "pricePerNight": "السعر / ليلة",
+      "bedrooms": "غرف النوم",
+      "bathrooms": "الحمّامات",
+      "maxGuests": "الحد الأقصى للضيوف",
+      "published": "منشورة",
+      "publishedHint": "مرئية للجمهور عند التفعيل.",
+      "save": "حفظ التغييرات",
+      "createSubmit": "إنشاء الشقة",
+      "cancel": "إلغاء",
+      "saved": "تم الحفظ",
+      "notFound": "الشقة غير موجودة."
+    },
+    "images": {
+      "title": "الصور",
+      "subtitle": "أضف صورًا عبر الرابط. تصبح الصورة الأولى صورة الغلاف.",
+      "add": "إضافة",
+      "empty": "لا توجد صور بعد.",
+      "cover": "الغلاف",
+      "makeCover": "تعيين كغلاف"
+    },
+    "errors": {
+      "required": "مطلوب",
+      "priceInvalid": "أدخل سعرًا صالحًا",
+      "guestsInvalid": "ضيف واحد على الأقل",
+      "generic": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+    }
+  },
   "auth": {
     "login": {
       "title": "مرحبًا بعودتك",

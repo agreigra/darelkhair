@@ -49,6 +49,168 @@ async function upsertUser(input: {
   });
 }
 
+interface ApartmentSeed {
+  title: { fr: string; ar: string; en: string };
+  description: { fr: string; ar: string; en: string };
+  city: { fr: string; ar: string; en: string };
+  pricePerNight: number;
+  bedrooms: number;
+  bathrooms: number;
+  maxGuests: number;
+  isPublished: boolean;
+  imageSeeds: string[];
+}
+
+const APARTMENTS: ApartmentSeed[] = [
+  {
+    title: {
+      fr: 'Appartement vue mer',
+      ar: 'شقة بإطلالة على البحر',
+      en: 'Sea-view apartment',
+    },
+    description: {
+      fr: 'Lumineux appartement avec balcon donnant sur l’océan, proche du centre.',
+      ar: 'شقة مشرقة بشرفة تطل على المحيط، قريبة من المركز.',
+      en: 'Bright apartment with a balcony overlooking the ocean, near the center.',
+    },
+    city: { fr: 'Nouakchott', ar: 'نواكشوط', en: 'Nouakchott' },
+    pricePerNight: 65,
+    bedrooms: 2,
+    bathrooms: 1,
+    maxGuests: 4,
+    isPublished: true,
+    imageSeeds: ['seaview1', 'seaview2', 'seaview3'],
+  },
+  {
+    title: {
+      fr: 'Studio cosy au centre-ville',
+      ar: 'استوديو مريح في وسط المدينة',
+      en: 'Cosy downtown studio',
+    },
+    description: {
+      fr: 'Studio moderne idéal pour un séjour professionnel ou en couple.',
+      ar: 'استوديو عصري مثالي لإقامة عمل أو لشخصين.',
+      en: 'Modern studio, ideal for a business stay or a couple.',
+    },
+    city: { fr: 'Nouadhibou', ar: 'نواذيبو', en: 'Nouadhibou' },
+    pricePerNight: 38,
+    bedrooms: 1,
+    bathrooms: 1,
+    maxGuests: 2,
+    isPublished: true,
+    imageSeeds: ['studio1', 'studio2'],
+  },
+  {
+    title: {
+      fr: 'Villa familiale avec jardin',
+      ar: 'فيلا عائلية مع حديقة',
+      en: 'Family villa with garden',
+    },
+    description: {
+      fr: 'Grande villa de 4 chambres avec jardin privé et parking.',
+      ar: 'فيلا كبيرة من 4 غرف نوم مع حديقة خاصة وموقف سيارات.',
+      en: 'Large 4-bedroom villa with a private garden and parking.',
+    },
+    city: { fr: 'Nouakchott', ar: 'نواكشوط', en: 'Nouakchott' },
+    pricePerNight: 120,
+    bedrooms: 4,
+    bathrooms: 3,
+    maxGuests: 8,
+    isPublished: true,
+    imageSeeds: ['villa1', 'villa2', 'villa3'],
+  },
+  {
+    title: {
+      fr: 'Appartement moderne 3 pièces',
+      ar: 'شقة عصرية من 3 غرف',
+      en: 'Modern 3-room apartment',
+    },
+    description: {
+      fr: 'Récemment rénové, proche des commerces et des transports.',
+      ar: 'تم تجديدها حديثًا، قريبة من المتاجر ووسائل النقل.',
+      en: 'Recently renovated, close to shops and transport.',
+    },
+    city: { fr: 'Rosso', ar: 'روصو', en: 'Rosso' },
+    pricePerNight: 52,
+    bedrooms: 3,
+    bathrooms: 2,
+    maxGuests: 5,
+    isPublished: true,
+    imageSeeds: ['modern1', 'modern2'],
+  },
+  {
+    title: {
+      fr: 'Penthouse de luxe',
+      ar: 'بنتهاوس فاخر',
+      en: 'Luxury penthouse',
+    },
+    description: {
+      fr: 'Penthouse haut de gamme avec terrasse panoramique.',
+      ar: 'بنتهاوس راقٍ مع تراس بانورامي.',
+      en: 'High-end penthouse with a panoramic terrace.',
+    },
+    city: { fr: 'Nouakchott', ar: 'نواكشوط', en: 'Nouakchott' },
+    pricePerNight: 200,
+    bedrooms: 3,
+    bathrooms: 2,
+    maxGuests: 6,
+    isPublished: true,
+    imageSeeds: ['penthouse1', 'penthouse2'],
+  },
+  {
+    title: {
+      fr: 'Chambre d’hôte (brouillon)',
+      ar: 'غرفة ضيافة (مسودة)',
+      en: 'Guest room (draft)',
+    },
+    description: {
+      fr: 'Annonce en cours de préparation.',
+      ar: 'إعلان قيد الإعداد.',
+      en: 'Listing being prepared.',
+    },
+    city: { fr: 'Atar', ar: 'أطار', en: 'Atar' },
+    pricePerNight: 30,
+    bedrooms: 1,
+    bathrooms: 1,
+    maxGuests: 2,
+    isPublished: false,
+    imageSeeds: ['guest1'],
+  },
+];
+
+async function seedApartments(): Promise<void> {
+  const existing = await prisma.apartment.count();
+  if (existing > 0) {
+    // eslint-disable-next-line no-console
+    console.log(`Apartments already present (${existing}) — skipping.`);
+    return;
+  }
+  for (const apt of APARTMENTS) {
+    await prisma.apartment.create({
+      data: {
+        title: apt.title,
+        description: apt.description,
+        city: apt.city,
+        pricePerNight: apt.pricePerNight,
+        bedrooms: apt.bedrooms,
+        bathrooms: apt.bathrooms,
+        maxGuests: apt.maxGuests,
+        isPublished: apt.isPublished,
+        images: {
+          create: apt.imageSeeds.map((seed, i) => ({
+            url: `https://picsum.photos/seed/${seed}/800/600`,
+            alt: apt.title.en,
+            isCover: i === 0,
+            sortOrder: i,
+          })),
+        },
+      },
+    });
+  }
+  // eslint-disable-next-line no-console
+  console.log(`Seeded ${APARTMENTS.length} apartments.`);
+}
+
 async function main(): Promise<void> {
   await upsertUser({
     email: 'admin@darelkhair.xyz',
@@ -73,6 +235,8 @@ async function main(): Promise<void> {
       role: 'USER',
     });
   }
+
+  await seedApartments();
 
   // eslint-disable-next-line no-console
   console.log('Seed complete: admin@darelkhair.xyz / Admin12345, user@darelkhair.xyz / User12345 (+5 guests).');

@@ -27,6 +27,75 @@
     "heroSubtitle": "Parcourez les appartements, vérifiez la disponibilité et réservez en quelques minutes.",
     "browse": "Parcourir les appartements"
   },
+  "apartments": {
+    "browse": {
+      "title": "Appartements",
+      "subtitle": "Parcourez nos appartements et trouvez votre prochain séjour.",
+      "searchPlaceholder": "Rechercher par titre ou ville",
+      "anyGuests": "Tous",
+      "empty": "Aucun appartement trouvé.",
+      "pageOf": "Page {page} sur {total}"
+    },
+    "detail": {
+      "perNight": "/ nuit",
+      "book": "Réserver",
+      "bookHint": "Vous ne serez pas débité pour le moment.",
+      "bedrooms": "{count, plural, one {# chambre} other {# chambres}}",
+      "bathrooms": "{count, plural, one {# salle de bain} other {# salles de bain}}",
+      "guests": "{count, plural, one {# voyageur} other {# voyageurs}}",
+      "notFound": "Appartement introuvable."
+    },
+    "table": {
+      "title": "Appartements",
+      "subtitle": "Créez et gérez les annonces d'appartements.",
+      "new": "Nouvel appartement",
+      "searchPlaceholder": "Rechercher des appartements",
+      "empty": "Aucun appartement pour l'instant.",
+      "total": "{count} appartements",
+      "pageOf": "Page {page} sur {total}",
+      "deleteTitle": "Supprimer l'appartement",
+      "deleteDescription": "Ceci supprime définitivement l'appartement et ses photos.",
+      "columns": { "title": "Titre", "city": "Ville", "price": "Prix", "status": "Statut" },
+      "status": { "published": "Publié", "draft": "Brouillon" }
+    },
+    "form": {
+      "createTitle": "Nouvel appartement",
+      "createSubtitle": "Ajoutez une annonce. Vous pourrez ajouter des photos ensuite.",
+      "editTitle": "Modifier l'appartement",
+      "editSubtitle": "Mettez à jour les détails et les photos de l'annonce.",
+      "contentSection": "Contenu",
+      "detailsSection": "Détails",
+      "title": "Titre",
+      "description": "Description",
+      "city": "Ville",
+      "address": "Adresse",
+      "pricePerNight": "Prix / nuit",
+      "bedrooms": "Chambres",
+      "bathrooms": "Salles de bain",
+      "maxGuests": "Voyageurs max",
+      "published": "Publié",
+      "publishedHint": "Visible au public lorsqu'activé.",
+      "save": "Enregistrer",
+      "createSubmit": "Créer l'appartement",
+      "cancel": "Annuler",
+      "saved": "Enregistré",
+      "notFound": "Appartement introuvable."
+    },
+    "images": {
+      "title": "Photos",
+      "subtitle": "Ajoutez des photos par URL. La première devient la couverture.",
+      "add": "Ajouter",
+      "empty": "Aucune photo pour l'instant.",
+      "cover": "Couverture",
+      "makeCover": "Définir comme couverture"
+    },
+    "errors": {
+      "required": "Requis",
+      "priceInvalid": "Saisissez un prix valide",
+      "guestsInvalid": "Au moins 1 voyageur",
+      "generic": "Une erreur est survenue. Veuillez réessayer."
+    }
+  },
   "auth": {
     "login": {
       "title": "Bon retour",

@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { LogOut, LayoutDashboard, User as UserIcon, Users } from 'lucide-react';
+import { LogOut, LayoutDashboard, User as UserIcon, Users, Building2 } from 'lucide-react';
 import { Link, useRouter } from '@/i18n/navigation';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -91,6 +91,11 @@ export function HeaderAuth() {
             <DropdownMenuItem asChild>
               <Link href="/dashboard">
                 <LayoutDashboard /> {t('dashboard')}
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/admin/apartments">
+                <Building2 /> {t('apartments')}
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
