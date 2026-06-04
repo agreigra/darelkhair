@@ -9,7 +9,7 @@ const REFRESH_COOKIE = 'dek_refresh';
 
 // Paths (locale-stripped) that require a session. This is a coarse UX gate by
 // cookie presence — the API enforces real auth + RBAC on every request.
-const PROTECTED_PREFIXES = ['/dashboard', '/bookings', '/account'];
+const PROTECTED_PREFIXES = ['/dashboard', '/bookings', '/account', '/admin'];
 
 function stripLocale(pathname: string): {
   locale: string;

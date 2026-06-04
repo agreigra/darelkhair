@@ -1,23 +1,45 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { LogOut, LayoutDashboard } from 'lucide-react';
-import { Link } from '@/i18n/navigation';
+import { LogOut, LayoutDashboard, User as UserIcon, Users } from 'lucide-react';
+import { Link, useRouter } from '@/i18n/navigation';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { useAuth, useLogout } from '@/features/auth/hooks/use-auth';
 
-/** Client-side auth controls in the header: login/register or the user's session. */
+function initials(name: string | null, email: string): string {
+  if (name) {
+    return name
+      .split(' ')
+      .map((p) => p[0])
+      .slice(0, 2)
+      .join('')
+      .toUpperCase();
+  }
+  return email.slice(0, 2).toUpperCase();
+}
+
+/** Header auth controls: login/register when anonymous, a user menu when signed in. */
 export function HeaderAuth() {
   const t = useTranslations('nav');
   const { status, user, isAuthenticated, isAdmin } = useAuth();
   const logout = useLogout();
+  const router = useRouter();
 
   if (status === 'loading') {
-    return <Skeleton className="h-9 w-32" />;
+    return <Skeleton className="size-9 rounded-full" />;
   }
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated || !user) {
     return (
       <div className="flex items-center gap-2">
         <Button asChild variant="ghost" size="sm">
@@ -30,29 +52,63 @@ export function HeaderAuth() {
     );
   }
 
+  const displayName =
+    [user.firstName, user.lastName].filter(Boolean).join(' ') || user.email;
+
+  function onLogout() {
+    logout.mutate(undefined, { onSettled: () => router.push('/') });
+  }
+
   return (
-    <div className="flex items-center gap-2">
-      {isAdmin ? (
-        <Button asChild variant="ghost" size="sm" className="gap-1.5">
-          <Link href="/dashboard">
-            <LayoutDashboard className="size-4" />
-            <span className="hidden sm:inline">{t('dashboard')}</span>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button
+          className="rounded-full outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring"
+          aria-label={displayName}
+        >
+          <Avatar>
+            <AvatarFallback>{initials(displayName, user.email)}</AvatarFallback>
+          </Avatar>
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-56">
+        <DropdownMenuLabel>
+          <div className="flex flex-col">
+            <span className="truncate text-sm font-medium">{displayName}</span>
+            <span className="truncate text-xs font-normal text-muted-foreground">
+              {user.email}
+            </span>
+          </div>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link href="/account">
+            <UserIcon /> {t('account')}
           </Link>
-        </Button>
-      ) : null}
-      <span className="hidden text-sm text-muted-foreground sm:inline">
-        {user?.firstName || user?.email}
-      </span>
-      <Button
-        variant="outline"
-        size="sm"
-        className="gap-1.5"
-        onClick={() => logout.mutate()}
-        disabled={logout.isPending}
-      >
-        <LogOut className="size-4" />
-        <span className="hidden sm:inline">{t('logout')}</span>
-      </Button>
-    </div>
+        </DropdownMenuItem>
+        {isAdmin ? (
+          <>
+            <DropdownMenuItem asChild>
+              <Link href="/dashboard">
+                <LayoutDashboard /> {t('dashboard')}
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/admin/users">
+                <Users /> {t('users')}
+              </Link>
+            </DropdownMenuItem>
+          </>
+        ) : null}
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          variant="destructive"
+          onClick={onLogout}
+          disabled={logout.isPending}
+        >
+          <LogOut /> {t('logout')}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

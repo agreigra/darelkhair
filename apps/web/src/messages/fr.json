@@ -18,7 +18,9 @@
     "dashboard": "Tableau de bord",
     "login": "Connexion",
     "register": "Inscription",
-    "logout": "Déconnexion"
+    "logout": "Déconnexion",
+    "account": "Compte",
+    "users": "Utilisateurs"
   },
   "home": {
     "heroTitle": "Trouvez et réservez votre prochain appartement",
@@ -55,6 +57,52 @@
       "invalidCredentials": "E-mail ou mot de passe incorrect.",
       "emailTaken": "Cet e-mail est déjà enregistré.",
       "generic": "Une erreur est survenue. Veuillez réessayer."
+    }
+  },
+  "account": {
+    "title": "Compte",
+    "subtitle": "Gérez votre profil et votre mot de passe.",
+    "save": "Enregistrer les modifications",
+    "saved": "Enregistré",
+    "profile": {
+      "title": "Profil",
+      "subtitle": "Mettez à jour vos informations personnelles."
+    },
+    "password": {
+      "title": "Mot de passe",
+      "subtitle": "Choisissez un mot de passe fort que vous n'utilisez pas ailleurs.",
+      "current": "Mot de passe actuel",
+      "new": "Nouveau mot de passe",
+      "submit": "Mettre à jour le mot de passe",
+      "changed": "Mot de passe mis à jour",
+      "currentWrong": "Le mot de passe actuel est incorrect."
+    }
+  },
+  "admin": {
+    "users": {
+      "title": "Utilisateurs",
+      "subtitle": "Gérez les comptes, les rôles et les accès.",
+      "searchPlaceholder": "Rechercher par nom ou e-mail",
+      "actions": "Actions",
+      "makeAdmin": "Promouvoir admin",
+      "makeUser": "Rétrograder utilisateur",
+      "activate": "Activer",
+      "deactivate": "Désactiver",
+      "deleteTitle": "Supprimer l'utilisateur",
+      "deleteDescription": "Supprimer définitivement {email} ? Cette action est irréversible.",
+      "empty": "Aucun utilisateur trouvé",
+      "total": "{count} utilisateurs",
+      "pageOf": "Page {page} sur {total}",
+      "columns": {
+        "name": "Nom",
+        "email": "E-mail",
+        "role": "Rôle",
+        "status": "Statut",
+        "joined": "Inscrit le"
+      },
+      "roles": { "USER": "Utilisateur", "ADMIN": "Admin" },
+      "status": { "active": "Actif", "inactive": "Inactif" },
+      "filters": { "all": "Tous" }
     }
   },
   "status": {

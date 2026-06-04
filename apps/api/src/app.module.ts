@@ -4,6 +4,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { AuditModule } from './common/audit/audit.module';
 import { HealthModule } from './modules/health/health.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { UsersModule } from './modules/users/users.module';
 
 /**
  * Root module. Each FEATURE is its own module under src/modules and gets
@@ -18,7 +19,7 @@ import { AuthModule } from './modules/auth/auth.module';
     HealthModule,
     // ── Features (added one at a time, in plan order) ──
     AuthModule,
-    // UsersModule,
+    UsersModule,
     // ApartmentsModule,
     // AvailabilityModule,
     // BookingsModule,

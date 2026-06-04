@@ -39,11 +39,12 @@ A feature-based build, executed **one feature at a time**. Each step is self-con
 - Frontend `features/auth`: login/register forms (`FormWrapper` + shadcn `Form`), `api/`, `hooks/` (React Query), `store/` (Zustand), silent-refresh axios interceptor, `AuthProvider`, auth-aware header, route-protection middleware
 - i18n strings (FR/AR/EN), design system applied from darelkhair.xyz (teal/orange/gold, Inter + Noto Sans Arabic)
 
-## Feature 2 — Users 👤
+## Feature 2 — Users 👤 ✅ DONE
 
-- Backend `modules/users`: CRUD, profile, role assignment, repository
-- Frontend `features/users`: profile view/edit, admin user management table (`DataTable`)
-- RBAC enforced (admin vs user)
+- Backend `modules/users`: self profile (get/update), change password, admin CRUD (list+search+pagination, get, role/status update, delete) with lockout guards + audit logs; `@Roles(ADMIN)` RBAC
+- Frontend `features/users`: `/account` (profile + password forms), `/admin/users` (search, role filter, pagination, row actions via dropdown, delete confirm) using `DataTable`
+- Shared UI added: shadcn `dropdown-menu`, `avatar`, `dialog`, `ConfirmDialog`, `PageHeader`; auth-aware header user menu; `AdminGuard` + `/admin` route protection
+- Seed: `admin@darelkhair.xyz / Admin12345`, `user@darelkhair.xyz / User12345` (+5 guests). i18n FR/AR/EN
 
 ## Feature 3 — Apartments 🏢
 

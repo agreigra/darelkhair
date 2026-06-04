@@ -18,7 +18,9 @@
     "dashboard": "Dashboard",
     "login": "Log in",
     "register": "Sign up",
-    "logout": "Log out"
+    "logout": "Log out",
+    "account": "Account",
+    "users": "Users"
   },
   "home": {
     "heroTitle": "Find and book your next apartment",
@@ -55,6 +57,52 @@
       "invalidCredentials": "Incorrect email or password.",
       "emailTaken": "This email is already registered.",
       "generic": "Something went wrong. Please try again."
+    }
+  },
+  "account": {
+    "title": "Account",
+    "subtitle": "Manage your profile and password.",
+    "save": "Save changes",
+    "saved": "Saved",
+    "profile": {
+      "title": "Profile",
+      "subtitle": "Update your personal information."
+    },
+    "password": {
+      "title": "Password",
+      "subtitle": "Choose a strong password you don't use elsewhere.",
+      "current": "Current password",
+      "new": "New password",
+      "submit": "Update password",
+      "changed": "Password updated",
+      "currentWrong": "Current password is incorrect."
+    }
+  },
+  "admin": {
+    "users": {
+      "title": "Users",
+      "subtitle": "Manage accounts, roles, and access.",
+      "searchPlaceholder": "Search by name or email",
+      "actions": "Actions",
+      "makeAdmin": "Make admin",
+      "makeUser": "Make user",
+      "activate": "Activate",
+      "deactivate": "Deactivate",
+      "deleteTitle": "Delete user",
+      "deleteDescription": "Permanently delete {email}? This cannot be undone.",
+      "empty": "No users found",
+      "total": "{count} users",
+      "pageOf": "Page {page} of {total}",
+      "columns": {
+        "name": "Name",
+        "email": "Email",
+        "role": "Role",
+        "status": "Status",
+        "joined": "Joined"
+      },
+      "roles": { "USER": "User", "ADMIN": "Admin" },
+      "status": { "active": "Active", "inactive": "Inactive" },
+      "filters": { "all": "All" }
     }
   },
   "status": {
