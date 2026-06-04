@@ -15,6 +15,7 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import type { Request } from 'express';
+import { imageUploadOptions } from '@/common/storage/image-upload';
 import { UserRole } from '@prisma/client';
 import { Roles } from '@/modules/auth/decorators/roles.decorator';
 import { CurrentUser } from '@/modules/auth/decorators/current-user.decorator';
@@ -84,7 +85,7 @@ export class AdminApartmentsController {
 
   /** Multipart file upload → stored in R2/local, attached as an image. */
   @Post(':id/images/upload')
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('file', imageUploadOptions))
   uploadImage(
     @Param('id') id: string,
     @UploadedFile() file: Express.Multer.File,

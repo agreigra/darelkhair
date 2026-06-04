@@ -68,6 +68,23 @@ export function AdminPaymentsTable() {
       cell: (p) => p.amount,
     },
     {
+      key: 'proof',
+      header: t('columns.proof'),
+      cell: (p) =>
+        p.proofUrl ? (
+          <a
+            href={p.proofUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary hover:underline"
+          >
+            {t('viewProof')}
+          </a>
+        ) : (
+          <span className="text-muted-foreground">—</span>
+        ),
+    },
+    {
       key: 'submitted',
       header: t('columns.submitted'),
       cell: (p) => formatDate(p.createdAt.slice(0, 10), locale),

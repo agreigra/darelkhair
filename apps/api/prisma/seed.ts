@@ -243,7 +243,7 @@ async function seedBookings(): Promise<void> {
   if (!guest || apartments.length < 2) return;
 
   const seeds = [
-    { apt: apartments[0], checkIn: 7, checkOut: 11, guests: 2, status: 'PENDING' as const },
+    { apt: apartments[0], checkIn: 7, checkOut: 11, guests: 2, status: 'WAITING_PAYMENT' as const },
     { apt: apartments[1], checkIn: 20, checkOut: 23, guests: 1, status: 'CONFIRMED' as const },
   ];
 

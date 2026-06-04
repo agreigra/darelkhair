@@ -12,7 +12,7 @@ export const BOOKING_STATUSES: BookingStatus[] = [
 /** Mirrors the backend state machine (booking-status.ts) for the admin controls. */
 export const ALLOWED_NEXT: Record<BookingStatus, BookingStatus[]> = {
   PENDING: ['WAITING_PAYMENT', 'CANCELLED'],
-  WAITING_PAYMENT: ['PROOF_SUBMITTED', 'CANCELLED'],
+  WAITING_PAYMENT: ['PROOF_SUBMITTED', 'CONFIRMED', 'CANCELLED'],
   PROOF_SUBMITTED: ['CONFIRMED', 'WAITING_PAYMENT', 'CANCELLED'],
   CONFIRMED: ['CANCELLED'],
   CANCELLED: [],

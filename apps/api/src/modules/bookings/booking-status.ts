@@ -17,7 +17,10 @@ export const BOOKING_TRANSITIONS: Record<BookingStatus, BookingStatus[]> = {
     BookingStatus.CANCELLED,
   ],
   [BookingStatus.WAITING_PAYMENT]: [
+    // PROOF_SUBMITTED when a bank/mobile proof is uploaded; CONFIRMED directly
+    // when the admin confirms a cash payment (no proof to review).
     BookingStatus.PROOF_SUBMITTED,
+    BookingStatus.CONFIRMED,
     BookingStatus.CANCELLED,
   ],
   [BookingStatus.PROOF_SUBMITTED]: [

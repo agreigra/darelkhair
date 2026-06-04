@@ -8,6 +8,7 @@ import {
   Clock,
   Loader2,
   Phone,
+  Upload,
   Wallet,
   MessageCircle,
 } from 'lucide-react';
@@ -25,10 +26,7 @@ import {
   useSubmitPayment,
 } from '../hooks/use-payments';
 import { PaymentStatusBadge } from './payment-status-badge';
-import {
-  PAYMENT_METHODS,
-  type PaymentMethod,
-} from '../types/payment.types';
+import { PAYMENT_METHODS, type PaymentMethod } from '../types/payment.types';
 
 const METHOD_ICON: Record<PaymentMethod, typeof Building2> = {
   BANK_TRANSFER: Building2,
@@ -43,9 +41,10 @@ interface PaymentSectionProps {
 }
 
 /**
- * Guest payment flow on the booking detail. Visible once the host moves the
- * booking to WAITING_PAYMENT; collects an offline payment claim (method +
- * reference) and submits it for admin review.
+ * Guest payment flow on the booking detail. The booking lands here in
+ * WAITING_PAYMENT right after creation: pick a method, follow that method's
+ * instructions, and either upload a proof screenshot (bank/mobile → review) or
+ * choose cash (settled on arrival).
  */
 export function PaymentSection({
   bookingId,
@@ -55,7 +54,6 @@ export function PaymentSection({
   const t = useTranslations('payments');
   const tErr = useTranslations('payments.errors');
 
-  // Payment record is only meaningful once the booking enters the payment arc.
   const showPayment =
     status === 'WAITING_PAYMENT' ||
     status === 'PROOF_SUBMITTED' ||
@@ -67,27 +65,47 @@ export function PaymentSection({
 
   const [method, setMethod] = useState<PaymentMethod>('BANK_TRANSFER');
   const [reference, setReference] = useState('');
+  const [proof, setProof] = useState<File | null>(null);
+  const [editing, setEditing] = useState(false);
 
   if (status === 'PENDING') {
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">{t('title')}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-sm text-muted-foreground">
-            {t('awaitingApproval')}
-          </p>
-        </CardContent>
-      </Card>
-    );
+    return null;
   }
-
   if (!showPayment) return null;
 
   const whatsappHref = instructions?.whatsappNumber
     ? `https://wa.me/${instructions.whatsappNumber}`
     : null;
+
+  const requiresProof = method !== 'CASH';
+  const canSubmit =
+    !submit.isPending && (!requiresProof || Boolean(proof));
+
+  // A cash payment leaves the booking in WAITING_PAYMENT awaiting confirmation.
+  const cashPending =
+    payment?.method === 'CASH' && payment.status === 'SUBMITTED';
+
+  function onSubmit() {
+    submit.mutate(
+      {
+        method,
+        reference: reference.trim() || undefined,
+        proof: requiresProof ? (proof ?? undefined) : undefined,
+      },
+      { onSuccess: () => setEditing(false) },
+    );
+  }
+
+  function WhatsAppButton() {
+    if (!whatsappHref) return null;
+    return (
+      <Button asChild variant="outline" className="w-full">
+        <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
+          <MessageCircle /> {t('whatsapp')}
+        </a>
+      </Button>
+    );
+  }
 
   return (
     <Card>
@@ -119,25 +137,31 @@ export function PaymentSection({
                 </p>
               </div>
             </div>
-            {payment ? (
-              <dl className="grid grid-cols-2 gap-2 text-sm">
-                <dt className="text-muted-foreground">{t('submittedMethod')}</dt>
-                <dd className="text-end font-medium">
-                  {t(`methods.${payment.method}`)}
-                </dd>
-                {payment.reference ? (
-                  <>
-                    <dt className="text-muted-foreground">
-                      {t('referenceLabel')}
-                    </dt>
-                    <dd className="text-end font-medium">{payment.reference}</dd>
-                  </>
-                ) : null}
-              </dl>
-            ) : null}
+            {payment ? <SubmittedSummary method={t(`methods.${payment.method}`)} reference={payment.reference} label={t('submittedMethod')} refLabel={t('referenceLabel')} /> : null}
+          </div>
+        ) : cashPending && !editing ? (
+          // Cash chosen — awaiting the host to confirm receipt.
+          <div className="space-y-3">
+            <div className="flex items-start gap-3 rounded-lg border p-4">
+              <Wallet className="mt-0.5 size-5 text-warning" />
+              <div>
+                <p className="font-medium">{t('cashPending.title')}</p>
+                <p className="text-sm text-muted-foreground">
+                  {t('cashPending.body')}
+                </p>
+              </div>
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setEditing(true)}
+            >
+              {t('changeMethod')}
+            </Button>
+            <WhatsAppButton />
           </div>
         ) : (
-          // WAITING_PAYMENT — collect the payment claim.
+          // WAITING_PAYMENT — collect the payment.
           <div className="space-y-4">
             {payment?.status === 'REJECTED' ? (
               <p className="rounded-lg border border-destructive/30 bg-destructive/5 p-3 text-sm text-destructive">
@@ -222,6 +246,33 @@ export function PaymentSection({
               </div>
             ) : null}
 
+            {/* Proof upload — bank transfer / mobile money only */}
+            {requiresProof ? (
+              <div className="space-y-1.5">
+                <Label htmlFor="proof">{t('proofLabel')}</Label>
+                <label
+                  htmlFor="proof"
+                  className="flex cursor-pointer items-center gap-2 rounded-lg border border-dashed p-3 text-sm text-muted-foreground hover:border-muted-foreground/50"
+                >
+                  <Upload className="size-4" />
+                  {proof ? (
+                    <span className="font-medium text-foreground">
+                      {proof.name}
+                    </span>
+                  ) : (
+                    <span>{t('proofHint')}</span>
+                  )}
+                </label>
+                <input
+                  id="proof"
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => setProof(e.target.files?.[0] ?? null)}
+                />
+              </div>
+            ) : null}
+
             <div className="space-y-1.5">
               <Label htmlFor="reference">{t('referenceLabel')}</Label>
               <Input
@@ -238,27 +289,40 @@ export function PaymentSection({
               </p>
             ) : null}
 
-            <Button
-              className="w-full"
-              disabled={submit.isPending}
-              onClick={() =>
-                submit.mutate({ method, reference: reference.trim() || undefined })
-              }
-            >
+            <Button className="w-full" disabled={!canSubmit} onClick={onSubmit}>
               {submit.isPending ? <Loader2 className="animate-spin" /> : null}
-              {t('submit')}
+              {requiresProof ? t('submit') : t('submitCash')}
             </Button>
 
-            {whatsappHref ? (
-              <Button asChild variant="outline" className="w-full">
-                <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
-                  <MessageCircle /> {t('whatsapp')}
-                </a>
-              </Button>
-            ) : null}
+            <WhatsAppButton />
           </div>
         )}
       </CardContent>
     </Card>
+  );
+}
+
+function SubmittedSummary({
+  method,
+  reference,
+  label,
+  refLabel,
+}: {
+  method: string;
+  reference: string | null;
+  label: string;
+  refLabel: string;
+}) {
+  return (
+    <dl className="grid grid-cols-2 gap-2 text-sm">
+      <dt className="text-muted-foreground">{label}</dt>
+      <dd className="text-end font-medium">{method}</dd>
+      {reference ? (
+        <>
+          <dt className="text-muted-foreground">{refLabel}</dt>
+          <dd className="text-end font-medium">{reference}</dd>
+        </>
+      ) : null}
+    </dl>
   );
 }

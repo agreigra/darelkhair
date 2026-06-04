@@ -1,5 +1,16 @@
-import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Req,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import type { Request } from 'express';
+import { imageUploadOptions } from '@/common/storage/image-upload';
 import { Public } from '@/modules/auth/decorators/public.decorator';
 import { CurrentUser } from '@/modules/auth/decorators/current-user.decorator';
 import type { RequestContext } from '@/modules/auth/types/auth.types';
@@ -33,13 +44,15 @@ export class BookingPaymentController {
   }
 
   @Post()
+  @UseInterceptors(FileInterceptor('proof', imageUploadOptions))
   submit(
     @CurrentUser('id') userId: string,
     @Param('bookingId') bookingId: string,
     @Body() dto: SubmitPaymentDto,
+    @UploadedFile() proof: Express.Multer.File | undefined,
     @Req() req: Request,
   ): Promise<PaymentDto> {
-    return this.payments.submit(userId, bookingId, dto, this.context(req));
+    return this.payments.submit(userId, bookingId, dto, proof, this.context(req));
   }
 
   private context(req: Request): RequestContext {

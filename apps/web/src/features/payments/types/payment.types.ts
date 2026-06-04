@@ -58,4 +58,6 @@ export interface PaymentFilters {
 export interface SubmitPaymentInput {
   method: PaymentMethod;
   reference?: string;
+  /** Required for bank transfer / mobile money; omitted for cash. */
+  proof?: File;
 }

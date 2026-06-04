@@ -4,9 +4,10 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { BookingStatus, PaymentStatus, Prisma } from '@prisma/client';
+import { BookingStatus, PaymentMethod, PaymentStatus, Prisma } from '@prisma/client';
 import { AuditService } from '@/common/audit/audit.service';
 import { AppConfigService } from '@/config/app.config';
+import { StorageService } from '@/common/storage/storage.service';
 import { formatDateOnly } from '@/common/utils/date';
 import type { RequestContext } from '@/modules/auth/types/auth.types';
 import { BookingsService } from '@/modules/bookings/bookings.service';
@@ -31,6 +32,7 @@ export class PaymentsService {
     private readonly bookings: BookingsService,
     private readonly audit: AuditService,
     private readonly config: AppConfigService,
+    private readonly storage: StorageService,
   ) {}
 
   // ── public ──
@@ -63,6 +65,7 @@ export class PaymentsService {
     userId: string,
     bookingId: string,
     dto: SubmitPaymentDto,
+    file: Express.Multer.File | undefined,
     ctx: RequestContext,
   ): Promise<PaymentDto> {
     const booking = await this.bookings.loadForPayment(bookingId);
@@ -76,28 +79,52 @@ export class PaymentsService {
       throw new BadRequestException('This booking is not awaiting payment');
     }
 
+    const isCash = dto.method === PaymentMethod.CASH;
+
+    // Bank transfer / mobile money require an uploaded proof screenshot. Cash is
+    // settled on arrival, so no proof — the admin confirms it later.
+    let proofUrl: string | null = null;
+    let proofKey: string | null = null;
+    if (!isCash) {
+      const uploaded = await this.uploadProof(bookingId, file);
+      proofUrl = uploaded.url;
+      proofKey = uploaded.key;
+    }
+
+    const previous = await this.repo.findByBookingId(bookingId);
+
     const payment = await this.repo.submit({
       bookingId,
       method: dto.method,
       amount: booking.totalPrice,
       reference: dto.reference,
+      proofUrl,
+      proofKey,
     });
 
-    // WAITING_PAYMENT → PROOF_SUBMITTED (the guest claims they've paid).
-    await this.bookings.applyTransition(
-      bookingId,
-      BookingStatus.PROOF_SUBMITTED,
-      userId,
-      ctx,
-      `Payment submitted (${dto.method})`,
-    );
+    // Drop a superseded proof object from storage after the new one is saved.
+    if (previous?.proofKey && previous.proofKey !== proofKey) {
+      await this.storage.delete(previous.proofKey).catch(() => undefined);
+    }
+
+    // Proof uploaded → PROOF_SUBMITTED for review. Cash stays WAITING_PAYMENT
+    // until the admin confirms the cash was received.
+    if (!isCash) {
+      await this.bookings.applyTransition(
+        bookingId,
+        BookingStatus.PROOF_SUBMITTED,
+        userId,
+        ctx,
+        `Payment proof submitted (${dto.method})`,
+      );
+    }
 
     await this.audit.record({
       action: 'payment.submit',
       userId,
       entity: 'Payment',
       entityId: payment.id,
-      metadata: { bookingId, method: dto.method },
+      metadata: { bookingId, method: dto.method, cash: isCash },
       ...ctx,
     });
 
@@ -145,13 +172,16 @@ export class PaymentsService {
     const payment = await this.requireSubmitted(id);
 
     const updated = await this.repo.verify(id, actorId, new Date());
-    // PROOF_SUBMITTED → CONFIRMED.
+    // → CONFIRMED, whether from PROOF_SUBMITTED (proof approved) or directly from
+    // WAITING_PAYMENT (cash received).
     await this.bookings.applyTransition(
       payment.bookingId,
       BookingStatus.CONFIRMED,
       actorId,
       ctx,
-      'Payment verified',
+      payment.method === PaymentMethod.CASH
+        ? 'Cash payment confirmed'
+        : 'Payment verified',
     );
 
     await this.audit.record({
@@ -173,16 +203,20 @@ export class PaymentsService {
     ctx: RequestContext,
   ): Promise<AdminPaymentDto> {
     const payment = await this.requireSubmitted(id);
+    const booking = await this.bookings.loadForPayment(payment.bookingId);
 
     const updated = await this.repo.reject(id);
-    // PROOF_SUBMITTED → WAITING_PAYMENT (ask the guest to pay again).
-    await this.bookings.applyTransition(
-      payment.bookingId,
-      BookingStatus.WAITING_PAYMENT,
-      actorId,
-      ctx,
-      dto.note ? `Payment rejected: ${dto.note}` : 'Payment rejected',
-    );
+    // Send a submitted-proof booking back to WAITING_PAYMENT so the guest can pay
+    // again. A cash booking is already WAITING_PAYMENT, so just flag the payment.
+    if (booking?.status === BookingStatus.PROOF_SUBMITTED) {
+      await this.bookings.applyTransition(
+        payment.bookingId,
+        BookingStatus.WAITING_PAYMENT,
+        actorId,
+        ctx,
+        dto.note ? `Payment rejected: ${dto.note}` : 'Payment rejected',
+      );
+    }
 
     await this.audit.record({
       action: 'payment.reject',
@@ -197,6 +231,34 @@ export class PaymentsService {
   }
 
   // ── internals ──
+
+  /** Validate + store an uploaded proof screenshot, returning its public URL/key. */
+  private async uploadProof(
+    bookingId: string,
+    file: Express.Multer.File | undefined,
+  ): Promise<{ url: string; key: string }> {
+    if (!file) {
+      throw new BadRequestException('Proof of payment is required');
+    }
+    const extension = this.storage.extensionFor(file.mimetype);
+    if (!extension) {
+      throw new BadRequestException(
+        `Unsupported file type. Allowed: ${this.storage.allowedMimeTypes.join(', ')}`,
+      );
+    }
+    const maxBytes = this.config.storage.maxSizeMb * 1024 * 1024;
+    if (file.size > maxBytes) {
+      throw new BadRequestException(
+        `File too large (max ${this.config.storage.maxSizeMb} MB)`,
+      );
+    }
+    return this.storage.upload({
+      buffer: file.buffer,
+      contentType: file.mimetype,
+      keyPrefix: `payments/${bookingId}`,
+      extension,
+    });
+  }
 
   private async requireSubmitted(id: string): Promise<PaymentWithBooking> {
     const payment = await this.repo.findById(id);

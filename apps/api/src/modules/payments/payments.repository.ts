@@ -23,6 +23,8 @@ interface UpsertPaymentData {
   method: Prisma.PaymentCreateInput['method'];
   amount: number;
   reference?: string;
+  proofUrl: string | null;
+  proofKey: string | null;
 }
 
 @Injectable()
@@ -52,11 +54,15 @@ export class PaymentsRepository {
         method: data.method,
         amount: data.amount,
         reference: data.reference,
+        proofUrl: data.proofUrl,
+        proofKey: data.proofKey,
         status: PaymentStatus.SUBMITTED,
       },
       update: {
         method: data.method,
         reference: data.reference,
+        proofUrl: data.proofUrl,
+        proofKey: data.proofKey,
         status: PaymentStatus.SUBMITTED,
         verifiedById: null,
         verifiedAt: null,

@@ -43,6 +43,22 @@ export function AdminBookingPaymentCard({ bookingId }: { bookingId: string }) {
               ) : null}
             </dl>
 
+            {payment.proofUrl ? (
+              <a
+                href={payment.proofUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block overflow-hidden rounded-lg border"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={payment.proofUrl}
+                  alt={tAdmin('proof')}
+                  className="max-h-64 w-full object-contain bg-muted"
+                />
+              </a>
+            ) : null}
+
             {payment.status === 'SUBMITTED' ? (
               <PaymentReviewActions paymentId={payment.id} />
             ) : null}

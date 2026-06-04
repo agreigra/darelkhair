@@ -65,11 +65,13 @@ export class BookingsRepository {
         checkOut: data.checkOut,
         guests: data.guests,
         totalPrice: data.totalPrice,
-        status: BookingStatus.PENDING,
+        // Bookings enter the payment arc immediately — the guest pays right after
+        // booking (offline), so there is no separate admin-approval (PENDING) step.
+        status: BookingStatus.WAITING_PAYMENT,
         history: {
           create: {
             fromStatus: null,
-            toStatus: BookingStatus.PENDING,
+            toStatus: BookingStatus.WAITING_PAYMENT,
             changedBy: data.userId,
           },
         },

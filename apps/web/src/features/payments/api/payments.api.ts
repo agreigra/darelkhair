@@ -25,7 +25,16 @@ export const paymentsApi = {
     bookingId: string,
     input: SubmitPaymentInput,
   ): Promise<Payment> {
-    const { data } = await apiClient.post(`/bookings/${bookingId}/payment`, input);
+    const form = new FormData();
+    form.append('method', input.method);
+    if (input.reference) form.append('reference', input.reference);
+    if (input.proof) form.append('proof', input.proof);
+    const { data } = await apiClient.post(
+      `/bookings/${bookingId}/payment`,
+      form,
+      // Let the browser set the multipart boundary.
+      { headers: { 'Content-Type': undefined } },
+    );
     return unwrap<Payment>(data);
   },
 

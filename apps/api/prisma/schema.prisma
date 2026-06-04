@@ -210,6 +210,9 @@ model Payment {
   status       PaymentStatus @default(PENDING)
   amount       Decimal       @db.Decimal(10, 2)
   proofUrl     String?
+  // Storage key (R2 object key or local path) for the uploaded proof image, so
+  // the object can be removed from storage on re-submit/delete. Null for cash.
+  proofKey     String?
   reference    String?
   verifiedById String?
   verifiedAt   DateTime?

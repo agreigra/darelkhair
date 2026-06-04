@@ -122,7 +122,7 @@
       "guests": "Guests",
       "maxGuests": "Up to {count, plural, one {# guest} other {# guests}}",
       "summary": "{nights, plural, one {# night} other {# nights}}",
-      "confirm": "Request booking",
+      "confirm": "Continue to payment",
       "loginToBook": "Log in to book"
     },
     "errors": {
@@ -209,9 +209,17 @@
     },
     "referenceLabel": "Transaction reference (optional)",
     "referencePlaceholder": "Transaction ID or sender name",
-    "submit": "I've paid — submit for review",
+    "proofLabel": "Proof of payment (screenshot)",
+    "proofHint": "Click to attach a screenshot of your transfer",
+    "submit": "Submit payment proof",
+    "submitCash": "Confirm — I'll pay cash on arrival",
+    "changeMethod": "Change payment method",
     "whatsapp": "Contact us on WhatsApp",
     "submittedMethod": "Method",
+    "cashPending": {
+      "title": "Cash selected",
+      "body": "Pay on arrival. We'll confirm your booking once the cash is received."
+    },
     "underReview": {
       "title": "Payment under review",
       "body": "We've received your payment details and are verifying them. You'll be notified once confirmed."
@@ -239,11 +247,14 @@
     "reject": "Reject",
     "rejectTitle": "Reject this payment?",
     "rejectDescription": "The booking returns to awaiting payment so the guest can submit again.",
+    "proof": "Proof",
+    "viewProof": "View proof",
     "columns": {
       "booking": "Booking",
       "guest": "Guest",
       "method": "Method",
       "amount": "Amount",
+      "proof": "Proof",
       "submitted": "Submitted",
       "status": "Status"
     }

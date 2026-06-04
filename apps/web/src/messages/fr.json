@@ -122,7 +122,7 @@
       "guests": "Voyageurs",
       "maxGuests": "Jusqu'à {count, plural, one {# voyageur} other {# voyageurs}}",
       "summary": "{nights, plural, one {# nuit} other {# nuits}}",
-      "confirm": "Demander la réservation",
+      "confirm": "Continuer vers le paiement",
       "loginToBook": "Connectez-vous pour réserver"
     },
     "errors": {
@@ -209,9 +209,17 @@
     },
     "referenceLabel": "Référence de la transaction (facultatif)",
     "referencePlaceholder": "ID de transaction ou nom de l'expéditeur",
-    "submit": "J'ai payé — soumettre pour vérification",
+    "proofLabel": "Preuve de paiement (capture d'écran)",
+    "proofHint": "Cliquez pour joindre une capture d'écran de votre virement",
+    "submit": "Envoyer la preuve de paiement",
+    "submitCash": "Confirmer — je paierai en espèces à l'arrivée",
+    "changeMethod": "Changer de mode de paiement",
     "whatsapp": "Contactez-nous sur WhatsApp",
     "submittedMethod": "Mode",
+    "cashPending": {
+      "title": "Espèces sélectionnées",
+      "body": "Payez à l'arrivée. Nous confirmerons votre réservation une fois l'argent reçu."
+    },
     "underReview": {
       "title": "Paiement en cours de vérification",
       "body": "Nous avons reçu vos informations de paiement et les vérifions. Vous serez notifié une fois confirmé."
@@ -239,11 +247,14 @@
     "reject": "Rejeter",
     "rejectTitle": "Rejeter ce paiement ?",
     "rejectDescription": "La réservation repasse en attente de paiement afin que le client puisse soumettre à nouveau.",
+    "proof": "Preuve",
+    "viewProof": "Voir la preuve",
     "columns": {
       "booking": "Réservation",
       "guest": "Client",
       "method": "Mode",
       "amount": "Montant",
+      "proof": "Preuve",
       "submitted": "Soumis le",
       "status": "Statut"
     }

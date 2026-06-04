@@ -7,14 +7,7 @@ import type {
   UploadParams,
   UploadResult,
 } from './storage.types';
-
-/** Maps accepted upload mime types to a file extension. */
-const MIME_EXTENSIONS: Record<string, string> = {
-  'image/jpeg': 'jpg',
-  'image/png': 'png',
-  'image/webp': 'webp',
-  'image/avif': 'avif',
-};
+import { IMAGE_MIME_EXTENSIONS as MIME_EXTENSIONS } from './image-upload';
 
 /**
  * Facade over the configured storage backend (Cloudflare R2 or local disk).

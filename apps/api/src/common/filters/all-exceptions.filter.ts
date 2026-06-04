@@ -29,7 +29,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
 
-    const status =
+    let status =
       exception instanceof HttpException
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
@@ -46,6 +46,16 @@ export class AllExceptionsFilter implements ExceptionFilter {
         message = (r.message as string | string[]) ?? exception.message;
         error = (r.error as string) ?? exception.name;
       }
+    } else if (exception instanceof Error && exception.name === 'MulterError') {
+      // Upload rejected at the stream level (size / file-count limits).
+      const code = (exception as { code?: string }).code;
+      status =
+        code === 'LIMIT_FILE_SIZE'
+          ? HttpStatus.PAYLOAD_TOO_LARGE
+          : HttpStatus.BAD_REQUEST;
+      message =
+        code === 'LIMIT_FILE_SIZE' ? 'File too large' : exception.message;
+      error = 'UploadError';
     } else if (exception instanceof Error) {
       this.logger.error(exception.message, exception.stack);
     }
