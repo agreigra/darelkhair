@@ -43,7 +43,8 @@
       "bedrooms": "{count, plural, one {# bedroom} other {# bedrooms}}",
       "bathrooms": "{count, plural, one {# bathroom} other {# bathrooms}}",
       "guests": "{count, plural, one {# guest} other {# guests}}",
-      "notFound": "Apartment not found."
+      "notFound": "Apartment not found.",
+      "availabilityTitle": "Availability"
     },
     "table": {
       "title": "Apartments",
@@ -97,6 +98,21 @@
       "priceInvalid": "Enter a valid price",
       "guestsInvalid": "At least 1 guest",
       "generic": "Something went wrong. Please try again."
+    }
+  },
+  "availability": {
+    "legendUnavailable": "Unavailable",
+    "available": "Available for these dates",
+    "unavailable": "Not available",
+    "pickDates": "Select your check-in and check-out dates.",
+    "nights": "{count, plural, one {# night} other {# nights}}",
+    "manage": {
+      "title": "Availability",
+      "subtitle": "Block dates when this apartment can't be booked.",
+      "block": "Block selected dates",
+      "blockedTitle": "Blocked periods",
+      "loading": "Loading…",
+      "none": "No blocked periods yet."
     }
   },
   "auth": {

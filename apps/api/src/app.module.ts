@@ -7,6 +7,7 @@ import { HealthModule } from './modules/health/health.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { ApartmentsModule } from './modules/apartments/apartments.module';
+import { AvailabilityModule } from './modules/availability/availability.module';
 
 /**
  * Root module. Each FEATURE is its own module under src/modules and gets
@@ -24,7 +25,7 @@ import { ApartmentsModule } from './modules/apartments/apartments.module';
     AuthModule,
     UsersModule,
     ApartmentsModule,
-    // AvailabilityModule,
+    AvailabilityModule,
     // BookingsModule,
     // PaymentsModule,
     // UploadsModule,

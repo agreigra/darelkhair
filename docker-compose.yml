@@ -54,6 +54,8 @@ services:
       args:
         NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:4000}
         NEXT_PUBLIC_WHATSAPP_NUMBER: ${NEXT_PUBLIC_WHATSAPP_NUMBER:-22200000000}
+        # Lets next.config.ts whitelist the R2/custom-domain image host at build.
+        R2_PUBLIC_URL: ${R2_PUBLIC_URL:-}
     container_name: darelkhair-web
     restart: unless-stopped
     depends_on:

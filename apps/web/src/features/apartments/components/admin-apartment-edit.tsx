@@ -2,6 +2,7 @@
 
 import { Skeleton } from '@/components/ui/skeleton';
 import { useTranslations } from 'next-intl';
+import { AdminAvailabilityManager } from '@/features/availability/components/admin-availability-manager';
 import { useAdminApartment } from '../hooks/use-admin-apartments';
 import { ApartmentForm } from './apartment-form';
 import { ApartmentImages } from './apartment-images';
@@ -28,6 +29,7 @@ export function AdminApartmentEdit({ id }: { id: string }) {
     <div className="space-y-6">
       <ApartmentForm apartment={apartment} />
       <ApartmentImages apartmentId={apartment.id} images={apartment.images} />
+      <AdminAvailabilityManager apartmentId={apartment.id} />
     </div>
   );
 }

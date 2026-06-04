@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 import { localized } from '@/lib/i18n-content';
+import { AvailabilityCalendar } from '@/features/availability/components/availability-calendar';
 import { useApartment } from '../hooks/use-apartments';
 
 export function ApartmentDetail({ id }: { id: string }) {
@@ -136,6 +137,17 @@ export function ApartmentDetail({ id }: { id: string }) {
             {description}
           </p>
         ) : null}
+      </div>
+
+      {/* Availability */}
+      <div className="max-w-3xl space-y-4">
+        <h2 className="text-xl font-semibold tracking-tight">
+          {t('availabilityTitle')}
+        </h2>
+        <AvailabilityCalendar
+          apartmentId={apt.id}
+          pricePerNight={apt.pricePerNight}
+        />
       </div>
     </div>
   );

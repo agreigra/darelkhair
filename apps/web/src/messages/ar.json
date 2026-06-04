@@ -43,7 +43,8 @@
       "bedrooms": "{count, plural, other {# غرف نوم}}",
       "bathrooms": "{count, plural, other {# حمّامات}}",
       "guests": "{count, plural, other {# ضيوف}}",
-      "notFound": "الشقة غير موجودة."
+      "notFound": "الشقة غير موجودة.",
+      "availabilityTitle": "التوفر"
     },
     "table": {
       "title": "الشقق",
@@ -97,6 +98,21 @@
       "priceInvalid": "أدخل سعرًا صالحًا",
       "guestsInvalid": "ضيف واحد على الأقل",
       "generic": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+    }
+  },
+  "availability": {
+    "legendUnavailable": "غير متاح",
+    "available": "متاح لهذه التواريخ",
+    "unavailable": "غير متاح",
+    "pickDates": "اختر تاريخ الوصول والمغادرة.",
+    "nights": "{count, plural, other {# ليالٍ}}",
+    "manage": {
+      "title": "التوفر",
+      "subtitle": "احجب التواريخ التي لا يمكن فيها حجز هذه الشقة.",
+      "block": "حجب التواريخ المحددة",
+      "blockedTitle": "الفترات المحجوبة",
+      "loading": "جارٍ التحميل…",
+      "none": "لا توجد فترات محجوبة بعد."
     }
   },
   "auth": {

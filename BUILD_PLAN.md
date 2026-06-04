@@ -61,7 +61,9 @@ A feature-based build, executed **one feature at a time**. Each step is self-con
 
 > The same localized-JSON pattern applies to any later entity with user-facing text (e.g. apartment amenities, payment instructions content).
 
-## Feature 4 — Availability 📅
+## Feature 4 — Availability 📅 ✅ DONE
+
+> Built: admin **blocked date ranges** + active-booking conflicts. Public `GET /apartments/:id/availability` (unavailable ranges for the calendar) + `/availability/check` (stay overlap, half-open checkout); admin block/list/delete (`@Roles(ADMIN)`, audited). Dates exchanged as **YYYY-MM-DD** (no TZ drift) via date utils on both sides. Frontend: `AvailabilityCalendar` (range picker on `CalendarView`, disables unavailable+past, shows nights/total/availability — feeds Feature 5 via `onRangeChange`) on the apartment detail; `AdminAvailabilityManager` (block dates + list) on the edit page. The `/availability/check` endpoint is the hook Feature 5's booking flow validates against.
 
 - Backend `modules/availability`: availability slots, date-range checks, conflict detection
 - Frontend `features/availability`: `CalendarView`, availability checking on apartment detail, admin availability management

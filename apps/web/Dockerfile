@@ -16,8 +16,12 @@ RUN pnpm install --filter @darelkhair/web... --frozen-lockfile=false
 FROM base AS build
 ARG NEXT_PUBLIC_API_URL
 ARG NEXT_PUBLIC_WHATSAPP_NUMBER
+# Public base URL of the R2/storage bucket. Read by next.config.ts at build time
+# to allow the Image Optimizer to load from it (incl. a custom domain).
+ARG R2_PUBLIC_URL
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_WHATSAPP_NUMBER=$NEXT_PUBLIC_WHATSAPP_NUMBER
+ENV R2_PUBLIC_URL=$R2_PUBLIC_URL
 ENV NEXT_TELEMETRY_DISABLED=1
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/apps/web/node_modules ./apps/web/node_modules

@@ -43,7 +43,8 @@
       "bedrooms": "{count, plural, one {# chambre} other {# chambres}}",
       "bathrooms": "{count, plural, one {# salle de bain} other {# salles de bain}}",
       "guests": "{count, plural, one {# voyageur} other {# voyageurs}}",
-      "notFound": "Appartement introuvable."
+      "notFound": "Appartement introuvable.",
+      "availabilityTitle": "Disponibilité"
     },
     "table": {
       "title": "Appartements",
@@ -97,6 +98,21 @@
       "priceInvalid": "Saisissez un prix valide",
       "guestsInvalid": "Au moins 1 voyageur",
       "generic": "Une erreur est survenue. Veuillez réessayer."
+    }
+  },
+  "availability": {
+    "legendUnavailable": "Indisponible",
+    "available": "Disponible pour ces dates",
+    "unavailable": "Non disponible",
+    "pickDates": "Sélectionnez vos dates d'arrivée et de départ.",
+    "nights": "{count, plural, one {# nuit} other {# nuits}}",
+    "manage": {
+      "title": "Disponibilité",
+      "subtitle": "Bloquez les dates où cet appartement ne peut pas être réservé.",
+      "block": "Bloquer les dates sélectionnées",
+      "blockedTitle": "Périodes bloquées",
+      "loading": "Chargement…",
+      "none": "Aucune période bloquée pour l'instant."
     }
   },
   "auth": {
