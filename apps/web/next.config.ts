@@ -1,8 +1,18 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import type { NextConfig } from 'next';
 import type { RemotePattern } from 'next/dist/shared/lib/image-config';
 import createNextIntlPlugin from 'next-intl/plugin';
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
+
+// Monorepo root (apps/web → ../..). Pins standalone file tracing to the right
+// root so Next.js doesn't guess from multiple lockfiles (warning since 15.5).
+const monorepoRoot = path.join(
+  path.dirname(fileURLToPath(import.meta.url)),
+  '..',
+  '..',
+);
 
 /**
  * Allow the Image Optimizer to load from wherever the storage layer serves files.
@@ -25,6 +35,7 @@ function storageRemotePattern(): RemotePattern {
 
 const nextConfig: NextConfig = {
   output: 'standalone',
+  outputFileTracingRoot: monorepoRoot,
   reactStrictMode: true,
   images: {
     remotePatterns: [
