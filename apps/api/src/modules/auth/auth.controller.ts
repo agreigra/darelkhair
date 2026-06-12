@@ -74,7 +74,10 @@ export class AuthController {
   ): Promise<{ success: boolean }> {
     const token = req.cookies?.[REFRESH_COOKIE] as string | undefined;
     await this.auth.logout(token, this.context(req));
-    res.clearCookie(REFRESH_COOKIE, refreshCookieOptions(this.config.isProduction));
+    res.clearCookie(
+      REFRESH_COOKIE,
+      refreshCookieOptions(this.config.isProduction, this.config.cookieSameSite),
+    );
     return { success: true };
   }
 
@@ -90,7 +93,11 @@ export class AuthController {
     res.cookie(
       REFRESH_COOKIE,
       result.refreshToken,
-      refreshCookieOptions(this.config.isProduction, result.refreshTokenExpiresAt),
+      refreshCookieOptions(
+        this.config.isProduction,
+        this.config.cookieSameSite,
+        result.refreshTokenExpiresAt,
+      ),
     );
     return { user: result.user, accessToken: result.accessToken };
   }

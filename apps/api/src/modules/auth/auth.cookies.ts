@@ -9,12 +9,14 @@ export const REFRESH_COOKIE = 'dek_refresh';
  */
 export function refreshCookieOptions(
   isProduction: boolean,
+  sameSite: 'lax' | 'none' | 'strict' = 'lax',
   expiresAt?: Date,
 ): CookieOptions {
   return {
     httpOnly: true,
-    secure: isProduction,
-    sameSite: 'lax',
+    // Browsers only accept SameSite=None over HTTPS, so it implies Secure.
+    secure: isProduction || sameSite === 'none',
+    sameSite,
     path: '/',
     ...(expiresAt ? { expires: expiresAt } : {}),
   };
