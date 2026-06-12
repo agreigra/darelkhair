@@ -19,6 +19,12 @@ export const envSchema = z.object({
 
   CORS_ORIGINS: z.string().default('http://localhost:3000'),
 
+  // Refresh-cookie SameSite. Use 'none' when the web app and API are on
+  // different sites (e.g. *.vercel.app + *.railway.app) so the httpOnly cookie
+  // is sent on cross-site requests; 'lax' is fine when they share a registrable
+  // domain. 'none' forces Secure (required by browsers, and we're on HTTPS).
+  COOKIE_SAMESITE: z.enum(['lax', 'none', 'strict']).default('lax'),
+
   // ── File storage ──
   // 'local' serves files from disk (dev); 'r2' uploads to Cloudflare R2.
   STORAGE_DRIVER: z.enum(['local', 'r2']).default('local'),

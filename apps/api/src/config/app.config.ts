@@ -34,6 +34,10 @@ export class AppConfigService {
       .filter(Boolean);
   }
 
+  get cookieSameSite(): 'lax' | 'none' | 'strict' {
+    return this.config.get('COOKIE_SAMESITE', { infer: true });
+  }
+
   get jwt() {
     return {
       accessSecret: this.config.get('JWT_ACCESS_SECRET', { infer: true }),
