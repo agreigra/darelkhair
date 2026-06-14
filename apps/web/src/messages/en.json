@@ -12,6 +12,7 @@
     "language": "Language"
   },
   "nav": {
+    "menu": "Menu",
     "home": "Home",
     "apartments": "Apartments",
     "bookings": "My bookings",

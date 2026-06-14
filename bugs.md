@@ -35,9 +35,9 @@ Tracked individually — each item is self-contained. Solve one at a time; check
 - **Expected:** Locale switch preserves the session.
 - **Likely cause:** access token is in-memory and the locale switch triggers a navigation; on Safari the httpOnly refresh cookie may be blocked by `SameSite`/`Secure`, so silent refresh fails. Verify cookie attributes + that the switch is a client-side nav, not a hard reload.
 
-### 6. No mobile navigation (nav hidden, no menu) — _was: "menu not responsive" + "nav bar not shown on phone"_
+### 6. No mobile navigation (nav hidden, no menu) — _was: "menu not responsive" + "nav bar not shown on phone"_ ✅ DONE
 
-- [ ] **Area:** [site-header.tsx](apps/web/src/components/layout/site-header.tsx).
+- [x] **Area:** [site-header.tsx](apps/web/src/components/layout/site-header.tsx).
 - **Problem:** The primary nav is `hidden md:flex`, so on phones there are no nav links at all and no hamburger menu to reach them.
 - **Expected:** A responsive mobile menu (hamburger → drawer/sheet) exposing the same links (Home, Apartments, About, Contact + auth/admin items).
 
