@@ -1,7 +1,6 @@
 'use client';
 
 import { useLocale, useTranslations } from 'next-intl';
-import { useParams } from 'next/navigation';
 import { useTransition } from 'react';
 import { Globe, Check, ChevronDown } from 'lucide-react';
 import { usePathname, useRouter } from '@/i18n/navigation';
@@ -26,17 +25,16 @@ export function LanguageSwitcher() {
   const t = useTranslations('common');
   const router = useRouter();
   const pathname = usePathname();
-  const params = useParams();
   const [isPending, startTransition] = useTransition();
 
   function onSelect(next: Locale) {
     if (next === locale) return;
+    // Soft, client-side navigation to the same path under the new locale. This
+    // keeps the React tree alive so the in-memory access token survives — a hard
+    // reload would drop it and force a refresh that Safari/iOS blocks on a
+    // split web/API domain (third-party cookie), signing the user out.
     startTransition(() => {
-      router.replace(
-        // @ts-expect-error -- params are passed through unchanged
-        { pathname, params },
-        { locale: next },
-      );
+      router.replace(pathname, { locale: next });
     });
   }
 
