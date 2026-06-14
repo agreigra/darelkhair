@@ -6,6 +6,7 @@ import {
   XCircle,
   Clock,
   FileCheck,
+  Award,
   Bell,
   type LucideIcon,
 } from 'lucide-react';
@@ -30,6 +31,7 @@ const STATUS_ICON: Record<BookingStatus, LucideIcon> = {
   WAITING_PAYMENT: Clock,
   PROOF_SUBMITTED: FileCheck,
   CONFIRMED: CheckCircle2,
+  HONORED: Award,
   CANCELLED: XCircle,
 };
 
@@ -38,6 +40,7 @@ const STATUS_TONE: Record<BookingStatus, string> = {
   WAITING_PAYMENT: 'text-warning',
   PROOF_SUBMITTED: 'text-primary',
   CONFIRMED: 'text-success',
+  HONORED: 'text-brand-gold',
   CANCELLED: 'text-destructive',
 };
 

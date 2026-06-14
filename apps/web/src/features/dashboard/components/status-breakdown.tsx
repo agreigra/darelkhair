@@ -10,6 +10,7 @@ const ORDER: BookingStatus[] = [
   'WAITING_PAYMENT',
   'PROOF_SUBMITTED',
   'CONFIRMED',
+  'HONORED',
   'CANCELLED',
 ];
 
@@ -18,6 +19,7 @@ const BAR_TONE: Record<BookingStatus, string> = {
   WAITING_PAYMENT: 'bg-warning',
   PROOF_SUBMITTED: 'bg-primary',
   CONFIRMED: 'bg-success',
+  HONORED: 'bg-brand-gold',
   CANCELLED: 'bg-destructive',
 };
 

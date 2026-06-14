@@ -146,6 +146,7 @@
       "WAITING_PAYMENT": "الحجز {reference}: إجراء مطلوب — يرجى إتمام الدفع.",
       "PROOF_SUBMITTED": "الحجز {reference}: تم استلام الإثبات، قيد المراجعة.",
       "CONFIRMED": "تم تأكيد الحجز {reference} 🎉",
+      "HONORED": "الحجز {reference}: انتهت الإقامة — شكراً لك!",
       "CANCELLED": "تم إلغاء الحجز {reference}.",
       "PENDING": "تم تحديث الحجز {reference}.",
       "generic": "تم تحديث الحجز {reference}."
@@ -551,6 +552,7 @@
     "WAITING_PAYMENT": "بانتظار الدفع",
     "PROOF_SUBMITTED": "تم إرسال الإثبات",
     "CONFIRMED": "مؤكَّد",
+    "HONORED": "مكتملة",
     "CANCELLED": "ملغى"
   }
 }

@@ -22,9 +22,9 @@ Tracked individually — each item is self-contained. Solve one at a time; check
 - **Problem (FR):** "lien vers l'appartement dans la carte de réservation admin" — the apartment shown on an admin booking isn't clickable.
 - **Expected:** The apartment title/thumbnail in the admin booking view links to that apartment's page.
 
-### 4. Add a "HONORED" booking status (stay completed)
+### 4. Add a "HONORED" booking status (stay completed) ✅ DONE
 
-- [ ] **Area:** booking status machine — [booking-status.ts](apps/api/src/modules/bookings/booking-status.ts), `BookingStatus` enum (Prisma), `status` i18n (FR/AR/EN), `StatusBadge`.
+- [x] **Area:** booking status machine — [booking-status.ts](apps/api/src/modules/bookings/booking-status.ts), `BookingStatus` enum (Prisma), `status` i18n (FR/AR/EN), `StatusBadge`.
 - **Problem:** There's no terminal "stay completed" state. After `CONFIRMED`, a finished stay can't be marked as fulfilled.
 - **Expected:** New `HONORED` status reachable from `CONFIRMED` (admin action), rendered everywhere `StatusBadge` is used; needs a migration + transition rule + translations.
 

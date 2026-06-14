@@ -146,6 +146,7 @@
       "WAITING_PAYMENT": "Booking {reference}: action needed — complete your payment.",
       "PROOF_SUBMITTED": "Booking {reference}: proof received, under review.",
       "CONFIRMED": "Booking {reference} confirmed 🎉",
+      "HONORED": "Booking {reference}: stay completed — thank you!",
       "CANCELLED": "Booking {reference} was cancelled.",
       "PENDING": "Booking {reference} updated.",
       "generic": "Booking {reference} updated."
@@ -551,6 +552,7 @@
     "WAITING_PAYMENT": "Awaiting payment",
     "PROOF_SUBMITTED": "Proof submitted",
     "CONFIRMED": "Confirmed",
+    "HONORED": "Completed",
     "CANCELLED": "Cancelled"
   }
 }

@@ -6,10 +6,12 @@ import { BookingStatus } from '@prisma/client';
  * (BookingsService.transition) so the trail in BookingStatusHistory is always
  * a sequence of valid moves.
  *
- *   PENDING ─▶ WAITING_PAYMENT ─▶ PROOF_SUBMITTED ─▶ CONFIRMED
+ *   PENDING ─▶ WAITING_PAYMENT ─▶ PROOF_SUBMITTED ─▶ CONFIRMED ─▶ HONORED
  *      │              │                  │ │
  *      ▼              ▼                  │ ▼ (reject → ask again)
  *   CANCELLED ◀───────┴──────────────────┴─ WAITING_PAYMENT
+ *
+ * HONORED is terminal — set by an admin once the stay is completed.
  */
 export const BOOKING_TRANSITIONS: Record<BookingStatus, BookingStatus[]> = {
   [BookingStatus.PENDING]: [
@@ -28,7 +30,8 @@ export const BOOKING_TRANSITIONS: Record<BookingStatus, BookingStatus[]> = {
     BookingStatus.WAITING_PAYMENT,
     BookingStatus.CANCELLED,
   ],
-  [BookingStatus.CONFIRMED]: [BookingStatus.CANCELLED],
+  [BookingStatus.CONFIRMED]: [BookingStatus.HONORED, BookingStatus.CANCELLED],
+  [BookingStatus.HONORED]: [],
   [BookingStatus.CANCELLED]: [],
 };
 

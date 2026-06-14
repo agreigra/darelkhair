@@ -8,6 +8,7 @@ export type BookingStatus =
   | 'WAITING_PAYMENT'
   | 'PROOF_SUBMITTED'
   | 'CONFIRMED'
+  | 'HONORED'
   | 'CANCELLED';
 
 export interface ApartmentSummary {
