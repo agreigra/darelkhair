@@ -28,9 +28,9 @@ Tracked individually — each item is self-contained. Solve one at a time; check
 - **Problem:** There's no terminal "stay completed" state. After `CONFIRMED`, a finished stay can't be marked as fulfilled.
 - **Expected:** New `HONORED` status reachable from `CONFIRMED` (admin action), rendered everywhere `StatusBadge` is used; needs a migration + transition rule + translations.
 
-### 5. Switching language on iPhone logs the user out
+### 5. Switching language on iPhone logs the user out ✅ DONE
 
-- [ ] **Area:** [language-switcher.tsx](apps/web/src/components/layout/language-switcher.tsx), auth/session ([api-client.ts](apps/web/src/lib/api-client.ts) silent refresh, refresh-cookie `SameSite`).
+- [x] **Area:** [language-switcher.tsx](apps/web/src/components/layout/language-switcher.tsx), auth/session ([api-client.ts](apps/web/src/lib/api-client.ts) silent refresh, refresh-cookie `SameSite`).
 - **Problem:** On iPhone (Safari), changing the locale ends the session — the user is signed out.
 - **Expected:** Locale switch preserves the session.
 - **Likely cause:** access token is in-memory and the locale switch triggers a navigation; on Safari the httpOnly refresh cookie may be blocked by `SameSite`/`Secure`, so silent refresh fails. Verify cookie attributes + that the switch is a client-side nav, not a hard reload.
