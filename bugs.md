@@ -4,15 +4,15 @@ Tracked individually — each item is self-contained. Solve one at a time; check
 
 ---
 
-### 1. Admin apartment edit page has no "back" navigation
+### 1. Admin apartment edit page has no "back" navigation ✅ DONE
 
-- [ ] **Area:** [admin-apartment-edit.tsx](apps/web/src/features/apartments/components/admin-apartment-edit.tsx) · [edit route](<apps/web/src/app/[locale]/(app)/admin/apartments/[id]/edit/page.tsx>)
+- [x] **Area:** [admin-apartment-edit.tsx](apps/web/src/features/apartments/components/admin-apartment-edit.tsx) · [edit route](<apps/web/src/app/[locale]/(app)/admin/apartments/[id]/edit/page.tsx>)
 - **Problem:** Once on the admin apartment edit page there's no way to return to the apartments list (no back button/breadcrumb).
 - **Expected:** A back link/button (e.g. in `PageHeader`) returning to `/admin/apartments`.
 
-### 2. Add a "back" affordance / breadcrumbs across admin detail pages
+### 2. Add a "back" affordance / breadcrumbs across admin detail pages ✅ DONE
 
-- [ ] **Area:** `PageHeader` + admin detail pages (apartments, bookings, payments).
+- [x] **Area:** `PageHeader` + admin detail pages (apartments, bookings, payments).
 - **Problem:** Same root issue as #1 but broader — admin detail/edit pages lack consistent back navigation.
 - **Expected:** A reusable optional back action on `PageHeader`, applied to all admin detail/edit pages.
 
