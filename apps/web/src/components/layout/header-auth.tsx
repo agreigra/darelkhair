@@ -11,6 +11,8 @@ import {
   CreditCard,
   Mail,
   Star,
+  LogIn,
+  UserPlus,
 } from 'lucide-react';
 import { Link, useRouter } from '@/i18n/navigation';
 import { Button } from '@/components/ui/button';
@@ -51,14 +53,43 @@ export function HeaderAuth() {
 
   if (!isAuthenticated || !user) {
     return (
-      <div className="flex items-center gap-2">
-        <Button asChild variant="ghost" size="sm">
-          <Link href="/login">{t('login')}</Link>
-        </Button>
-        <Button asChild size="sm">
-          <Link href="/register">{t('register')}</Link>
-        </Button>
-      </div>
+      <>
+        {/* Full buttons on larger screens */}
+        <div className="hidden items-center gap-2 sm:flex">
+          <Button asChild variant="ghost" size="sm">
+            <Link href="/login">{t('login')}</Link>
+          </Button>
+          <Button asChild size="sm">
+            <Link href="/register">{t('register')}</Link>
+          </Button>
+        </div>
+
+        {/* Collapsed into a dropdown on phones to save space */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="sm:hidden"
+              aria-label={t('login')}
+            >
+              <UserIcon className="size-5" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-44">
+            <DropdownMenuItem asChild>
+              <Link href="/login">
+                <LogIn /> {t('login')}
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/register">
+                <UserPlus /> {t('register')}
+              </Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </>
     );
   }
 
