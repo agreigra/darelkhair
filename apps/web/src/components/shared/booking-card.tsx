@@ -15,7 +15,7 @@ export function BookingCard({ booking }: { booking: BookingSummary }) {
     booking;
 
   return (
-    <Card>
+    <Card className="transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-lg">
       <CardHeader className="flex flex-row items-start justify-between space-y-0">
         <div className="space-y-1">
           <CardTitle className="text-base">{apartmentTitle}</CardTitle>

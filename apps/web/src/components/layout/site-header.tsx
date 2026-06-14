@@ -3,11 +3,11 @@ import { Link } from '@/i18n/navigation';
 import { LanguageSwitcher } from './language-switcher';
 import { HeaderAuth } from './header-auth';
 import { MobileNav } from './mobile-nav';
+import { NavLinks } from './nav-links';
 import { NotificationBell } from '@/features/notifications';
 
 /** App top bar. Auth controls (login/logout) are client-rendered via HeaderAuth. */
 export function SiteHeader() {
-  const t = useTranslations('nav');
   const tc = useTranslations('common');
 
   return (
@@ -21,30 +21,7 @@ export function SiteHeader() {
         </div>
 
         <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
-          <Link
-            href="/"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            {t('home')}
-          </Link>
-          <Link
-            href="/apartments"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            {t('apartments')}
-          </Link>
-          <Link
-            href="/about"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            {t('about')}
-          </Link>
-          <Link
-            href="/contact"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            {t('contact')}
-          </Link>
+          <NavLinks variant="desktop" />
         </nav>
 
         <div className="flex items-center gap-2">

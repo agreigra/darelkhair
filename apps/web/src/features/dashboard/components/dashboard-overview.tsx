@@ -70,7 +70,7 @@ export function DashboardOverview() {
             value={data.payments.pendingReview}
             icon={<CreditCard className="size-4" />}
             hint={t('cards.reviewHint')}
-            className="transition-shadow hover:shadow-md"
+            className="transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-lg"
           />
         </Link>
         <Link href="/admin/apartments" className="block">
@@ -79,7 +79,7 @@ export function DashboardOverview() {
             value={data.apartments.published}
             icon={<Building2 className="size-4" />}
             hint={t('cards.ofTotal', { total: data.apartments.total })}
-            className="transition-shadow hover:shadow-md"
+            className="transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-lg"
           />
         </Link>
         <Link href="/admin/users" className="block">
@@ -87,7 +87,7 @@ export function DashboardOverview() {
             title={t('cards.users')}
             value={data.users.total}
             icon={<Users className="size-4" />}
-            className="transition-shadow hover:shadow-md"
+            className="transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-lg"
           />
         </Link>
         <Link href="/admin/contact" className="block">
@@ -96,7 +96,7 @@ export function DashboardOverview() {
             value={data.contact.newMessages}
             icon={<Mail className="size-4" />}
             hint={t('cards.messagesHint')}
-            className="transition-shadow hover:shadow-md"
+            className="transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-lg"
           />
         </Link>
       </div>
