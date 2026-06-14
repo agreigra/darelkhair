@@ -106,7 +106,9 @@ A feature-based build, executed **one feature at a time**. Each step is self-con
 
 > Built: public landing page (`/[locale]`) inspired by darelkhair.xyz. New `features/home` with composable sections — **Hero** (full-bleed Unsplash backdrop + teal gradient overlay, eyebrow, headline, "Discover" CTA → `/apartments` + "How it works" anchor), **Featured apartments** (reuses the `useApartments` query + shared `ApartmentCard`, shows up to 6 real published listings with skeletons/empty state and a "View all" link), **Why choose us** (3 value blocks: easy bookings, secure payment, prime locations), **How it works** (Browse → Book → Stay, numbered steps), **Testimonials** (3 guest cards with 5-star ratings), and a closing **CTA banner**. Added an app-wide `SiteFooter` (brand blurb, quick links, year + copyright) into the locale layout, plus a Home nav link in `SiteHeader`. All copy localized FR/AR/EN under the expanded `home` namespace. Brand palette applied (teal primary, orange CTA, gold accents) and RTL-safe (logical props, `rtl:rotate-180` on arrows). Verified: JSON valid in all 3 locales, typecheck + production build green (home prerendered SSG per locale).
 
-## Feature 11 - About us
+## Feature 11 - About us ✅ DONE
+
+> Built: public About page (`/[locale]/about`) inspired by darelkhair.xyz/about. New `features/about` with composable sections — **heading band** (teal surface, title + tagline), **Our story** (two narrative paragraphs + Unsplash image), **Stats** band (20+ apartments · 4.9 rating · 500+ guests · 3+ years), **Mission & Vision** (two icon cards), **Core values** (Excellence / Hospitality / Innovation pillars), and a closing **CTA** → `/apartments`. New `about` i18n namespace in FR/AR/EN + an `about` nav key; About link added to both `SiteHeader` and `SiteFooter`. Per-locale `<title>` via `generateMetadata`. Brand palette + RTL-safe. Verified: JSON valid in all 3 locales, typecheck + production build green (about prerendered SSG per locale).
 
 ## Feature 12 - Contact us
 
