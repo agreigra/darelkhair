@@ -5,6 +5,7 @@ import { BookingsService } from '@/modules/bookings/bookings.service';
 import {
   ReviewsRepository,
   type AdminReviewRow,
+  type FeaturedReviewRow,
   type ReviewWithAuthor,
 } from './reviews.repository';
 import { UpsertReviewDto } from './dto/upsert-review.dto';
@@ -12,11 +13,14 @@ import { ReviewQueryDto } from './dto/review-query.dto';
 import type {
   AdminReviewDto,
   ApartmentReviews,
+  FeaturedReviewDto,
   MyReviewState,
   PaginatedAdminReviews,
   ReviewDto,
   ReviewSummary,
 } from './types/review.types';
+
+const FEATURED_LIMIT = 6;
 
 @Injectable()
 export class ReviewsService {
@@ -47,6 +51,12 @@ export class ReviewsService {
       page: query.page,
       pageSize: query.pageSize,
     };
+  }
+
+  /** Recent, highly-rated reviews with comments for the home page. */
+  async featured(): Promise<FeaturedReviewDto[]> {
+    const rows = await this.repo.featured(FEATURED_LIMIT);
+    return rows.map((r) => this.toFeaturedDto(r));
   }
 
   // ── guest ──
@@ -187,6 +197,20 @@ export class ReviewsService {
       authorName: this.authorName(r.user.firstName, r.user.lastName),
       createdAt: r.createdAt.toISOString(),
       updatedAt: r.updatedAt.toISOString(),
+    };
+  }
+
+  private toFeaturedDto(r: FeaturedReviewRow): FeaturedReviewDto {
+    return {
+      id: r.id,
+      apartmentId: r.apartmentId,
+      apartmentTitle:
+        (r.apartment.title as Record<string, string> | null) ?? null,
+      rating: r.rating,
+      // `featured` only selects rows where comment is non-null.
+      comment: r.comment ?? '',
+      authorName: this.authorName(r.user.firstName, r.user.lastName),
+      createdAt: r.createdAt.toISOString(),
     };
   }
 

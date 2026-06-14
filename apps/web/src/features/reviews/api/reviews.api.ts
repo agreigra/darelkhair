@@ -1,6 +1,7 @@
 import { apiClient, unwrap } from '@/lib/api-client';
 import type {
   ApartmentReviews,
+  FeaturedReview,
   MyReviewState,
   PaginatedAdminReviews,
   Review,
@@ -8,6 +9,12 @@ import type {
 } from '../types/review.types';
 
 export const reviewsApi = {
+  /** Cross-apartment highlights for the home page. */
+  async featured(): Promise<FeaturedReview[]> {
+    const { data } = await apiClient.get('/reviews/featured');
+    return unwrap<FeaturedReview[]>(data);
+  },
+
   // ── public / guest (scoped to an apartment) ──
   async list(
     apartmentId: string,
