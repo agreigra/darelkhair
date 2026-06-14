@@ -148,7 +148,6 @@
       "CONFIRMED": "Réservation {reference} confirmée 🎉",
       "HONORED": "Réservation {reference} : séjour terminé — merci !",
       "CANCELLED": "Réservation {reference} annulée.",
-      "PENDING": "Réservation {reference} mise à jour.",
       "generic": "Réservation {reference} mise à jour."
     }
   },
@@ -548,7 +547,6 @@
     }
   },
   "status": {
-    "PENDING": "En attente",
     "WAITING_PAYMENT": "En attente de paiement",
     "PROOF_SUBMITTED": "Preuve soumise",
     "CONFIRMED": "Confirmée",

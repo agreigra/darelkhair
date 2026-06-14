@@ -4,7 +4,6 @@ import type { BookingStatus } from './types';
 
 /** Maps each booking status to a badge variant. Single source of truth for status colors. */
 const STATUS_VARIANT: Record<BookingStatus, BadgeProps['variant']> = {
-  PENDING: 'secondary',
   WAITING_PAYMENT: 'warning',
   PROOF_SUBMITTED: 'default',
   CONFIRMED: 'success',

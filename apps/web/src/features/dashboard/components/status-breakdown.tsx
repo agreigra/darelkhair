@@ -6,7 +6,6 @@ import { StatusBadge } from '@/components/shared/status-badge';
 import type { BookingStatus } from '@/components/shared/types';
 
 const ORDER: BookingStatus[] = [
-  'PENDING',
   'WAITING_PAYMENT',
   'PROOF_SUBMITTED',
   'CONFIRMED',
@@ -15,7 +14,6 @@ const ORDER: BookingStatus[] = [
 ];
 
 const BAR_TONE: Record<BookingStatus, string> = {
-  PENDING: 'bg-secondary-foreground/40',
   WAITING_PAYMENT: 'bg-warning',
   PROOF_SUBMITTED: 'bg-primary',
   CONFIRMED: 'bg-success',

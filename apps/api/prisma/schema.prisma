@@ -22,7 +22,6 @@ enum UserRole {
 }
 
 enum BookingStatus {
-  PENDING
   WAITING_PAYMENT
   PROOF_SUBMITTED
   CONFIRMED
@@ -179,7 +178,7 @@ model Booking {
   checkOut    DateTime      @db.Date
   guests      Int           @default(1)
   totalPrice  Decimal       @db.Decimal(10, 2)
-  status      BookingStatus @default(PENDING)
+  status      BookingStatus @default(WAITING_PAYMENT)
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 

@@ -73,7 +73,6 @@ export class DashboardService {
 
   private emptyStatusRecord(): Record<BookingStatus, number> {
     return {
-      [BookingStatus.PENDING]: 0,
       [BookingStatus.WAITING_PAYMENT]: 0,
       [BookingStatus.PROOF_SUBMITTED]: 0,
       [BookingStatus.CONFIRMED]: 0,
