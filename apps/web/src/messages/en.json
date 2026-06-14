@@ -88,6 +88,20 @@
     "ctaSubtitle": "Discover our apartments and book your next stay.",
     "ctaButton": "Browse apartments"
   },
+  "notifications": {
+    "title": "Notifications",
+    "empty": "No notifications",
+    "markAllRead": "Mark all as read",
+    "messages": {
+      "created": "Booking {reference} received — complete your payment.",
+      "WAITING_PAYMENT": "Booking {reference}: action needed — complete your payment.",
+      "PROOF_SUBMITTED": "Booking {reference}: proof received, under review.",
+      "CONFIRMED": "Booking {reference} confirmed 🎉",
+      "CANCELLED": "Booking {reference} was cancelled.",
+      "PENDING": "Booking {reference} updated.",
+      "generic": "Booking {reference} updated."
+    }
+  },
   "home": {
     "heroEyebrow": "DarElKhair · Nouakchott",
     "heroTitle": "Luxury Apartments",

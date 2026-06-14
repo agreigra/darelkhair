@@ -88,6 +88,20 @@
     "ctaSubtitle": "Découvrez nos appartements et réservez votre prochain séjour.",
     "ctaButton": "Parcourir les appartements"
   },
+  "notifications": {
+    "title": "Notifications",
+    "empty": "Aucune notification",
+    "markAllRead": "Tout marquer comme lu",
+    "messages": {
+      "created": "Réservation {reference} reçue — finalisez votre paiement.",
+      "WAITING_PAYMENT": "Réservation {reference} : action requise — finalisez votre paiement.",
+      "PROOF_SUBMITTED": "Réservation {reference} : justificatif reçu, en cours de vérification.",
+      "CONFIRMED": "Réservation {reference} confirmée 🎉",
+      "CANCELLED": "Réservation {reference} annulée.",
+      "PENDING": "Réservation {reference} mise à jour.",
+      "generic": "Réservation {reference} mise à jour."
+    }
+  },
   "home": {
     "heroEyebrow": "DarElKhair · Nouakchott",
     "heroTitle": "Appartements de luxe",

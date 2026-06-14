@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { LanguageSwitcher } from './language-switcher';
 import { HeaderAuth } from './header-auth';
+import { NotificationBell } from '@/features/notifications';
 
 /** App top bar. Auth controls (login/logout) are client-rendered via HeaderAuth. */
 export function SiteHeader() {
@@ -42,8 +43,9 @@ export function SiteHeader() {
           </Link>
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <LanguageSwitcher />
+          <NotificationBell />
           <HeaderAuth />
         </div>
       </div>
