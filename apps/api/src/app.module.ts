@@ -12,6 +12,7 @@ import { BookingsModule } from './modules/bookings/bookings.module';
 import { PaymentsModule } from './modules/payments/payments.module';
 import { ContactModule } from './modules/contact/contact.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
 
 /**
  * Root module. Each FEATURE is its own module under src/modules and gets
@@ -34,8 +35,8 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
     BookingsModule,
     PaymentsModule,
     ContactModule,
+    DashboardModule,
     // UploadsModule,
-    // DashboardModule,
   ],
 })
 export class AppModule {}

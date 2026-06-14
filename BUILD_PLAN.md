@@ -99,7 +99,9 @@ A feature-based build, executed **one feature at a time**. Each step is self-con
 - Backend `modules/notifications`: notification model events (booking status changes, payment validation)
 - Frontend `features/notifications`: notification list/bell, mark-as-read
 
-## Feature 9 — Dashboard 📊
+## Feature 9 — Dashboard 📊 ✅ DONE
+
+> Built admin analytics, Linear-style. **Backend** `modules/dashboard`: single `@Roles(ADMIN)` `GET /admin/dashboard` aggregating in parallel (`Promise.all`) — bookings total + upcoming (CONFIRMED, future check-in) + `groupBy` status breakdown; **revenue collected** = sum of VERIFIED `Payment.amount` (all-time + this calendar month); payments pending review (SUBMITTED); apartments total/published; users total; new contact messages; a **6-month trend** (booking volume by creation month + revenue by *verification* month — same basis as the revenue card, so the two never disagree) bucketed in JS so empty months still render; and the 6 most recent bookings (guest + localized apartment title + status + total). Decimals → numbers; no migration. **Frontend** `features/dashboard` at `/admin/dashboard` (moved the existing header link there so it inherits `AuthGuard` + `AdminGuard`): six `DashboardCard` metrics (pending-payments/apartments/users/messages cards link to their admin pages), a dependency-free CSS **revenue bar chart**, a **bookings-by-status** breakdown reusing `StatusBadge`, and a **recent-bookings `DataTable`** (localized titles, links to `/admin/bookings/[id]`); loading skeletons + error state. New `dashboard` i18n namespace (FR/AR/EN). Verified: typecheck + build both apps; live smoke — admin 200 with correct aggregates, non-admin 403, anon 401, and an end-to-end cash-payment→verify lifted revenue.total/thisMonth/trend to 1500 in lockstep.
 
 - Backend: analytics aggregation endpoints
 - Frontend `features/dashboard`: admin dashboard (Linear-style), `DashboardCard` metrics, bookings/payments overview, `DataTable` listings

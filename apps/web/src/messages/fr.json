@@ -88,6 +88,37 @@
     "ctaSubtitle": "Découvrez nos appartements et réservez votre prochain séjour.",
     "ctaButton": "Parcourir les appartements"
   },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "subtitle": "Vue d'ensemble des réservations, paiements et activité.",
+    "error": "Impossible de charger le tableau de bord.",
+    "trendTitle": "Revenus (6 derniers mois)",
+    "byStatusTitle": "Réservations par statut",
+    "cards": {
+      "bookings": "Réservations",
+      "upcoming": "{count} à venir",
+      "revenue": "Revenus encaissés",
+      "thisMonth": "{amount} ce mois-ci",
+      "pendingPayments": "Paiements à vérifier",
+      "reviewHint": "En attente de vérification",
+      "apartments": "Appartements publiés",
+      "ofTotal": "sur {total} au total",
+      "users": "Utilisateurs",
+      "newMessages": "Nouveaux messages",
+      "messagesHint": "Messages de contact non traités"
+    },
+    "recent": {
+      "title": "Réservations récentes",
+      "viewAll": "Tout voir",
+      "empty": "Aucune réservation",
+      "reference": "Référence",
+      "guest": "Client",
+      "apartment": "Appartement",
+      "dates": "Dates",
+      "status": "Statut",
+      "total": "Total"
+    }
+  },
   "notifications": {
     "title": "Notifications",
     "empty": "Aucune notification",

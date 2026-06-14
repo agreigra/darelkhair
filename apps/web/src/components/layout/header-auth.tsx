@@ -103,7 +103,7 @@ export function HeaderAuth() {
         {isAdmin ? (
           <>
             <DropdownMenuItem asChild>
-              <Link href="/dashboard">
+              <Link href="/admin/dashboard">
                 <LayoutDashboard /> {t('dashboard')}
               </Link>
             </DropdownMenuItem>
