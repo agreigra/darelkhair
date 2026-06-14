@@ -27,7 +27,6 @@ function useMessage(n: AppNotification): string {
 }
 
 const STATUS_ICON: Record<BookingStatus, LucideIcon> = {
-  PENDING: Clock,
   WAITING_PAYMENT: Clock,
   PROOF_SUBMITTED: FileCheck,
   CONFIRMED: CheckCircle2,
@@ -36,7 +35,6 @@ const STATUS_ICON: Record<BookingStatus, LucideIcon> = {
 };
 
 const STATUS_TONE: Record<BookingStatus, string> = {
-  PENDING: 'text-muted-foreground',
   WAITING_PAYMENT: 'text-warning',
   PROOF_SUBMITTED: 'text-primary',
   CONFIRMED: 'text-success',

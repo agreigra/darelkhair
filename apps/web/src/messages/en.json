@@ -148,7 +148,6 @@
       "CONFIRMED": "Booking {reference} confirmed 🎉",
       "HONORED": "Booking {reference}: stay completed — thank you!",
       "CANCELLED": "Booking {reference} was cancelled.",
-      "PENDING": "Booking {reference} updated.",
       "generic": "Booking {reference} updated."
     }
   },
@@ -548,7 +547,6 @@
     }
   },
   "status": {
-    "PENDING": "Pending",
     "WAITING_PAYMENT": "Awaiting payment",
     "PROOF_SUBMITTED": "Proof submitted",
     "CONFIRMED": "Confirmed",

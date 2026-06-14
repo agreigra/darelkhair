@@ -6,18 +6,16 @@ import { BookingStatus } from '@prisma/client';
  * (BookingsService.transition) so the trail in BookingStatusHistory is always
  * a sequence of valid moves.
  *
- *   PENDING ─▶ WAITING_PAYMENT ─▶ PROOF_SUBMITTED ─▶ CONFIRMED ─▶ HONORED
- *      │              │                  │ │
- *      ▼              ▼                  │ ▼ (reject → ask again)
- *   CANCELLED ◀───────┴──────────────────┴─ WAITING_PAYMENT
+ *   WAITING_PAYMENT ─▶ PROOF_SUBMITTED ─▶ CONFIRMED ─▶ HONORED
+ *          │                  │ │
+ *          ▼                  │ ▼ (reject → ask again)
+ *      CANCELLED ◀────────────┴─ WAITING_PAYMENT
  *
- * HONORED is terminal — set by an admin once the stay is completed.
+ * Bookings are created directly in WAITING_PAYMENT (offline payment flow — no
+ * admin-approval step). HONORED is terminal — set by an admin once the stay is
+ * completed.
  */
 export const BOOKING_TRANSITIONS: Record<BookingStatus, BookingStatus[]> = {
-  [BookingStatus.PENDING]: [
-    BookingStatus.WAITING_PAYMENT,
-    BookingStatus.CANCELLED,
-  ],
   [BookingStatus.WAITING_PAYMENT]: [
     // PROOF_SUBMITTED when a bank/mobile proof is uploaded; CONFIRMED directly
     // when the admin confirms a cash payment (no proof to review).
@@ -36,10 +34,7 @@ export const BOOKING_TRANSITIONS: Record<BookingStatus, BookingStatus[]> = {
 };
 
 /** Statuses a guest is allowed to self-cancel from (before payment is in play). */
-export const USER_CANCELLABLE: BookingStatus[] = [
-  BookingStatus.PENDING,
-  BookingStatus.WAITING_PAYMENT,
-];
+export const USER_CANCELLABLE: BookingStatus[] = [BookingStatus.WAITING_PAYMENT];
 
 export function canTransition(from: BookingStatus, to: BookingStatus): boolean {
   return BOOKING_TRANSITIONS[from].includes(to);

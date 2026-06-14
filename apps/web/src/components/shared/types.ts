@@ -4,7 +4,6 @@
  */
 
 export type BookingStatus =
-  | 'PENDING'
   | 'WAITING_PAYMENT'
   | 'PROOF_SUBMITTED'
   | 'CONFIRMED'

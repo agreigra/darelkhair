@@ -26,7 +26,8 @@ function nightsBetween(checkIn: string, checkOut: string): number {
 
 /**
  * The booking flow on the apartment detail page: pick dates (reusing Feature 4's
- * availability calendar), set guests, then create a PENDING booking. Anonymous
+ * availability calendar), set guests, then create a booking (WAITING_PAYMENT).
+ * Anonymous
  * visitors are routed to sign in first and returned here.
  */
 export function BookingPanel({ apartment }: { apartment: Apartment }) {

@@ -68,9 +68,6 @@ export function PaymentSection({
   const [proof, setProof] = useState<File | null>(null);
   const [editing, setEditing] = useState(false);
 
-  if (status === 'PENDING') {
-    return null;
-  }
   if (!showPayment) return null;
 
   const whatsappHref = instructions?.whatsappNumber
