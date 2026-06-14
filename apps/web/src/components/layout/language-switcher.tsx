@@ -1,12 +1,18 @@
 'use client';
 
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { useTransition } from 'react';
-import { Globe } from 'lucide-react';
+import { Globe, Check, ChevronDown } from 'lucide-react';
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { locales, type Locale } from '@/i18n/routing';
-import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 const LABELS: Record<Locale, string> = {
   fr: 'Français',
@@ -14,9 +20,10 @@ const LABELS: Record<Locale, string> = {
   en: 'English',
 };
 
-/** Minimal locale switcher. Preserves the current path when switching. */
+/** Locale switcher as a dropdown. Preserves the current path when switching. */
 export function LanguageSwitcher() {
   const locale = useLocale();
+  const t = useTranslations('common');
   const router = useRouter();
   const pathname = usePathname();
   const params = useParams();
@@ -34,25 +41,32 @@ export function LanguageSwitcher() {
   }
 
   return (
-    <div className="flex items-center gap-1">
-      <Globe className="size-4 text-muted-foreground" aria-hidden />
-      <div className="flex items-center gap-1" aria-busy={isPending}>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="gap-1.5"
+          aria-label={t('language')}
+          aria-busy={isPending}
+        >
+          <Globe className="size-4" />
+          <span className="hidden sm:inline">{LABELS[locale as Locale]}</span>
+          <ChevronDown className="size-3.5 text-muted-foreground" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="min-w-36">
         {locales.map((l) => (
-          <button
+          <DropdownMenuItem
             key={l}
-            type="button"
             onClick={() => onSelect(l)}
-            className={cn(
-              'rounded px-2 py-1 text-xs font-medium transition-colors hover:bg-accent',
-              l === locale
-                ? 'bg-accent text-accent-foreground'
-                : 'text-muted-foreground',
-            )}
+            className="justify-between gap-4"
           >
             {LABELS[l]}
-          </button>
+            {l === locale ? <Check className="size-4 text-primary" /> : null}
+          </DropdownMenuItem>
         ))}
-      </div>
-    </div>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

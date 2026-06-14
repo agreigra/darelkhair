@@ -7,4 +7,4 @@ when I change langage on iphone it disconnect me
 menu not responsive on phone
 en attente status is not user?
 nav bar is not shown on phone
-langage stwicher should be a dropdown
+langage stwicher should be a dropdown ✅ DONE
