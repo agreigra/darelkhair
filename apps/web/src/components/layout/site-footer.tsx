@@ -30,6 +30,12 @@ export function SiteFooter() {
             {t('apartments')}
           </Link>
           <Link
+            href="/about"
+            className="text-muted-foreground transition-colors hover:text-foreground"
+          >
+            {t('about')}
+          </Link>
+          <Link
             href="/bookings"
             className="text-muted-foreground transition-colors hover:text-foreground"
           >

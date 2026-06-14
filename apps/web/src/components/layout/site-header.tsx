@@ -28,6 +28,12 @@ export function SiteHeader() {
           >
             {t('apartments')}
           </Link>
+          <Link
+            href="/about"
+            className="text-muted-foreground transition-colors hover:text-foreground"
+          >
+            {t('about')}
+          </Link>
         </nav>
 
         <div className="flex items-center gap-3">
