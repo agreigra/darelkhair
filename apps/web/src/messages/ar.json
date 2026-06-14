@@ -88,6 +88,37 @@
     "ctaSubtitle": "اكتشف شققنا واحجز إقامتك القادمة.",
     "ctaButton": "تصفّح الشقق"
   },
+  "dashboard": {
+    "title": "لوحة التحكم",
+    "subtitle": "نظرة عامة على الحجوزات والمدفوعات والنشاط.",
+    "error": "تعذّر تحميل لوحة التحكم.",
+    "trendTitle": "الإيرادات (آخر 6 أشهر)",
+    "byStatusTitle": "الحجوزات حسب الحالة",
+    "cards": {
+      "bookings": "الحجوزات",
+      "upcoming": "{count} قادمة",
+      "revenue": "الإيرادات المحصّلة",
+      "thisMonth": "{amount} هذا الشهر",
+      "pendingPayments": "مدفوعات بانتظار التحقق",
+      "reviewHint": "بانتظار التحقق",
+      "apartments": "الشقق المنشورة",
+      "ofTotal": "من أصل {total}",
+      "users": "المستخدمون",
+      "newMessages": "رسائل جديدة",
+      "messagesHint": "رسائل تواصل غير مُعالَجة"
+    },
+    "recent": {
+      "title": "أحدث الحجوزات",
+      "viewAll": "عرض الكل",
+      "empty": "لا توجد حجوزات",
+      "reference": "المرجع",
+      "guest": "الضيف",
+      "apartment": "الشقة",
+      "dates": "التواريخ",
+      "status": "الحالة",
+      "total": "الإجمالي"
+    }
+  },
   "notifications": {
     "title": "الإشعارات",
     "empty": "لا توجد إشعارات",

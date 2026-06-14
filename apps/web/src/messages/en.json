@@ -88,6 +88,37 @@
     "ctaSubtitle": "Discover our apartments and book your next stay.",
     "ctaButton": "Browse apartments"
   },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Overview of bookings, payments, and activity.",
+    "error": "Could not load the dashboard.",
+    "trendTitle": "Revenue (last 6 months)",
+    "byStatusTitle": "Bookings by status",
+    "cards": {
+      "bookings": "Bookings",
+      "upcoming": "{count} upcoming",
+      "revenue": "Revenue collected",
+      "thisMonth": "{amount} this month",
+      "pendingPayments": "Payments to review",
+      "reviewHint": "Awaiting verification",
+      "apartments": "Published apartments",
+      "ofTotal": "of {total} total",
+      "users": "Users",
+      "newMessages": "New messages",
+      "messagesHint": "Unhandled contact messages"
+    },
+    "recent": {
+      "title": "Recent bookings",
+      "viewAll": "View all",
+      "empty": "No bookings",
+      "reference": "Reference",
+      "guest": "Guest",
+      "apartment": "Apartment",
+      "dates": "Dates",
+      "status": "Status",
+      "total": "Total"
+    }
+  },
   "notifications": {
     "title": "Notifications",
     "empty": "No notifications",
