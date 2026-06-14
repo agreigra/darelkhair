@@ -17,6 +17,12 @@ export function SiteHeader() {
 
         <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
           <Link
+            href="/"
+            className="text-muted-foreground transition-colors hover:text-foreground"
+          >
+            {t('home')}
+          </Link>
+          <Link
             href="/apartments"
             className="text-muted-foreground transition-colors hover:text-foreground"
           >

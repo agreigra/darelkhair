@@ -102,15 +102,17 @@ A feature-based build, executed **one feature at a time**. Each step is self-con
 - Backend: analytics aggregation endpoints
 - Frontend `features/dashboard`: admin dashboard (Linear-style), `DashboardCard` metrics, bookings/payments overview, `DataTable` listings
 
-## Home page
+## Feature 10 - Home page ✅ DONE
 
-## Feature 10 - About us
+> Built: public landing page (`/[locale]`) inspired by darelkhair.xyz. New `features/home` with composable sections — **Hero** (full-bleed Unsplash backdrop + teal gradient overlay, eyebrow, headline, "Discover" CTA → `/apartments` + "How it works" anchor), **Featured apartments** (reuses the `useApartments` query + shared `ApartmentCard`, shows up to 6 real published listings with skeletons/empty state and a "View all" link), **Why choose us** (3 value blocks: easy bookings, secure payment, prime locations), **How it works** (Browse → Book → Stay, numbered steps), **Testimonials** (3 guest cards with 5-star ratings), and a closing **CTA banner**. Added an app-wide `SiteFooter` (brand blurb, quick links, year + copyright) into the locale layout, plus a Home nav link in `SiteHeader`. All copy localized FR/AR/EN under the expanded `home` namespace. Brand palette applied (teal primary, orange CTA, gold accents) and RTL-safe (logical props, `rtl:rotate-180` on arrows). Verified: JSON valid in all 3 locales, typecheck + production build green (home prerendered SSG per locale).
 
-## Feature 11 - Contact us
+## Feature 11 - About us
 
-## Feature 12 - appartment review
+## Feature 12 - Contact us
 
-## Feature 13 - Billing
+## Feature 13 - appartment review
+
+## Feature 14 - Billing
 
 ## Unit tests
 
