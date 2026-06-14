@@ -88,6 +88,20 @@
     "ctaSubtitle": "اكتشف شققنا واحجز إقامتك القادمة.",
     "ctaButton": "تصفّح الشقق"
   },
+  "notifications": {
+    "title": "الإشعارات",
+    "empty": "لا توجد إشعارات",
+    "markAllRead": "تعليم الكل كمقروء",
+    "messages": {
+      "created": "تم استلام الحجز {reference} — يرجى إتمام الدفع.",
+      "WAITING_PAYMENT": "الحجز {reference}: إجراء مطلوب — يرجى إتمام الدفع.",
+      "PROOF_SUBMITTED": "الحجز {reference}: تم استلام الإثبات، قيد المراجعة.",
+      "CONFIRMED": "تم تأكيد الحجز {reference} 🎉",
+      "CANCELLED": "تم إلغاء الحجز {reference}.",
+      "PENDING": "تم تحديث الحجز {reference}.",
+      "generic": "تم تحديث الحجز {reference}."
+    }
+  },
   "home": {
     "heroEyebrow": "دار الخير · نواكشوط",
     "heroTitle": "شقق فاخرة",

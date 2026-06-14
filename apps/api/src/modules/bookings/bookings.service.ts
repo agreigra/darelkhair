@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { BookingStatus, Prisma } from '@prisma/client';
 import { AuditService } from '@/common/audit/audit.service';
+import { NotificationsService } from '@/modules/notifications/notifications.service';
 import {
   formatDateOnly,
   nightsBetween,
@@ -37,6 +38,7 @@ export class BookingsService {
     private readonly repo: BookingsRepository,
     private readonly availability: AvailabilityService,
     private readonly audit: AuditService,
+    private readonly notifications: NotificationsService,
   ) {}
 
   // ── guest (any authenticated user) ──
@@ -100,6 +102,13 @@ export class BookingsService {
         totalPrice,
       },
       ...ctx,
+    });
+
+    // Confirmation notification to the guest (booking received → awaiting payment).
+    await this.notifications.notifyBookingCreated(userId, {
+      bookingId: booking.id,
+      reference: booking.reference,
+      status: booking.status,
     });
 
     return this.toDto(booking, { history: true });
@@ -247,6 +256,17 @@ export class BookingsService {
       metadata: { from: booking.status, to, note },
       ...ctx,
     });
+
+    // Notify the booking owner of the new status — but not when they triggered it
+    // themselves (e.g. self-cancel, submitting payment proof), to avoid noise.
+    if (actorId !== booking.userId) {
+      await this.notifications.notifyBookingStatusChanged(booking.userId, {
+        bookingId: booking.id,
+        reference: booking.reference,
+        status: to,
+        note,
+      });
+    }
 
     return this.toDto(updated, { history: true, user: includeUser });
   }

@@ -11,6 +11,7 @@ import { AvailabilityModule } from './modules/availability/availability.module';
 import { BookingsModule } from './modules/bookings/bookings.module';
 import { PaymentsModule } from './modules/payments/payments.module';
 import { ContactModule } from './modules/contact/contact.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
 
 /**
  * Root module. Each FEATURE is its own module under src/modules and gets
@@ -22,6 +23,7 @@ import { ContactModule } from './modules/contact/contact.module';
     AppConfigModule,
     PrismaModule,
     AuditModule,
+    NotificationsModule,
     StorageModule,
     HealthModule,
     // ── Features (added one at a time, in plan order) ──
@@ -33,7 +35,6 @@ import { ContactModule } from './modules/contact/contact.module';
     PaymentsModule,
     ContactModule,
     // UploadsModule,
-    // NotificationsModule,
     // DashboardModule,
   ],
 })
