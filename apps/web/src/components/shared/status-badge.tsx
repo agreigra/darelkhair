@@ -8,6 +8,7 @@ const STATUS_VARIANT: Record<BookingStatus, BadgeProps['variant']> = {
   WAITING_PAYMENT: 'warning',
   PROOF_SUBMITTED: 'default',
   CONFIRMED: 'success',
+  HONORED: 'outline',
   CANCELLED: 'destructive',
 };
 

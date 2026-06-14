@@ -77,6 +77,7 @@ export class DashboardService {
       [BookingStatus.WAITING_PAYMENT]: 0,
       [BookingStatus.PROOF_SUBMITTED]: 0,
       [BookingStatus.CONFIRMED]: 0,
+      [BookingStatus.HONORED]: 0,
       [BookingStatus.CANCELLED]: 0,
     };
   }
