@@ -76,6 +76,7 @@ model User {
   bookings      Booking[]
   notifications Notification[]
   auditLogs     AuditLog[]
+  reviews       Review[]
 
   @@index([role])
   @@map("users")
@@ -120,6 +121,7 @@ model Apartment {
   images           ApartmentImage[]
   availabilitySlots AvailabilitySlot[]
   bookings         Booking[]
+  reviews          Review[]
 
   @@index([isPublished])
   @@map("apartments")
@@ -284,4 +286,22 @@ model ContactMessage {
 
   @@index([status, createdAt])
   @@map("contact_messages")
+}
+
+// Feature 13 — guest reviews of apartments (one per guest per apartment, editable).
+model Review {
+  id          String   @id @default(cuid())
+  apartmentId String
+  userId      String
+  rating      Int // 1..5
+  comment     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  apartment Apartment @relation(fields: [apartmentId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([apartmentId, userId])
+  @@index([apartmentId])
+  @@map("reviews")
 }

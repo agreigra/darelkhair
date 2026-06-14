@@ -25,7 +25,24 @@
     "payments": "Paiements",
     "about": "À propos",
     "contact": "Contact",
-    "contactMessages": "Messages"
+    "contactMessages": "Messages",
+    "reviews": "Avis"
+  },
+  "reviews": {
+    "title": "Avis",
+    "empty": "Aucun avis pour le moment.",
+    "count": "{count} avis",
+    "pageOf": "Page {page} sur {total}",
+    "writeTitle": "Laisser un avis",
+    "editTitle": "Modifier votre avis",
+    "ratingLabel": "Votre note",
+    "commentLabel": "Votre commentaire",
+    "commentPlaceholder": "Partagez votre expérience…",
+    "submit": "Publier l'avis",
+    "saved": "Votre avis a été enregistré.",
+    "errorGeneric": "L'enregistrement a échoué. Veuillez réessayer.",
+    "deleteTitle": "Supprimer votre avis",
+    "deleteDescription": "Supprimer définitivement votre avis ? Cette action est irréversible."
   },
   "contact": {
     "metaTitle": "Contact — DarElKhair",
@@ -459,6 +476,22 @@
     }
   },
   "admin": {
+    "reviews": {
+      "title": "Avis",
+      "subtitle": "Consultez et modérez les avis publiés par les clients.",
+      "empty": "Aucun avis",
+      "total": "{count} avis",
+      "pageOf": "Page {page} sur {total}",
+      "deleteTitle": "Supprimer l'avis",
+      "deleteDescription": "Supprimer définitivement cet avis ? Cette action est irréversible.",
+      "columns": {
+        "apartment": "Appartement",
+        "rating": "Note",
+        "comment": "Commentaire",
+        "author": "Auteur",
+        "date": "Date"
+      }
+    },
     "contact": {
       "title": "Messages de contact",
       "subtitle": "Consultez et traitez les messages envoyés via le formulaire de contact.",

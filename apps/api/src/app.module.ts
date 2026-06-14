@@ -13,6 +13,7 @@ import { PaymentsModule } from './modules/payments/payments.module';
 import { ContactModule } from './modules/contact/contact.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
+import { ReviewsModule } from './modules/reviews/reviews.module';
 
 /**
  * Root module. Each FEATURE is its own module under src/modules and gets
@@ -36,6 +37,7 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
     PaymentsModule,
     ContactModule,
     DashboardModule,
+    ReviewsModule,
     // UploadsModule,
   ],
 })

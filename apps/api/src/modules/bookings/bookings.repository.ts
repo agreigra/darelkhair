@@ -80,6 +80,17 @@ export class BookingsRepository {
     });
   }
 
+  /** Has this user ever had a CONFIRMED booking for this apartment? (review gate) */
+  async existsConfirmedForApartment(
+    userId: string,
+    apartmentId: string,
+  ): Promise<boolean> {
+    const count = await this.prisma.booking.count({
+      where: { userId, apartmentId, status: BookingStatus.CONFIRMED },
+    });
+    return count > 0;
+  }
+
   findById(id: string): Promise<BookingWithRelations | null> {
     return this.prisma.booking.findUnique({
       where: { id },
