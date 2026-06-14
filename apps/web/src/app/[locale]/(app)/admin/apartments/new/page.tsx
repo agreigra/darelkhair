@@ -13,7 +13,11 @@ export default async function NewApartmentPage({
 
   return (
     <div className="container max-w-3xl space-y-6 py-10">
-      <PageHeader title={t('createTitle')} description={t('createSubtitle')} />
+      <PageHeader
+        title={t('createTitle')}
+        description={t('createSubtitle')}
+        backHref="/admin/apartments"
+      />
       <ApartmentForm />
     </div>
   );

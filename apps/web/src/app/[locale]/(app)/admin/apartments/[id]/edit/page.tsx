@@ -13,7 +13,11 @@ export default async function EditApartmentPage({
 
   return (
     <div className="container max-w-3xl space-y-6 py-10">
-      <PageHeader title={t('editTitle')} description={t('editSubtitle')} />
+      <PageHeader
+        title={t('editTitle')}
+        description={t('editSubtitle')}
+        backHref="/admin/apartments"
+      />
       <AdminApartmentEdit id={id} />
     </div>
   );
