@@ -50,6 +50,16 @@ export const envSchema = z.object({
   PAYMENT_MOBILE_MONEY_NUMBER: z.string().default('22200000000'),
   // International format, no '+'. Reused for the WhatsApp support link.
   PAYMENT_WHATSAPP_NUMBER: z.string().default('22200000000'),
+
+  // ── Contact details (Feature 12) ──
+  // Shown publicly on the Contact page. Dev defaults are placeholders.
+  CONTACT_ADDRESS: z
+    .string()
+    .default('Immeuble DarElKhair, Nouakchott, Mauritanie'),
+  CONTACT_PHONE: z.string().default('+222 44 22 35 00'),
+  CONTACT_EMAIL: z.string().email().default('contact@darelkhair.xyz'),
+  // International format, no '+'. Defaults to the payment WhatsApp number when unset.
+  CONTACT_WHATSAPP_NUMBER: z.string().optional(),
 })
   .refine(
     (env) =>

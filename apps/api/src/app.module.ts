@@ -10,6 +10,7 @@ import { ApartmentsModule } from './modules/apartments/apartments.module';
 import { AvailabilityModule } from './modules/availability/availability.module';
 import { BookingsModule } from './modules/bookings/bookings.module';
 import { PaymentsModule } from './modules/payments/payments.module';
+import { ContactModule } from './modules/contact/contact.module';
 
 /**
  * Root module. Each FEATURE is its own module under src/modules and gets
@@ -30,6 +31,7 @@ import { PaymentsModule } from './modules/payments/payments.module';
     AvailabilityModule,
     BookingsModule,
     PaymentsModule,
+    ContactModule,
     // UploadsModule,
     // NotificationsModule,
     // DashboardModule,

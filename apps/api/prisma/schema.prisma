@@ -51,6 +51,11 @@ enum NotificationType {
   SYSTEM
 }
 
+enum ContactStatus {
+  NEW
+  HANDLED
+}
+
 // ──────────────────────────────────────────────────────────────
 // Identity & access
 // ──────────────────────────────────────────────────────────────
@@ -262,4 +267,21 @@ model AuditLog {
   @@index([userId])
   @@index([entity, entityId])
   @@map("audit_logs")
+}
+
+// Feature 12 — public "Contact us" submissions, triaged in the admin inbox.
+model ContactMessage {
+  id        String        @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  status    ContactStatus @default(NEW)
+  ip        String?
+  userAgent String?
+  createdAt DateTime      @default(now())
+  handledAt DateTime?
+
+  @@index([status, createdAt])
+  @@map("contact_messages")
 }

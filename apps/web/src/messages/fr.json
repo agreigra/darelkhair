@@ -23,7 +23,43 @@
     "users": "Utilisateurs",
     "manageBookings": "Réservations",
     "payments": "Paiements",
-    "about": "À propos"
+    "about": "À propos",
+    "contact": "Contact",
+    "contactMessages": "Messages"
+  },
+  "contact": {
+    "metaTitle": "Contact — DarElKhair",
+    "heroTitle": "Contactez-nous",
+    "heroSubtitle": "Entrez en contact avec notre équipe. Nous sommes là pour vous aider à planifier votre séjour parfait chez DarElKhair.",
+    "formTitle": "Envoyez-nous un message",
+    "fields": {
+      "name": "Nom complet",
+      "email": "Adresse e-mail",
+      "subject": "Objet",
+      "message": "Message"
+    },
+    "submit": "Envoyer le message",
+    "successTitle": "Message envoyé !",
+    "successBody": "Merci de nous avoir contactés. Notre équipe vous répondra dans les plus brefs délais.",
+    "sendAnother": "Envoyer un autre message",
+    "errors": {
+      "nameRequired": "Veuillez indiquer votre nom.",
+      "invalidEmail": "Adresse e-mail invalide.",
+      "subjectRequired": "Veuillez indiquer un objet.",
+      "messageTooShort": "Votre message doit contenir au moins 10 caractères.",
+      "generic": "L'envoi a échoué. Veuillez réessayer."
+    },
+    "infoTitle": "Nous joindre",
+    "infoSubtitle": "Plusieurs façons de nous contacter.",
+    "labels": {
+      "address": "Adresse",
+      "phone": "Téléphone",
+      "email": "E-mail",
+      "hours": "Horaires",
+      "whatsapp": "WhatsApp"
+    },
+    "hoursValue": "Assistance client 24/7",
+    "whatsappValue": "Discuter sur WhatsApp"
   },
   "about": {
     "metaTitle": "À propos — DarElKhair",
@@ -378,6 +414,33 @@
     }
   },
   "admin": {
+    "contact": {
+      "title": "Messages de contact",
+      "subtitle": "Consultez et traitez les messages envoyés via le formulaire de contact.",
+      "searchPlaceholder": "Rechercher par nom, e-mail ou objet",
+      "actions": "Actions",
+      "view": "Voir",
+      "markHandled": "Marquer comme traité",
+      "markNew": "Marquer comme nouveau",
+      "deleteTitle": "Supprimer le message",
+      "deleteDescription": "Supprimer définitivement ce message ? Cette action est irréversible.",
+      "empty": "Aucun message trouvé",
+      "total": "{count} messages",
+      "pageOf": "Page {page} sur {total}",
+      "columns": {
+        "from": "Expéditeur",
+        "subject": "Objet",
+        "status": "Statut",
+        "received": "Reçu le"
+      },
+      "status": {
+        "NEW": "Nouveau",
+        "HANDLED": "Traité"
+      },
+      "filters": {
+        "all": "Tous"
+      }
+    },
     "users": {
       "title": "Utilisateurs",
       "subtitle": "Gérez les comptes, les rôles et les accès.",
