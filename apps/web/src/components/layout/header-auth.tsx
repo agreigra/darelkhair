@@ -9,6 +9,7 @@ import {
   Building2,
   CalendarCheck,
   CreditCard,
+  Mail,
 } from 'lucide-react';
 import { Link, useRouter } from '@/i18n/navigation';
 import { Button } from '@/components/ui/button';
@@ -124,6 +125,11 @@ export function HeaderAuth() {
             <DropdownMenuItem asChild>
               <Link href="/admin/users">
                 <Users /> {t('users')}
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/admin/contact">
+                <Mail /> {t('contactMessages')}
               </Link>
             </DropdownMenuItem>
           </>

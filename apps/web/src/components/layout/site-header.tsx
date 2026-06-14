@@ -34,6 +34,12 @@ export function SiteHeader() {
           >
             {t('about')}
           </Link>
+          <Link
+            href="/contact"
+            className="text-muted-foreground transition-colors hover:text-foreground"
+          >
+            {t('contact')}
+          </Link>
         </nav>
 
         <div className="flex items-center gap-3">

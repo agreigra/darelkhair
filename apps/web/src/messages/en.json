@@ -23,7 +23,43 @@
     "users": "Users",
     "manageBookings": "Bookings",
     "payments": "Payments",
-    "about": "About"
+    "about": "About",
+    "contact": "Contact",
+    "contactMessages": "Messages"
+  },
+  "contact": {
+    "metaTitle": "Contact — DarElKhair",
+    "heroTitle": "Get in touch",
+    "heroSubtitle": "Get in touch with our team. We're here to help you plan your perfect stay at DarElKhair.",
+    "formTitle": "Send us a message",
+    "fields": {
+      "name": "Full name",
+      "email": "Email address",
+      "subject": "Subject",
+      "message": "Message"
+    },
+    "submit": "Send message",
+    "successTitle": "Message sent!",
+    "successBody": "Thank you for reaching out. Our team will get back to you as soon as possible.",
+    "sendAnother": "Send another message",
+    "errors": {
+      "nameRequired": "Please enter your name.",
+      "invalidEmail": "Invalid email address.",
+      "subjectRequired": "Please enter a subject.",
+      "messageTooShort": "Your message must be at least 10 characters.",
+      "generic": "Sending failed. Please try again."
+    },
+    "infoTitle": "Get in touch",
+    "infoSubtitle": "Several ways to reach us.",
+    "labels": {
+      "address": "Address",
+      "phone": "Phone",
+      "email": "Email",
+      "hours": "Hours",
+      "whatsapp": "WhatsApp"
+    },
+    "hoursValue": "24/7 customer support",
+    "whatsappValue": "Chat on WhatsApp"
   },
   "about": {
     "metaTitle": "About — DarElKhair",
@@ -378,6 +414,33 @@
     }
   },
   "admin": {
+    "contact": {
+      "title": "Contact messages",
+      "subtitle": "Review and triage messages sent through the contact form.",
+      "searchPlaceholder": "Search by name, email, or subject",
+      "actions": "Actions",
+      "view": "View",
+      "markHandled": "Mark as handled",
+      "markNew": "Mark as new",
+      "deleteTitle": "Delete message",
+      "deleteDescription": "Permanently delete this message? This action cannot be undone.",
+      "empty": "No messages found",
+      "total": "{count} messages",
+      "pageOf": "Page {page} of {total}",
+      "columns": {
+        "from": "From",
+        "subject": "Subject",
+        "status": "Status",
+        "received": "Received"
+      },
+      "status": {
+        "NEW": "New",
+        "HANDLED": "Handled"
+      },
+      "filters": {
+        "all": "All"
+      }
+    },
     "users": {
       "title": "Users",
       "subtitle": "Manage accounts, roles, and access.",

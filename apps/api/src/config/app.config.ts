@@ -81,6 +81,19 @@ export class AppConfigService {
     };
   }
 
+  get contact() {
+    return {
+      address: this.config.get('CONTACT_ADDRESS', { infer: true }),
+      phone: this.config.get('CONTACT_PHONE', { infer: true }),
+      email: this.config.get('CONTACT_EMAIL', { infer: true }),
+      // Fall back to the payment WhatsApp number so there's always a usable value.
+      whatsappNumber:
+        this.config.get('CONTACT_WHATSAPP_NUMBER', { infer: true }) ??
+        this.config.get('PAYMENT_WHATSAPP_NUMBER', { infer: true }) ??
+        '',
+    };
+  }
+
   get storage() {
     return {
       driver: this.config.get('STORAGE_DRIVER', { infer: true }),
