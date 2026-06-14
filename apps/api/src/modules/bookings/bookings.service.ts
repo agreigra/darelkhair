@@ -187,6 +187,13 @@ export class BookingsService {
     return this.transition(booking, dto.status, actorId, ctx, dto.note, true);
   }
 
+  // ── cross-module (reviews, Feature 13) ──
+
+  /** True if the user has at least one CONFIRMED booking for the apartment. */
+  async hasConfirmedStay(userId: string, apartmentId: string): Promise<boolean> {
+    return this.repo.existsConfirmedForApartment(userId, apartmentId);
+  }
+
   // ── cross-module (payments, Feature 6) ──
 
   /** Minimal booking info the payment flow needs (ownership, gate, amount). */

@@ -25,7 +25,24 @@
     "payments": "المدفوعات",
     "about": "من نحن",
     "contact": "اتصل بنا",
-    "contactMessages": "الرسائل"
+    "contactMessages": "الرسائل",
+    "reviews": "التقييمات"
+  },
+  "reviews": {
+    "title": "التقييمات",
+    "empty": "لا توجد تقييمات بعد.",
+    "count": "{count} تقييمات",
+    "pageOf": "صفحة {page} من {total}",
+    "writeTitle": "اكتب تقييماً",
+    "editTitle": "تعديل تقييمك",
+    "ratingLabel": "تقييمك",
+    "commentLabel": "تعليقك",
+    "commentPlaceholder": "شاركنا تجربتك…",
+    "submit": "نشر التقييم",
+    "saved": "تم حفظ تقييمك.",
+    "errorGeneric": "فشل الحفظ. يرجى المحاولة مرة أخرى.",
+    "deleteTitle": "حذف تقييمك",
+    "deleteDescription": "هل تريد حذف تقييمك نهائياً؟ لا يمكن التراجع عن هذا الإجراء."
   },
   "contact": {
     "metaTitle": "اتصل بنا — دار الخير",
@@ -459,6 +476,22 @@
     }
   },
   "admin": {
+    "reviews": {
+      "title": "التقييمات",
+      "subtitle": "اطّلع على تقييمات الضيوف وقم بإدارتها.",
+      "empty": "لا توجد تقييمات",
+      "total": "{count} تقييمات",
+      "pageOf": "صفحة {page} من {total}",
+      "deleteTitle": "حذف التقييم",
+      "deleteDescription": "هل تريد حذف هذا التقييم نهائياً؟ لا يمكن التراجع عن هذا الإجراء.",
+      "columns": {
+        "apartment": "الشقة",
+        "rating": "التقييم",
+        "comment": "التعليق",
+        "author": "الكاتب",
+        "date": "التاريخ"
+      }
+    },
     "contact": {
       "title": "رسائل التواصل",
       "subtitle": "اطّلع على الرسائل المُرسلة عبر نموذج التواصل وقم بمعالجتها.",

@@ -9,6 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 import { localized } from '@/lib/i18n-content';
 import { BookingPanel } from '@/features/bookings/components/booking-panel';
+import { ApartmentReviews } from '@/features/reviews';
 import { useApartment } from '../hooks/use-apartments';
 
 export function ApartmentDetail({ id }: { id: string }) {
@@ -141,6 +142,9 @@ export function ApartmentDetail({ id }: { id: string }) {
         </h2>
         <BookingPanel apartment={apt} />
       </div>
+
+      {/* Reviews */}
+      <ApartmentReviews apartmentId={apt.id} />
     </div>
   );
 }

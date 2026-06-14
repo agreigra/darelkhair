@@ -25,7 +25,24 @@
     "payments": "Payments",
     "about": "About",
     "contact": "Contact",
-    "contactMessages": "Messages"
+    "contactMessages": "Messages",
+    "reviews": "Reviews"
+  },
+  "reviews": {
+    "title": "Reviews",
+    "empty": "No reviews yet.",
+    "count": "{count} reviews",
+    "pageOf": "Page {page} of {total}",
+    "writeTitle": "Write a review",
+    "editTitle": "Edit your review",
+    "ratingLabel": "Your rating",
+    "commentLabel": "Your comment",
+    "commentPlaceholder": "Share your experience…",
+    "submit": "Post review",
+    "saved": "Your review has been saved.",
+    "errorGeneric": "Saving failed. Please try again.",
+    "deleteTitle": "Delete your review",
+    "deleteDescription": "Permanently delete your review? This action cannot be undone."
   },
   "contact": {
     "metaTitle": "Contact — DarElKhair",
@@ -459,6 +476,22 @@
     }
   },
   "admin": {
+    "reviews": {
+      "title": "Reviews",
+      "subtitle": "Review and moderate guest-submitted reviews.",
+      "empty": "No reviews",
+      "total": "{count} reviews",
+      "pageOf": "Page {page} of {total}",
+      "deleteTitle": "Delete review",
+      "deleteDescription": "Permanently delete this review? This action cannot be undone.",
+      "columns": {
+        "apartment": "Apartment",
+        "rating": "Rating",
+        "comment": "Comment",
+        "author": "Author",
+        "date": "Date"
+      }
+    },
     "contact": {
       "title": "Contact messages",
       "subtitle": "Review and triage messages sent through the contact form.",
