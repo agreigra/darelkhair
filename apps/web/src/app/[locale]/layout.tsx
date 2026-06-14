@@ -9,6 +9,7 @@ import { QueryProvider } from '@/components/providers/query-provider';
 import { AuthProvider } from '@/features/auth/components/auth-provider';
 import { SiteHeader } from '@/components/layout/site-header';
 import { SiteFooter } from '@/components/layout/site-footer';
+import { RouteProgress } from '@/components/layout/route-progress';
 import { cn } from '@/lib/utils';
 
 // Brand fonts from darelkhair.xyz: Inter (Latin) + Noto Sans Arabic (RTL).
@@ -60,6 +61,7 @@ export default async function LocaleLayout({
         <NextIntlClientProvider messages={messages}>
           <QueryProvider>
             <AuthProvider>
+              <RouteProgress />
               <div className="flex min-h-screen flex-col">
                 <SiteHeader />
                 <main className="flex-1">{children}</main>

@@ -53,9 +53,9 @@ Tracked individually — each item is self-contained. Solve one at a time; check
 - **Problem:** All locales render as inline buttons; cramped, and worse on mobile.
 - **Expected:** A single dropdown (shadcn `DropdownMenu`) showing the current language, expanding to the others.
 
-### 9. Page-transition loader/spinner
+### 9. Page-transition loader/spinner ✅ DONE
 
-- [ ] **Area:** app shell / root layout.
+- [x] **Area:** app shell / root layout.
 - **Problem:** No visual feedback when navigating between pages.
 - **Expected:** A top progress bar or spinner shown during route transitions.
 
