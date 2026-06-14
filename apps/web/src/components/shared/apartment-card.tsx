@@ -15,7 +15,7 @@ export function ApartmentCard({ apartment }: { apartment: ApartmentSummary }) {
 
   return (
     <Link href={`/apartments/${id}`} className="group block">
-      <Card className="overflow-hidden transition-shadow group-hover:shadow-md">
+      <Card className="overflow-hidden transition-all duration-200 group-hover:-translate-y-0.5 group-hover:border-primary/30 group-hover:shadow-lg">
         <div className="relative aspect-[4/3] bg-muted">
           {apartment.coverImageUrl ? (
             <Image

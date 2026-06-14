@@ -16,9 +16,9 @@ Tracked individually — each item is self-contained. Solve one at a time; check
 - **Problem:** Same root issue as #1 but broader — admin detail/edit pages lack consistent back navigation.
 - **Expected:** A reusable optional back action on `PageHeader`, applied to all admin detail/edit pages.
 
-### 3. Link to the apartment from the admin booking view
+### 3. Link to the apartment from the admin booking view ✅ DONE
 
-- [ ] **Area:** admin booking detail / booking card ([admin-booking-manage.tsx](apps/web/src/features/bookings/components/admin-booking-manage.tsx)).
+- [x] **Area:** admin booking detail / booking card ([admin-booking-manage.tsx](apps/web/src/features/bookings/components/admin-booking-manage.tsx)).
 - **Problem (FR):** "lien vers l'appartement dans la carte de réservation admin" — the apartment shown on an admin booking isn't clickable.
 - **Expected:** The apartment title/thumbnail in the admin booking view links to that apartment's page.
 

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -61,7 +61,15 @@ export function AdminBookingManage({ id }: { id: string }) {
         <div className="space-y-6">
           <div className="flex items-start justify-between gap-4">
             <div className="space-y-1">
-              <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
+              <Link
+                href={`/apartments/${booking.apartmentId}`}
+                className="group inline-flex items-center gap-1.5 transition-colors hover:text-primary"
+              >
+                <h1 className="text-2xl font-semibold tracking-tight">
+                  {title}
+                </h1>
+                <ArrowUpRight className="size-5 text-muted-foreground transition-colors group-hover:text-primary" />
+              </Link>
               <p className="text-sm text-muted-foreground">
                 #{booking.reference}
               </p>
