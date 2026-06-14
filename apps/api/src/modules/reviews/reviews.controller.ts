@@ -21,10 +21,23 @@ import { UpsertReviewDto } from './dto/upsert-review.dto';
 import { ReviewQueryDto } from './dto/review-query.dto';
 import type {
   ApartmentReviews,
+  FeaturedReviewDto,
   MyReviewState,
   PaginatedAdminReviews,
   ReviewDto,
 } from './types/review.types';
+
+/** Public, cross-apartment review highlights (home page). */
+@Controller('reviews')
+export class FeaturedReviewsController {
+  constructor(private readonly reviews: ReviewsService) {}
+
+  @Public()
+  @Get('featured')
+  featured(): Promise<FeaturedReviewDto[]> {
+    return this.reviews.featured();
+  }
+}
 
 /** Reviews for a specific apartment (public list + guest authoring). */
 @Controller('apartments/:apartmentId/reviews')

@@ -34,6 +34,16 @@ export interface UpsertReviewInput {
   comment?: string;
 }
 
+export interface FeaturedReview {
+  id: string;
+  apartmentId: string;
+  apartmentTitle: LocalizedText | null;
+  rating: number;
+  comment: string;
+  authorName: string;
+  createdAt: string;
+}
+
 export interface AdminReview {
   id: string;
   apartmentId: string;

@@ -47,9 +47,9 @@ Tracked individually — each item is self-contained. Solve one at a time; check
 - **Problem (needs confirmation):** The "en attente" status may be unclear or not surfaced well to the guest. _Original note was terse ("en attente status is not user?") — confirm intended behavior._
 - **Expected (assumed):** Guests see a clear, action-oriented label for `WAITING_PAYMENT` (e.g. "Awaiting your payment") distinct from internal/admin wording.
 
-### 8. Language switcher should be a dropdown
+### 8. Language switcher should be a dropdown ✅ DONE
 
-- [ ] **Area:** [language-switcher.tsx](apps/web/src/components/layout/language-switcher.tsx).
+- [x] **Area:** [language-switcher.tsx](apps/web/src/components/layout/language-switcher.tsx).
 - **Problem:** All locales render as inline buttons; cramped, and worse on mobile.
 - **Expected:** A single dropdown (shadcn `DropdownMenu`) showing the current language, expanding to the others.
 
@@ -59,8 +59,8 @@ Tracked individually — each item is self-contained. Solve one at a time; check
 - **Problem:** No visual feedback when navigating between pages.
 - **Expected:** A top progress bar or spinner shown during route transitions.
 
-### 10. Wire real reviews into the home page
+### 10. Wire real reviews into the home page ✅ DONE
 
-- [ ] **Area:** home testimonials ([testimonials.tsx](apps/web/src/features/home/components/testimonials.tsx)) + reviews feature (Feature 13).
+- [x] **Area:** home testimonials ([testimonials.tsx](apps/web/src/features/home/components/testimonials.tsx)) + reviews feature (Feature 13).
 - **Problem:** The home page "What our guests say" section uses hard-coded testimonials; real apartment reviews now exist.
 - **Expected:** Surface real recent reviews (highest-rated / latest) on the home page, with a graceful fallback when there are none.

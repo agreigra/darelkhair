@@ -19,6 +19,15 @@ export type AdminReviewRow = Prisma.ReviewGetPayload<{
   include: typeof adminReviewInclude;
 }>;
 
+const featuredReviewInclude = {
+  user: { select: { firstName: true, lastName: true } },
+  apartment: { select: { id: true, title: true, isPublished: true } },
+} satisfies Prisma.ReviewInclude;
+
+export type FeaturedReviewRow = Prisma.ReviewGetPayload<{
+  include: typeof featuredReviewInclude;
+}>;
+
 @Injectable()
 export class ReviewsRepository {
   constructor(private readonly prisma: PrismaService) {}
@@ -30,6 +39,20 @@ export class ReviewsRepository {
     return this.prisma.review.findUnique({
       where: { apartmentId_userId: { apartmentId, userId } },
       include: reviewInclude,
+    });
+  }
+
+  /** Recent, highly-rated, commented reviews on published apartments (home page). */
+  featured(limit: number): Promise<FeaturedReviewRow[]> {
+    return this.prisma.review.findMany({
+      where: {
+        rating: { gte: 4 },
+        comment: { not: null },
+        apartment: { isPublished: true },
+      },
+      orderBy: [{ rating: 'desc' }, { createdAt: 'desc' }],
+      take: limit,
+      include: featuredReviewInclude,
     });
   }
 

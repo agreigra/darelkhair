@@ -10,6 +10,15 @@ import { useAuth } from '@/features/auth/hooks/use-auth';
 import { reviewsApi } from '../api/reviews.api';
 import type { UpsertReviewInput } from '../types/review.types';
 
+/** Cross-apartment review highlights for the home page. */
+export function useFeaturedReviews() {
+  return useQuery({
+    queryKey: ['reviews', 'featured'],
+    queryFn: () => reviewsApi.featured(),
+    staleTime: 5 * 60 * 1000,
+  });
+}
+
 /** Public, paginated reviews + summary for an apartment. */
 export function useApartmentReviews(apartmentId: string, page = 1) {
   return useQuery({

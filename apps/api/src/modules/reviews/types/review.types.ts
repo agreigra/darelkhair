@@ -32,6 +32,17 @@ export interface MyReviewState {
   canReview: boolean;
 }
 
+/** Public highlight for the home page — privacy-safe author + apartment context. */
+export interface FeaturedReviewDto {
+  id: string;
+  apartmentId: string;
+  apartmentTitle: Record<string, string> | null;
+  rating: number;
+  comment: string;
+  authorName: string;
+  createdAt: string;
+}
+
 /** Admin moderation view: includes author email + localized apartment title. */
 export interface AdminReviewDto {
   id: string;
