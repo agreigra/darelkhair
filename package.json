@@ -14,6 +14,7 @@
     "build": "pnpm -r build",
     "lint": "pnpm -r lint",
     "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
     "db:generate": "pnpm --filter @darelkhair/api prisma:generate",
     "db:migrate": "pnpm --filter @darelkhair/api prisma:migrate",
     "docker:up": "docker compose up -d",

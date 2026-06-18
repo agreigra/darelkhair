@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  # Gitflow: feature branches are cut from and PR'd into `develop` (staging);
+  # `develop` is promoted to `main` (production) once validated.
+  #   - pull_request: validates every feature branch via its PR to develop/main.
+  #   - push: validates the merge result on the long-lived branches.
+  push:
+    branches: [develop, main]
+  pull_request:
+    branches: [develop, main]
+
+# Cancel superseded runs on the same ref when new commits are pushed.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Prisma client is needed for the API's types (typecheck + unit tests).
+      # `prisma generate` does not connect to a database; the dummy URL just
+      # satisfies the config's env lookup.
+      - name: Generate Prisma client
+        run: pnpm db:generate
+        env:
+          DATABASE_URL: postgresql://user:pass@localhost:5432/db
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      # Unit tests only — dependencies (Prisma, Mail, Audit, HTTP) are mocked,
+      # so no database or services are required.
+      - name: Test
+        run: pnpm test
