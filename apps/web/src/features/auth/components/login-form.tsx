@@ -95,6 +95,15 @@ export function LoginForm({ redirectTo = '/' }: { redirectTo?: string }) {
             )}
           />
 
+          <div className="text-right">
+            <Link
+              href="/forgot-password"
+              className="text-sm font-medium text-primary hover:underline"
+            >
+              {t('login.forgotPassword')}
+            </Link>
+          </div>
+
           {serverError ? (
             <p className="text-sm font-medium text-destructive">{serverError}</p>
           ) : null}

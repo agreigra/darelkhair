@@ -1,5 +1,6 @@
 import { createHash, randomBytes } from 'node:crypto';
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   UnauthorizedException,
@@ -9,10 +10,13 @@ import * as bcrypt from 'bcryptjs';
 import type { User } from '@prisma/client';
 import { AppConfigService } from '@/config/app.config';
 import { AuditService } from '@/common/audit/audit.service';
+import { MailService } from '@/common/mail/mail.service';
 import { parseDurationToMs } from '@/common/utils/duration';
 import { AuthRepository } from './auth.repository';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 import type {
   JwtPayload,
   PublicUser,
@@ -20,6 +24,8 @@ import type {
 } from './types/auth.types';
 
 const BCRYPT_ROUNDS = 12;
+/** How long a password-reset token stays valid. */
+const RESET_TOKEN_TTL_MS = 60 * 60 * 1000; // 1 hour
 
 /** Result returned to the controller, which turns the refresh token into a cookie. */
 export interface AuthResult {
@@ -36,6 +42,7 @@ export class AuthService {
     private readonly jwt: JwtService,
     private readonly config: AppConfigService,
     private readonly audit: AuditService,
+    private readonly mail: MailService,
   ) {}
 
   async register(dto: RegisterDto, ctx: RequestContext): Promise<AuthResult> {
@@ -158,6 +165,91 @@ export class AuthService {
       throw new UnauthorizedException('User no longer exists');
     }
     return this.toPublicUser(user);
+  }
+
+  /**
+   * Start the forgot-password flow. Always resolves the same way regardless of
+   * whether the email exists, so the endpoint can't be used to enumerate
+   * accounts. When the email maps to an active user we issue a single-use,
+   * short-lived token and email a reset link.
+   */
+  async forgotPassword(
+    dto: ForgotPasswordDto,
+    ctx: RequestContext,
+  ): Promise<void> {
+    const user = await this.repo.findUserByEmail(dto.email);
+    if (!user || !user.isActive) {
+      return; // silently no-op — don't reveal whether the account exists
+    }
+
+    // Only one outstanding token per user — drop any previous ones.
+    await this.repo.deletePasswordResetTokensForUser(user.id);
+
+    const rawToken = randomBytes(32).toString('hex');
+    const expiresAt = new Date(Date.now() + RESET_TOKEN_TTL_MS);
+    await this.repo.createPasswordResetToken({
+      userId: user.id,
+      tokenHash: this.hashToken(rawToken),
+      expiresAt,
+    });
+
+    const resetUrl = `${this.config.webAppUrl}/reset-password?token=${rawToken}`;
+    await this.mail.send({
+      to: user.email,
+      subject: 'Reset your DarElKhair password',
+      text:
+        `We received a request to reset your password.\n\n` +
+        `Open this link to choose a new one (valid for 1 hour):\n${resetUrl}\n\n` +
+        `If you didn't request this, you can safely ignore this email.`,
+      html:
+        `<p>We received a request to reset your password.</p>` +
+        `<p><a href="${resetUrl}">Choose a new password</a> (valid for 1 hour).</p>` +
+        `<p>If you didn't request this, you can safely ignore this email.</p>`,
+    });
+
+    await this.audit.record({
+      action: 'auth.password_reset_requested',
+      userId: user.id,
+      entity: 'User',
+      entityId: user.id,
+      ...ctx,
+    });
+  }
+
+  /**
+   * Complete the forgot-password flow: validate the token, set the new password,
+   * mark the token used, and revoke every refresh token so existing sessions are
+   * logged out (a reset implies the old credentials may be compromised).
+   */
+  async resetPassword(
+    dto: ResetPasswordDto,
+    ctx: RequestContext,
+  ): Promise<void> {
+    const stored = await this.repo.findPasswordResetTokenByHash(
+      this.hashToken(dto.token),
+    );
+
+    if (
+      !stored ||
+      stored.usedAt ||
+      stored.expiresAt.getTime() < Date.now() ||
+      !stored.user.isActive
+    ) {
+      throw new BadRequestException('Invalid or expired reset token');
+    }
+
+    const passwordHash = await bcrypt.hash(dto.password, BCRYPT_ROUNDS);
+    await this.repo.updateUserPassword(stored.userId, passwordHash);
+    await this.repo.markPasswordResetTokenUsed(stored.id);
+    await this.repo.revokeAllForUser(stored.userId);
+
+    await this.audit.record({
+      action: 'auth.password_reset_completed',
+      userId: stored.userId,
+      entity: 'User',
+      entityId: stored.userId,
+      ...ctx,
+    });
   }
 
   // ── internals ──

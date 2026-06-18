@@ -73,6 +73,7 @@ model User {
   updatedAt    DateTime @updatedAt
 
   refreshTokens RefreshToken[]
+  passwordResetTokens PasswordResetToken[]
   bookings      Booking[]
   notifications Notification[]
   auditLogs     AuditLog[]
@@ -80,6 +81,23 @@ model User {
 
   @@index([role])
   @@map("users")
+}
+
+// Password-reset tokens (forgot-password flow). One row per request; only the
+// SHA-256 hash is stored so a leaked DB row can't be used to reset a password.
+// Short-lived and single-use (usedAt set once consumed).
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("password_reset_tokens")
 }
 
 // Refresh-token rotation (Feature 1 — Auth). One row per issued token; the

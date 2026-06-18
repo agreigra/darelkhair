@@ -27,5 +27,26 @@ export function createRegisterSchema(t: T) {
   });
 }
 
+export function createForgotPasswordSchema(t: T) {
+  return z.object({
+    email: z.string().email(t('invalidEmail')),
+  });
+}
+
+export function createResetPasswordSchema(t: T) {
+  return z.object({
+    password: z
+      .string()
+      .min(8, t('passwordTooShort'))
+      .max(72, t('passwordTooLong')),
+  });
+}
+
 export type LoginValues = z.infer<ReturnType<typeof createLoginSchema>>;
 export type RegisterValues = z.infer<ReturnType<typeof createRegisterSchema>>;
+export type ForgotPasswordValues = z.infer<
+  ReturnType<typeof createForgotPasswordSchema>
+>;
+export type ResetPasswordValues = z.infer<
+  ReturnType<typeof createResetPasswordSchema>
+>;

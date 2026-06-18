@@ -19,6 +19,24 @@ export const envSchema = z.object({
 
   CORS_ORIGINS: z.string().default('http://localhost:3000'),
 
+  // Public base URL of the web app — used to build links in emails (e.g. the
+  // password-reset link). No trailing slash.
+  WEB_APP_URL: z.string().url().default('http://localhost:3000'),
+
+  // ── Outbound email (SMTP) ──
+  // When SMTP_HOST is unset the mailer runs in "log" mode: instead of sending,
+  // it logs the message (and any link) to the server console. This keeps dev
+  // working with no mail server while production wires real SMTP credentials.
+  SMTP_HOST: z.string().optional(),
+  SMTP_PORT: z.coerce.number().int().positive().default(587),
+  SMTP_SECURE: z
+    .enum(['true', 'false'])
+    .default('false')
+    .transform((v) => v === 'true'),
+  SMTP_USER: z.string().optional(),
+  SMTP_PASS: z.string().optional(),
+  MAIL_FROM: z.string().default('DarElKhair <no-reply@darelkhair.xyz>'),
+
   // Refresh-cookie SameSite. Use 'none' when the web app and API are on
   // different sites (e.g. *.vercel.app + *.railway.app) so the httpOnly cookie
   // is sent on cross-site requests; 'lax' is fine when they share a registrable

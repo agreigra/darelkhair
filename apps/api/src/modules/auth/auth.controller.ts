@@ -13,6 +13,8 @@ import { AppConfigService } from '@/config/app.config';
 import { AuthService, type AuthResult } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 import { Public } from './decorators/public.decorator';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { REFRESH_COOKIE, refreshCookieOptions } from './auth.cookies';
@@ -78,6 +80,29 @@ export class AuthController {
       REFRESH_COOKIE,
       refreshCookieOptions(this.config.isProduction, this.config.cookieSameSite),
     );
+    return { success: true };
+  }
+
+  @Public()
+  @Post('forgot-password')
+  @HttpCode(HttpStatus.OK)
+  async forgotPassword(
+    @Body() dto: ForgotPasswordDto,
+    @Req() req: Request,
+  ): Promise<{ success: boolean }> {
+    await this.auth.forgotPassword(dto, this.context(req));
+    // Always 200 — never reveal whether the email is registered.
+    return { success: true };
+  }
+
+  @Public()
+  @Post('reset-password')
+  @HttpCode(HttpStatus.OK)
+  async resetPassword(
+    @Body() dto: ResetPasswordDto,
+    @Req() req: Request,
+  ): Promise<{ success: boolean }> {
+    await this.auth.resetPassword(dto, this.context(req));
     return { success: true };
   }
 
