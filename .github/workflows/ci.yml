@@ -1,12 +1,14 @@
 name: CI
 
 on:
-  # Run on every branch push (so feature branches get CI without a PR) and on
-  # PRs targeting main.
+  # Gitflow: feature branches are cut from and PR'd into `develop` (staging);
+  # `develop` is promoted to `main` (production) once validated.
+  #   - pull_request: validates every feature branch via its PR to develop/main.
+  #   - push: validates the merge result on the long-lived branches.
   push:
-    branches: ['**']
+    branches: [develop, main]
   pull_request:
-    branches: [main]
+    branches: [develop, main]
 
 # Cancel superseded runs on the same ref when new commits are pushed.
 concurrency:
