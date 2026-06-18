@@ -4,7 +4,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useShallow } from 'zustand/react/shallow';
 import { useAuthStore } from '../store/auth.store';
 import { authApi } from '../api/auth.api';
-import type { LoginInput, RegisterInput } from '../types/auth.types';
+import type {
+  ForgotPasswordInput,
+  LoginInput,
+  RegisterInput,
+  ResetPasswordInput,
+} from '../types/auth.types';
 
 /** Log in, then store the session. */
 export function useLogin() {
@@ -21,6 +26,20 @@ export function useRegister() {
   return useMutation({
     mutationFn: (input: RegisterInput) => authApi.register(input),
     onSuccess: (session) => setSession(session),
+  });
+}
+
+/** Request a password-reset email. */
+export function useForgotPassword() {
+  return useMutation({
+    mutationFn: (input: ForgotPasswordInput) => authApi.forgotPassword(input),
+  });
+}
+
+/** Set a new password from a reset token. */
+export function useResetPassword() {
+  return useMutation({
+    mutationFn: (input: ResetPasswordInput) => authApi.resetPassword(input),
   });
 }
 

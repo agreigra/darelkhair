@@ -431,7 +431,8 @@
       "subtitle": "Connectez-vous à votre compte pour continuer.",
       "submit": "Se connecter",
       "noAccount": "Vous n'avez pas de compte ?",
-      "registerLink": "S'inscrire"
+      "registerLink": "S'inscrire",
+      "forgotPassword": "Mot de passe oublié ?"
     },
     "register": {
       "title": "Créer votre compte",
@@ -439,6 +440,26 @@
       "submit": "Créer le compte",
       "hasAccount": "Vous avez déjà un compte ?",
       "loginLink": "Se connecter"
+    },
+    "forgotPassword": {
+      "title": "Mot de passe oublié ?",
+      "subtitle": "Saisissez votre e-mail et nous vous enverrons un lien pour le réinitialiser.",
+      "submit": "Envoyer le lien",
+      "backToLogin": "Retour à la connexion",
+      "sentTitle": "Vérifiez votre boîte mail",
+      "sentSubtitle": "Si un compte existe pour cet e-mail, un lien de réinitialisation est en route.",
+      "sentBody": "Ouvrez le lien dans l'e-mail pour choisir un nouveau mot de passe. Il expire dans 1 heure. Pensez à vérifier vos courriers indésirables."
+    },
+    "resetPassword": {
+      "title": "Définir un nouveau mot de passe",
+      "subtitle": "Choisissez un nouveau mot de passe pour votre compte.",
+      "newPassword": "Nouveau mot de passe",
+      "submit": "Réinitialiser le mot de passe",
+      "backToLogin": "Retour à la connexion",
+      "invalidTitle": "Lien invalide",
+      "invalidSubtitle": "Ce lien est manquant ou incorrect.",
+      "invalidBody": "Les liens de réinitialisation expirent après 1 heure et ne peuvent être utilisés qu'une seule fois. Demandez-en un nouveau pour continuer.",
+      "requestNew": "Demander un nouveau lien"
     },
     "fields": {
       "email": "E-mail",
@@ -454,6 +475,7 @@
       "passwordTooLong": "Le mot de passe est trop long.",
       "invalidCredentials": "E-mail ou mot de passe incorrect.",
       "emailTaken": "Cet e-mail est déjà enregistré.",
+      "resetTokenInvalid": "Ce lien de réinitialisation est invalide ou a expiré. Veuillez en demander un nouveau.",
       "generic": "Une erreur est survenue. Veuillez réessayer."
     }
   },

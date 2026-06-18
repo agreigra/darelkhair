@@ -60,6 +60,21 @@ export class AppConfigService {
     return this.config.get('API_PUBLIC_URL', { infer: true });
   }
 
+  get webAppUrl(): string {
+    return this.config.get('WEB_APP_URL', { infer: true });
+  }
+
+  get mail() {
+    return {
+      host: this.config.get('SMTP_HOST', { infer: true }),
+      port: this.config.get('SMTP_PORT', { infer: true }),
+      secure: this.config.get('SMTP_SECURE', { infer: true }),
+      user: this.config.get('SMTP_USER', { infer: true }),
+      pass: this.config.get('SMTP_PASS', { infer: true }),
+      from: this.config.get('MAIL_FROM', { infer: true }),
+    };
+  }
+
   get payments() {
     return {
       bank: {

@@ -28,3 +28,12 @@ export interface RegisterInput {
   lastName?: string;
   phone?: string;
 }
+
+export interface ForgotPasswordInput {
+  email: string;
+}
+
+export interface ResetPasswordInput {
+  token: string;
+  password: string;
+}

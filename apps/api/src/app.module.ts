@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppConfigModule } from './config/config.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuditModule } from './common/audit/audit.module';
+import { MailModule } from './common/mail/mail.module';
 import { StorageModule } from './common/storage/storage.module';
 import { HealthModule } from './modules/health/health.module';
 import { AuthModule } from './modules/auth/auth.module';
@@ -25,6 +26,7 @@ import { ReviewsModule } from './modules/reviews/reviews.module';
     AppConfigModule,
     PrismaModule,
     AuditModule,
+    MailModule,
     NotificationsModule,
     StorageModule,
     HealthModule,

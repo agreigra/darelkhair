@@ -1,7 +1,9 @@
 import { apiClient, unwrap } from '@/lib/api-client';
 import type {
+  ForgotPasswordInput,
   LoginInput,
   RegisterInput,
+  ResetPasswordInput,
   SessionResponse,
   User,
 } from '../types/auth.types';
@@ -20,6 +22,16 @@ export const authApi = {
 
   async logout(): Promise<void> {
     await apiClient.post('/auth/logout');
+  },
+
+  /** Request a reset link. Always succeeds (no account enumeration). */
+  async forgotPassword(input: ForgotPasswordInput): Promise<void> {
+    await apiClient.post('/auth/forgot-password', input);
+  },
+
+  /** Set a new password using the token from the emailed reset link. */
+  async resetPassword(input: ResetPasswordInput): Promise<void> {
+    await apiClient.post('/auth/reset-password', input);
   },
 
   async me(): Promise<User> {

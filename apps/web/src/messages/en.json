@@ -431,7 +431,8 @@
       "subtitle": "Log in to your account to continue.",
       "submit": "Log in",
       "noAccount": "Don't have an account?",
-      "registerLink": "Sign up"
+      "registerLink": "Sign up",
+      "forgotPassword": "Forgot password?"
     },
     "register": {
       "title": "Create your account",
@@ -439,6 +440,26 @@
       "submit": "Create account",
       "hasAccount": "Already have an account?",
       "loginLink": "Log in"
+    },
+    "forgotPassword": {
+      "title": "Forgot your password?",
+      "subtitle": "Enter your email and we'll send you a link to reset it.",
+      "submit": "Send reset link",
+      "backToLogin": "Back to login",
+      "sentTitle": "Check your inbox",
+      "sentSubtitle": "If an account exists for that email, a reset link is on its way.",
+      "sentBody": "Open the link in the email to choose a new password. It expires in 1 hour. Don't forget to check your spam folder."
+    },
+    "resetPassword": {
+      "title": "Set a new password",
+      "subtitle": "Choose a new password for your account.",
+      "newPassword": "New password",
+      "submit": "Reset password",
+      "backToLogin": "Back to login",
+      "invalidTitle": "Invalid reset link",
+      "invalidSubtitle": "This link is missing or malformed.",
+      "invalidBody": "Reset links expire after 1 hour and can only be used once. Request a new one to continue.",
+      "requestNew": "Request a new link"
     },
     "fields": {
       "email": "Email",
@@ -454,6 +475,7 @@
       "passwordTooLong": "Password is too long.",
       "invalidCredentials": "Incorrect email or password.",
       "emailTaken": "This email is already registered.",
+      "resetTokenInvalid": "This reset link is invalid or has expired. Please request a new one.",
       "generic": "Something went wrong. Please try again."
     }
   },
