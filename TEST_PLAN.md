@@ -130,8 +130,11 @@ Conventions:
       app, CI wiring. _(Done: Jest for api, Vitest for web, root `pnpm test`,
       shared mocks/`renderWithProviders`, smoke tests green, GitHub Actions CI +
       ESLint 9 flat-config migration for the api.)_
-- [ ] **2. auth (api + web)** — proves the patterns end-to-end; covers the
-      just-shipped password reset.
+- [x] **2. auth (api + web)** — proves the patterns end-to-end; covers the
+      just-shipped password reset. _(Done: AuthService spec — register/login/
+      refresh/logout/forgot/reset, 21 cases; MailService spec — transport +
+      swallow; web — auth schemas, hooks (login/forgot/reset), LoginForm 401
+      mapping + forgot link.)_
 - [ ] **3. Priority-1 API** — bookings, payments, availability.
 - [ ] **4. Priority-2** — users, reviews, notifications + web hooks.
 - [ ] **5. Priority-3 sweep** — remaining modules + common utils.
