@@ -27,6 +27,13 @@ apiClient.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+  // Tell the API the active app locale (from <html lang>, set by next-intl) so
+  // server-sent emails (verification, password reset) are localized. Browsers
+  // forbid overriding Accept-Language, hence a custom header.
+  if (typeof document !== 'undefined') {
+    const locale = document.documentElement.lang;
+    if (locale) config.headers['x-app-locale'] = locale;
+  }
   return config;
 });
 

@@ -158,9 +158,11 @@ export class AuthController {
   }
 
   private context(req: Request): RequestContext {
+    const localeHeader = req.headers['x-app-locale'];
     return {
       ip: req.ip,
       userAgent: req.headers['user-agent'],
+      locale: Array.isArray(localeHeader) ? localeHeader[0] : localeHeader,
     };
   }
 }

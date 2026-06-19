@@ -29,4 +29,6 @@ export interface PublicUser {
 export interface RequestContext {
   ip?: string;
   userAgent?: string;
+  /** Active app locale (from the `x-app-locale` header) — used for emails. */
+  locale?: string;
 }

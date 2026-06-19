@@ -20,6 +20,11 @@ import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { VerifyEmailDto } from './dto/verify-email.dto';
 import { ResendVerificationDto } from './dto/resend-verification.dto';
+import {
+  normalizeLocale,
+  verificationEmail,
+  passwordResetEmail,
+} from './auth.emails';
 import type {
   JwtPayload,
   PublicUser,
@@ -86,7 +91,7 @@ export class AuthService {
       ...ctx,
     });
 
-    await this.issueVerificationEmail(user);
+    await this.issueVerificationEmail(user, ctx.locale);
 
     return { email: user.email };
   }
@@ -219,15 +224,7 @@ export class AuthService {
     const resetUrl = `${this.config.webAppUrl}/reset-password?token=${rawToken}`;
     await this.mail.send({
       to: user.email,
-      subject: 'Reset your DarElKhair password',
-      text:
-        `We received a request to reset your password.\n\n` +
-        `Open this link to choose a new one (valid for 1 hour):\n${resetUrl}\n\n` +
-        `If you didn't request this, you can safely ignore this email.`,
-      html:
-        `<p>We received a request to reset your password.</p>` +
-        `<p><a href="${resetUrl}">Choose a new password</a> (valid for 1 hour).</p>` +
-        `<p>If you didn't request this, you can safely ignore this email.</p>`,
+      ...passwordResetEmail(normalizeLocale(ctx.locale), resetUrl),
     });
 
     await this.audit.record({
@@ -318,7 +315,7 @@ export class AuthService {
     if (!user || !user.isActive || user.emailVerified) {
       return; // silently no-op
     }
-    await this.issueVerificationEmail(user);
+    await this.issueVerificationEmail(user, ctx.locale);
     await this.audit.record({
       action: 'auth.verification_resent',
       userId: user.id,
@@ -364,7 +361,10 @@ export class AuthService {
    * link. Shared by register and resendVerification. Like the reset email, the
    * send is best-effort — `MailService.send` swallows its own errors.
    */
-  private async issueVerificationEmail(user: User): Promise<void> {
+  private async issueVerificationEmail(
+    user: User,
+    locale: string | undefined,
+  ): Promise<void> {
     await this.repo.deleteEmailVerificationTokensForUser(user.id);
 
     const rawToken = randomBytes(32).toString('hex');
@@ -378,15 +378,7 @@ export class AuthService {
     const verifyUrl = `${this.config.webAppUrl}/verify-email?token=${rawToken}`;
     await this.mail.send({
       to: user.email,
-      subject: 'Confirm your DarElKhair email',
-      text:
-        `Welcome to DarElKhair! Please confirm your email address.\n\n` +
-        `Open this link to verify your account (valid for 24 hours):\n${verifyUrl}\n\n` +
-        `If you didn't create an account, you can safely ignore this email.`,
-      html:
-        `<p>Welcome to DarElKhair! Please confirm your email address.</p>` +
-        `<p><a href="${verifyUrl}">Verify your account</a> (valid for 24 hours).</p>` +
-        `<p>If you didn't create an account, you can safely ignore this email.</p>`,
+      ...verificationEmail(normalizeLocale(locale), verifyUrl),
     });
   }
 
