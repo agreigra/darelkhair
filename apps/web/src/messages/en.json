@@ -9,7 +9,9 @@
     "edit": "Edit",
     "back": "Back",
     "search": "Search",
-    "language": "Language"
+    "language": "Language",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password"
   },
   "nav": {
     "menu": "Menu",
@@ -461,6 +463,21 @@
       "invalidBody": "Reset links expire after 1 hour and can only be used once. Request a new one to continue.",
       "requestNew": "Request a new link"
     },
+    "verifyEmail": {
+      "sentTitle": "Verify your email",
+      "sentSubtitle": "We sent a verification link to {email}.",
+      "sentBody": "Open the link in the email to activate your account, then log in. The link expires in 24 hours — don't forget to check your spam folder.",
+      "verifyingTitle": "Verifying your email…",
+      "successTitle": "Email verified",
+      "successSubtitle": "Your account is now active. You can log in.",
+      "goToLogin": "Go to login",
+      "invalidTitle": "Verification link invalid",
+      "invalidSubtitle": "This link is missing, expired, or already used.",
+      "invalidBody": "Enter your email and we'll send you a new verification link.",
+      "backToLogin": "Back to login",
+      "resend": "Resend verification email",
+      "resent": "Verification email sent — check your inbox."
+    },
     "fields": {
       "email": "Email",
       "password": "Password",
@@ -476,6 +493,7 @@
       "invalidCredentials": "Incorrect email or password.",
       "emailTaken": "This email is already registered.",
       "resetTokenInvalid": "This reset link is invalid or has expired. Please request a new one.",
+      "emailNotVerified": "Please verify your email before logging in. Check your inbox or resend the link below.",
       "generic": "Something went wrong. Please try again."
     }
   },

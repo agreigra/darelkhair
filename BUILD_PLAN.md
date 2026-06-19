@@ -39,6 +39,12 @@ A feature-based build, executed **one feature at a time**. Each step is self-con
 - Frontend `features/auth`: login/register forms (`FormWrapper` + shadcn `Form`), `api/`, `hooks/` (React Query), `store/` (Zustand), silent-refresh axios interceptor, `AuthProvider`, auth-aware header, route-protection middleware
 - i18n strings (FR/AR/EN), design system applied from darelkhair.xyz (teal/orange/gold, Inter + Noto Sans Arabic)
 
+> **Addendum — account recovery & email verification (post-launch).**
+> - **Password reset** (forgot/reset): `POST /auth/forgot-password` (no account enumeration — always 200) issues a hashed, single-use, 1-hour `PasswordResetToken` and emails a link; `POST /auth/reset-password` validates it, sets the new hash, and **revokes all refresh tokens** (logs out existing sessions). Frontend `/forgot-password` + `/reset-password` pages, "Forgot password?" link on login.
+> - **Email verification on sign-up:** new `User.emailVerified` flag + single-use, 24-hour `EmailVerificationToken` (migration backfills existing users to verified so nobody is locked out). **Register no longer auto-logs-in** — it creates an unverified account, emails a confirmation link, and returns `{ verificationRequired, email }`; **login is blocked with 403 until verified**. `POST /auth/verify-email` (token) confirms the account; `POST /auth/resend-verification` (always 200, no enumeration) re-issues the link. Frontend: register success screen, `/verify-email` page (auto-verifies the token + resend-by-email on failure), and a 403-aware login with an inline resend button.
+> - **Email transport:** global `MailModule`/`MailService` — sends via **Resend HTTP API** (`RESEND_API_KEY`) in production (HTTP, so it works on hosts like Railway that block SMTP ports), falling back to **SMTP** (`SMTP_*`) and then **console "log mode"** for local dev. Links are built from `WEB_APP_URL`.
+> - Unit tests cover the `AuthService` (register/login/refresh/logout/forgot/reset/verify/resend) and the web auth hooks/forms.
+
 ## Feature 2 — Users 👤 ✅ DONE
 
 - Backend `modules/users`: self profile (get/update), change password, admin CRUD (list+search+pagination, get, role/status update, delete) with lockout guards + audit logs; `@Roles(ADMIN)` RBAC

@@ -15,7 +15,7 @@ vi.mock('@/i18n/navigation', () => ({
 }));
 
 vi.mock('../api/auth.api', () => ({
-  authApi: { login: vi.fn() },
+  authApi: { login: vi.fn(), resendVerification: vi.fn() },
 }));
 
 const mockedApi = vi.mocked(authApi, true);
@@ -45,6 +45,32 @@ describe('LoginForm', () => {
 
     expect(
       await screen.findByText('Incorrect email or password.'),
+    ).toBeInTheDocument();
+  });
+
+  it('shows the unverified message + resend button on a 403', async () => {
+    mockedApi.login.mockRejectedValue(
+      new AxiosError('Forbidden', '403', undefined, undefined, {
+        status: 403,
+        data: {},
+        statusText: 'Forbidden',
+        headers: {},
+        config: {} as never,
+      }),
+    );
+
+    renderWithProviders(<LoginForm />);
+    const user = userEvent.setup();
+
+    await user.type(screen.getByLabelText('Email'), 'user@example.com');
+    await user.type(screen.getByLabelText('Password'), 'whatever');
+    await user.click(screen.getByRole('button', { name: 'Log in' }));
+
+    expect(
+      await screen.findByText(/verify your email before logging in/i),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Resend verification email' }),
     ).toBeInTheDocument();
   });
 

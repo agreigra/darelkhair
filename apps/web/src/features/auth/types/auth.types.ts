@@ -29,6 +29,20 @@ export interface RegisterInput {
   phone?: string;
 }
 
+/** Register no longer logs the user in — they must verify their email first. */
+export interface RegisterResponse {
+  verificationRequired: true;
+  email: string;
+}
+
+export interface VerifyEmailInput {
+  token: string;
+}
+
+export interface ResendVerificationInput {
+  email: string;
+}
+
 export interface ForgotPasswordInput {
   email: string;
 }
