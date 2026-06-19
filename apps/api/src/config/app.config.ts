@@ -66,6 +66,7 @@ export class AppConfigService {
 
   get mail() {
     return {
+      resendApiKey: this.config.get('RESEND_API_KEY', { infer: true }),
       host: this.config.get('SMTP_HOST', { infer: true }),
       port: this.config.get('SMTP_PORT', { infer: true }),
       secure: this.config.get('SMTP_SECURE', { infer: true }),

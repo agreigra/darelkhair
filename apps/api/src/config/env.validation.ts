@@ -23,10 +23,13 @@ export const envSchema = z.object({
   // password-reset link). No trailing slash.
   WEB_APP_URL: z.string().url().default('http://localhost:3000'),
 
-  // ── Outbound email (SMTP) ──
-  // When SMTP_HOST is unset the mailer runs in "log" mode: instead of sending,
-  // it logs the message (and any link) to the server console. This keeps dev
-  // working with no mail server while production wires real SMTP credentials.
+  // ── Outbound email ──
+  // Transport is picked in order: RESEND_API_KEY → SMTP_HOST → "log" mode.
+  // Prefer Resend (an HTTP API) in production: hosts like Railway block outbound
+  // SMTP ports, so SMTP-based providers (e.g. Gmail) time out there. With no
+  // transport configured the mailer logs the message + link to the console, so
+  // dev works with no mail provider.
+  RESEND_API_KEY: z.string().optional(),
   SMTP_HOST: z.string().optional(),
   SMTP_PORT: z.coerce.number().int().positive().default(587),
   SMTP_SECURE: z
