@@ -38,13 +38,20 @@ async function upsertUser(input: {
   const passwordHash = await bcrypt.hash(input.password, 12);
   await prisma.user.upsert({
     where: { email: input.email },
-    update: { firstName: input.firstName, lastName: input.lastName, role: input.role },
+    update: {
+      firstName: input.firstName,
+      lastName: input.lastName,
+      role: input.role,
+      emailVerified: true,
+    },
     create: {
       email: input.email,
       passwordHash,
       firstName: input.firstName,
       lastName: input.lastName,
       role: input.role,
+      // Seeded accounts are pre-verified so they can log in immediately.
+      emailVerified: true,
     },
   });
 }

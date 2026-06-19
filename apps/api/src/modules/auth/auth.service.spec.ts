@@ -1,11 +1,17 @@
 import {
   BadRequestException,
   ConflictException,
+  ForbiddenException,
   UnauthorizedException,
 } from '@nestjs/common';
 import type { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
-import type { PasswordResetToken, RefreshToken, User } from '@prisma/client';
+import type {
+  EmailVerificationToken,
+  PasswordResetToken,
+  RefreshToken,
+  User,
+} from '@prisma/client';
 import type { AppConfigService } from '@/config/app.config';
 import type { AuditService } from '@/common/audit/audit.service';
 import type { MailService } from '@/common/mail/mail.service';
@@ -27,6 +33,7 @@ function makeUser(overrides: Partial<User> = {}): User {
     phone: null,
     role: 'USER',
     isActive: true,
+    emailVerified: true,
     createdAt: new Date('2026-01-01T00:00:00Z'),
     updatedAt: new Date('2026-01-01T00:00:00Z'),
     ...overrides,
@@ -82,9 +89,9 @@ describe('AuthService', () => {
       expect(repo.createUser).not.toHaveBeenCalled();
     });
 
-    it('hashes the password and returns a session', async () => {
+    it('creates an unverified account and emails a verification link (no session)', async () => {
       repo.findUserByEmail.mockResolvedValue(null);
-      repo.createUser.mockResolvedValue(makeUser({ passwordHash }));
+      repo.createUser.mockResolvedValue(makeUser({ passwordHash, emailVerified: false }));
 
       const result = await service.register(
         { email: 'user@example.com', password: PASSWORD } as never,
@@ -93,8 +100,14 @@ describe('AuthService', () => {
 
       const created = repo.createUser.mock.calls[0][0] as { passwordHash: string };
       expect(created.passwordHash).not.toBe(PASSWORD); // stored as a hash
-      expect(result.accessToken).toBe('signed-access-token');
-      expect(result.user.email).toBe('user@example.com');
+      // No session is issued — only the email is returned.
+      expect(result).toEqual({ email: 'user@example.com' });
+      expect(repo.createRefreshToken).not.toHaveBeenCalled();
+      expect(repo.createEmailVerificationToken).toHaveBeenCalledTimes(1);
+      const sent = mail.send.mock.calls[0][0];
+      expect(sent.text).toContain(
+        'https://app.darelkhair.test/verify-email?token=',
+      );
       expect(audit.record).toHaveBeenCalledWith(
         expect.objectContaining({ action: 'auth.register' }),
       );
@@ -123,7 +136,16 @@ describe('AuthService', () => {
       ).rejects.toBeInstanceOf(UnauthorizedException);
     });
 
-    it('returns a session for valid credentials', async () => {
+    it('rejects an unverified email even with the right password', async () => {
+      repo.findUserByEmail.mockResolvedValue(
+        makeUser({ passwordHash, emailVerified: false }),
+      );
+      await expect(
+        service.login({ email: 'user@example.com', password: PASSWORD } as never, CTX),
+      ).rejects.toBeInstanceOf(ForbiddenException);
+    });
+
+    it('returns a session for valid, verified credentials', async () => {
       repo.findUserByEmail.mockResolvedValue(makeUser({ passwordHash }));
       const result = await service.login(
         { email: 'user@example.com', password: PASSWORD } as never,
@@ -306,6 +328,78 @@ describe('AuthService', () => {
       expect(audit.record).toHaveBeenCalledWith(
         expect.objectContaining({ action: 'auth.password_reset_completed' }),
       );
+    });
+  });
+
+  describe('verifyEmail', () => {
+    const validRow = (overrides: Partial<EmailVerificationToken> = {}) =>
+      ({
+        id: 'evt-1',
+        userId: 'user-1',
+        tokenHash: 'hash',
+        usedAt: null,
+        expiresAt: new Date(Date.now() + 60_000),
+        createdAt: new Date(),
+        user: makeUser({ emailVerified: false }),
+        ...overrides,
+      }) as EmailVerificationToken & { user: User };
+
+    it('rejects an unknown token', async () => {
+      repo.findEmailVerificationTokenByHash.mockResolvedValue(null);
+      await expect(service.verifyEmail({ token: 'x' }, CTX)).rejects.toBeInstanceOf(
+        BadRequestException,
+      );
+    });
+
+    it('rejects an already-used token', async () => {
+      repo.findEmailVerificationTokenByHash.mockResolvedValue(
+        validRow({ usedAt: new Date() }),
+      );
+      await expect(service.verifyEmail({ token: 'x' }, CTX)).rejects.toBeInstanceOf(
+        BadRequestException,
+      );
+    });
+
+    it('rejects an expired token', async () => {
+      repo.findEmailVerificationTokenByHash.mockResolvedValue(
+        validRow({ expiresAt: new Date(Date.now() - 1) }),
+      );
+      await expect(service.verifyEmail({ token: 'x' }, CTX)).rejects.toBeInstanceOf(
+        BadRequestException,
+      );
+    });
+
+    it('marks the account verified and consumes the token', async () => {
+      repo.findEmailVerificationTokenByHash.mockResolvedValue(validRow());
+      await service.verifyEmail({ token: 'x' }, CTX);
+      expect(repo.setEmailVerified).toHaveBeenCalledWith('user-1');
+      expect(repo.markEmailVerificationTokenUsed).toHaveBeenCalledWith('evt-1');
+      expect(audit.record).toHaveBeenCalledWith(
+        expect.objectContaining({ action: 'auth.email_verified' }),
+      );
+    });
+  });
+
+  describe('resendVerification', () => {
+    it('is a no-op for an unknown email', async () => {
+      repo.findUserByEmail.mockResolvedValue(null);
+      await service.resendVerification({ email: 'nobody@example.com' }, CTX);
+      expect(repo.createEmailVerificationToken).not.toHaveBeenCalled();
+      expect(mail.send).not.toHaveBeenCalled();
+    });
+
+    it('is a no-op for an already-verified user', async () => {
+      repo.findUserByEmail.mockResolvedValue(makeUser({ emailVerified: true }));
+      await service.resendVerification({ email: 'user@example.com' }, CTX);
+      expect(mail.send).not.toHaveBeenCalled();
+    });
+
+    it('re-issues a token and emails an unverified user', async () => {
+      repo.findUserByEmail.mockResolvedValue(makeUser({ emailVerified: false }));
+      await service.resendVerification({ email: 'user@example.com' }, CTX);
+      expect(repo.deleteEmailVerificationTokensForUser).toHaveBeenCalledWith('user-1');
+      expect(repo.createEmailVerificationToken).toHaveBeenCalledTimes(1);
+      expect(mail.send.mock.calls[0][0].text).toContain('/verify-email?token=');
     });
   });
 });

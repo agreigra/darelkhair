@@ -8,7 +8,9 @@ import type {
   ForgotPasswordInput,
   LoginInput,
   RegisterInput,
+  ResendVerificationInput,
   ResetPasswordInput,
+  VerifyEmailInput,
 } from '../types/auth.types';
 
 /** Log in, then store the session. */
@@ -20,12 +22,28 @@ export function useLogin() {
   });
 }
 
-/** Register, then store the session (auto-login). */
+/**
+ * Register. No auto-login — the API returns `{ verificationRequired, email }`
+ * and the user must confirm their email before they can log in.
+ */
 export function useRegister() {
-  const setSession = useAuthStore((s) => s.setSession);
   return useMutation({
     mutationFn: (input: RegisterInput) => authApi.register(input),
-    onSuccess: (session) => setSession(session),
+  });
+}
+
+/** Confirm a sign-up email from the verification link. */
+export function useVerifyEmail() {
+  return useMutation({
+    mutationFn: (input: VerifyEmailInput) => authApi.verifyEmail(input),
+  });
+}
+
+/** Re-send the verification email. */
+export function useResendVerification() {
+  return useMutation({
+    mutationFn: (input: ResendVerificationInput) =>
+      authApi.resendVerification(input),
   });
 }
 

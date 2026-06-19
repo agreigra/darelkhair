@@ -9,7 +9,9 @@
     "edit": "Modifier",
     "back": "Retour",
     "search": "Rechercher",
-    "language": "Langue"
+    "language": "Langue",
+    "showPassword": "Afficher le mot de passe",
+    "hidePassword": "Masquer le mot de passe"
   },
   "nav": {
     "menu": "Menu",
@@ -461,6 +463,21 @@
       "invalidBody": "Les liens de réinitialisation expirent après 1 heure et ne peuvent être utilisés qu'une seule fois. Demandez-en un nouveau pour continuer.",
       "requestNew": "Demander un nouveau lien"
     },
+    "verifyEmail": {
+      "sentTitle": "Vérifiez votre e-mail",
+      "sentSubtitle": "Nous avons envoyé un lien de vérification à {email}.",
+      "sentBody": "Ouvrez le lien dans l'e-mail pour activer votre compte, puis connectez-vous. Le lien expire dans 24 heures — pensez à vérifier vos courriers indésirables.",
+      "verifyingTitle": "Vérification de votre e-mail…",
+      "successTitle": "E-mail vérifié",
+      "successSubtitle": "Votre compte est maintenant actif. Vous pouvez vous connecter.",
+      "goToLogin": "Aller à la connexion",
+      "invalidTitle": "Lien de vérification invalide",
+      "invalidSubtitle": "Ce lien est manquant, expiré ou déjà utilisé.",
+      "invalidBody": "Saisissez votre e-mail et nous vous enverrons un nouveau lien de vérification.",
+      "backToLogin": "Retour à la connexion",
+      "resend": "Renvoyer l'e-mail de vérification",
+      "resent": "E-mail de vérification envoyé — vérifiez votre boîte de réception."
+    },
     "fields": {
       "email": "E-mail",
       "password": "Mot de passe",
@@ -476,6 +493,7 @@
       "invalidCredentials": "E-mail ou mot de passe incorrect.",
       "emailTaken": "Cet e-mail est déjà enregistré.",
       "resetTokenInvalid": "Ce lien de réinitialisation est invalide ou a expiré. Veuillez en demander un nouveau.",
+      "emailNotVerified": "Veuillez vérifier votre e-mail avant de vous connecter. Consultez votre boîte de réception ou renvoyez le lien ci-dessous.",
       "generic": "Une erreur est survenue. Veuillez réessayer."
     }
   },

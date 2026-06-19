@@ -69,11 +69,15 @@ model User {
   phone        String?
   role         UserRole @default(USER)
   isActive     Boolean  @default(true)
+  // New signups start unverified and must confirm their email before they can
+  // log in. Backfilled to true for pre-existing users (see migration).
+  emailVerified Boolean @default(false)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
   refreshTokens RefreshToken[]
   passwordResetTokens PasswordResetToken[]
+  emailVerificationTokens EmailVerificationToken[]
   bookings      Booking[]
   notifications Notification[]
   auditLogs     AuditLog[]
@@ -98,6 +102,22 @@ model PasswordResetToken {
 
   @@index([userId])
   @@map("password_reset_tokens")
+}
+
+// Email-verification tokens (sign-up confirmation). Same design as
+// PasswordResetToken: only the SHA-256 hash is stored, short-lived, single-use.
+model EmailVerificationToken {
+  id        String    @id @default(cuid())
+  userId    String
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("email_verification_tokens")
 }
 
 // Refresh-token rotation (Feature 1 — Auth). One row per issued token; the

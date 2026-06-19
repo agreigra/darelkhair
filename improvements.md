@@ -5,3 +5,5 @@ app dispo
 mot de passe oublier
 
 monnaie utilise
+I want the admin to be able to modify the password of users if it is needed
+icon to show password

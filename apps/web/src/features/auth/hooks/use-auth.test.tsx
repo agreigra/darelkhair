@@ -4,13 +4,23 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { authApi } from '../api/auth.api';
 import { useAuthStore } from '../store/auth.store';
-import { useForgotPassword, useResetPassword, useLogin } from './use-auth';
+import {
+  useForgotPassword,
+  useResetPassword,
+  useLogin,
+  useRegister,
+  useVerifyEmail,
+  useResendVerification,
+} from './use-auth';
 
 vi.mock('../api/auth.api', () => ({
   authApi: {
     login: vi.fn(),
+    register: vi.fn(),
     forgotPassword: vi.fn(),
     resetPassword: vi.fn(),
+    verifyEmail: vi.fn(),
+    resendVerification: vi.fn(),
   },
 }));
 
@@ -64,6 +74,52 @@ describe('useResetPassword', () => {
     expect(mockedApi.resetPassword).toHaveBeenCalledWith({
       token: 'tok',
       password: 'newpassword',
+    });
+  });
+});
+
+describe('useRegister', () => {
+  it('does NOT store a session (verification required first)', async () => {
+    mockedApi.register.mockResolvedValue({
+      verificationRequired: true,
+      email: 'user@example.com',
+    });
+    const { result } = renderHook(() => useRegister(), { wrapper });
+
+    result.current.mutate({ email: 'user@example.com', password: 'secret123' });
+
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(result.current.data).toEqual({
+      verificationRequired: true,
+      email: 'user@example.com',
+    });
+    // Still anonymous — register must not log the user in.
+    expect(useAuthStore.getState().status).toBe('loading');
+  });
+});
+
+describe('useVerifyEmail', () => {
+  it('posts the verification token', async () => {
+    mockedApi.verifyEmail.mockResolvedValue(undefined);
+    const { result } = renderHook(() => useVerifyEmail(), { wrapper });
+
+    result.current.mutate({ token: 'tok' });
+
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(mockedApi.verifyEmail).toHaveBeenCalledWith({ token: 'tok' });
+  });
+});
+
+describe('useResendVerification', () => {
+  it('posts the email', async () => {
+    mockedApi.resendVerification.mockResolvedValue(undefined);
+    const { result } = renderHook(() => useResendVerification(), { wrapper });
+
+    result.current.mutate({ email: 'user@example.com' });
+
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(mockedApi.resendVerification).toHaveBeenCalledWith({
+      email: 'user@example.com',
     });
   });
 });

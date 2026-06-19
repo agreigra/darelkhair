@@ -7,6 +7,7 @@ import { Loader2 } from 'lucide-react';
 import { useRouter } from '@/i18n/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { PasswordInput } from '@/components/ui/password-input';
 import {
   Form,
   FormControl,
@@ -19,13 +20,14 @@ import { FormWrapper } from '@/components/shared/form-wrapper';
 import { Link } from '@/i18n/navigation';
 import { getApiErrorStatus } from '@/lib/api-error';
 import { createLoginSchema, type LoginValues } from '../schemas/auth.schemas';
-import { useLogin } from '../hooks/use-auth';
+import { useLogin, useResendVerification } from '../hooks/use-auth';
 
 export function LoginForm({ redirectTo = '/' }: { redirectTo?: string }) {
   const t = useTranslations('auth');
   const tErr = useTranslations('auth.errors');
   const router = useRouter();
   const login = useLogin();
+  const resend = useResendVerification();
 
   const form = useForm<LoginValues>({
     resolver: zodResolver(createLoginSchema(tErr)),
@@ -38,11 +40,16 @@ export function LoginForm({ redirectTo = '/' }: { redirectTo?: string }) {
     });
   }
 
-  const serverError =
-    login.isError &&
-    (getApiErrorStatus(login.error) === 401
+  const status = login.isError ? getApiErrorStatus(login.error) : undefined;
+  // 403 = the account exists but the email isn't verified yet.
+  const isUnverified = status === 403;
+  const serverError = login.isError
+    ? status === 401
       ? tErr('invalidCredentials')
-      : tErr('generic'));
+      : isUnverified
+        ? tErr('emailNotVerified')
+        : tErr('generic')
+    : null;
 
   return (
     <FormWrapper
@@ -84,11 +91,7 @@ export function LoginForm({ redirectTo = '/' }: { redirectTo?: string }) {
               <FormItem>
                 <FormLabel>{t('fields.password')}</FormLabel>
                 <FormControl>
-                  <Input
-                    type="password"
-                    autoComplete="current-password"
-                    {...field}
-                  />
+                  <PasswordInput autoComplete="current-password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -106,6 +109,24 @@ export function LoginForm({ redirectTo = '/' }: { redirectTo?: string }) {
 
           {serverError ? (
             <p className="text-sm font-medium text-destructive">{serverError}</p>
+          ) : null}
+
+          {isUnverified ? (
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full"
+              disabled={resend.isPending || resend.isSuccess}
+              onClick={() => resend.mutate({ email: form.getValues('email') })}
+            >
+              {resend.isPending ? (
+                <Loader2 className="animate-spin" />
+              ) : resend.isSuccess ? (
+                t('verifyEmail.resent')
+              ) : (
+                t('verifyEmail.resend')
+              )}
+            </Button>
           ) : null}
 
           <Button type="submit" className="w-full" disabled={login.isPending}>

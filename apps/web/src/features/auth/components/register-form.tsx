@@ -4,9 +4,10 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { Loader2 } from 'lucide-react';
-import { useRouter, Link } from '@/i18n/navigation';
+import { Link } from '@/i18n/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { PasswordInput } from '@/components/ui/password-input';
 import {
   Form,
   FormControl,
@@ -21,13 +22,13 @@ import {
   createRegisterSchema,
   type RegisterValues,
 } from '../schemas/auth.schemas';
-import { useRegister } from '../hooks/use-auth';
+import { useRegister, useResendVerification } from '../hooks/use-auth';
 
-export function RegisterForm({ redirectTo = '/' }: { redirectTo?: string }) {
+export function RegisterForm() {
   const t = useTranslations('auth');
   const tErr = useTranslations('auth.errors');
-  const router = useRouter();
   const register = useRegister();
+  const resend = useResendVerification();
 
   const form = useForm<RegisterValues>({
     resolver: zodResolver(createRegisterSchema(tErr)),
@@ -42,16 +43,48 @@ export function RegisterForm({ redirectTo = '/' }: { redirectTo?: string }) {
 
   function onSubmit(values: RegisterValues) {
     // Drop empty optional strings before sending.
-    const payload = {
+    register.mutate({
       email: values.email,
       password: values.password,
       firstName: values.firstName || undefined,
       lastName: values.lastName || undefined,
       phone: values.phone || undefined,
-    };
-    register.mutate(payload, {
-      onSuccess: () => router.push(redirectTo),
     });
+  }
+
+  // After signup the user is NOT logged in — they must verify their email.
+  if (register.isSuccess) {
+    const email = register.data.email;
+    return (
+      <FormWrapper
+        title={t('verifyEmail.sentTitle')}
+        description={t('verifyEmail.sentSubtitle', { email })}
+        footer={
+          <Link href="/login" className="font-medium text-primary hover:underline">
+            {t('verifyEmail.backToLogin')}
+          </Link>
+        }
+      >
+        <p className="text-sm text-muted-foreground">
+          {t('verifyEmail.sentBody')}
+        </p>
+        <Button
+          type="button"
+          variant="outline"
+          className="w-full"
+          disabled={resend.isPending || resend.isSuccess}
+          onClick={() => resend.mutate({ email })}
+        >
+          {resend.isPending ? (
+            <Loader2 className="animate-spin" />
+          ) : resend.isSuccess ? (
+            t('verifyEmail.resent')
+          ) : (
+            t('verifyEmail.resend')
+          )}
+        </Button>
+      </FormWrapper>
+    );
   }
 
   const serverError =
@@ -141,11 +174,7 @@ export function RegisterForm({ redirectTo = '/' }: { redirectTo?: string }) {
               <FormItem>
                 <FormLabel>{t('fields.password')}</FormLabel>
                 <FormControl>
-                  <Input
-                    type="password"
-                    autoComplete="new-password"
-                    {...field}
-                  />
+                  <PasswordInput autoComplete="new-password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

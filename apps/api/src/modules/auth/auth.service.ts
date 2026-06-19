@@ -2,6 +2,7 @@ import { createHash, randomBytes } from 'node:crypto';
 import {
   BadRequestException,
   ConflictException,
+  ForbiddenException,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -17,6 +18,8 @@ import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
+import { VerifyEmailDto } from './dto/verify-email.dto';
+import { ResendVerificationDto } from './dto/resend-verification.dto';
 import type {
   JwtPayload,
   PublicUser,
@@ -26,6 +29,13 @@ import type {
 const BCRYPT_ROUNDS = 12;
 /** How long a password-reset token stays valid. */
 const RESET_TOKEN_TTL_MS = 60 * 60 * 1000; // 1 hour
+/** How long an email-verification token stays valid. */
+const VERIFICATION_TOKEN_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
+
+/** Returned by register — no session is issued until the email is verified. */
+export interface RegisterResult {
+  email: string;
+}
 
 /** Result returned to the controller, which turns the refresh token into a cookie. */
 export interface AuthResult {
@@ -45,7 +55,15 @@ export class AuthService {
     private readonly mail: MailService,
   ) {}
 
-  async register(dto: RegisterDto, ctx: RequestContext): Promise<AuthResult> {
+  /**
+   * Create an account. The user starts unverified and is NOT logged in — a
+   * verification link is emailed, and login is blocked until they confirm it
+   * (see `login`). This is why register returns only the email, not a session.
+   */
+  async register(
+    dto: RegisterDto,
+    ctx: RequestContext,
+  ): Promise<RegisterResult> {
     const existing = await this.repo.findUserByEmail(dto.email);
     if (existing) {
       throw new ConflictException('Email is already registered');
@@ -68,7 +86,9 @@ export class AuthService {
       ...ctx,
     });
 
-    return this.buildAuthResult(user);
+    await this.issueVerificationEmail(user);
+
+    return { email: user.email };
   }
 
   async login(dto: LoginDto, ctx: RequestContext): Promise<AuthResult> {
@@ -82,6 +102,9 @@ export class AuthService {
     }
     if (!user.isActive) {
       throw new UnauthorizedException('Account is disabled');
+    }
+    if (!user.emailVerified) {
+      throw new ForbiddenException('Email not verified');
     }
 
     await this.audit.record({
@@ -252,6 +275,59 @@ export class AuthService {
     });
   }
 
+  /**
+   * Confirm a sign-up email. Validates the token, flags the account verified,
+   * and consumes the token. After this the user can log in.
+   */
+  async verifyEmail(dto: VerifyEmailDto, ctx: RequestContext): Promise<void> {
+    const stored = await this.repo.findEmailVerificationTokenByHash(
+      this.hashToken(dto.token),
+    );
+
+    if (
+      !stored ||
+      stored.usedAt ||
+      stored.expiresAt.getTime() < Date.now() ||
+      !stored.user.isActive
+    ) {
+      throw new BadRequestException('Invalid or expired verification token');
+    }
+
+    await this.repo.setEmailVerified(stored.userId);
+    await this.repo.markEmailVerificationTokenUsed(stored.id);
+
+    await this.audit.record({
+      action: 'auth.email_verified',
+      userId: stored.userId,
+      entity: 'User',
+      entityId: stored.userId,
+      ...ctx,
+    });
+  }
+
+  /**
+   * Re-send the verification email. Resolves the same way regardless of whether
+   * the email exists or is already verified, so it can't be used to enumerate
+   * accounts.
+   */
+  async resendVerification(
+    dto: ResendVerificationDto,
+    ctx: RequestContext,
+  ): Promise<void> {
+    const user = await this.repo.findUserByEmail(dto.email);
+    if (!user || !user.isActive || user.emailVerified) {
+      return; // silently no-op
+    }
+    await this.issueVerificationEmail(user);
+    await this.audit.record({
+      action: 'auth.verification_resent',
+      userId: user.id,
+      entity: 'User',
+      entityId: user.id,
+      ...ctx,
+    });
+  }
+
   // ── internals ──
 
   private async buildAuthResult(user: User): Promise<AuthResult> {
@@ -281,6 +357,37 @@ export class AuthService {
       refreshToken: rawRefresh,
       refreshTokenExpiresAt: expiresAt,
     };
+  }
+
+  /**
+   * Issue a fresh single-use verification token and email the confirmation
+   * link. Shared by register and resendVerification. Like the reset email, the
+   * send is best-effort — `MailService.send` swallows its own errors.
+   */
+  private async issueVerificationEmail(user: User): Promise<void> {
+    await this.repo.deleteEmailVerificationTokensForUser(user.id);
+
+    const rawToken = randomBytes(32).toString('hex');
+    const expiresAt = new Date(Date.now() + VERIFICATION_TOKEN_TTL_MS);
+    await this.repo.createEmailVerificationToken({
+      userId: user.id,
+      tokenHash: this.hashToken(rawToken),
+      expiresAt,
+    });
+
+    const verifyUrl = `${this.config.webAppUrl}/verify-email?token=${rawToken}`;
+    await this.mail.send({
+      to: user.email,
+      subject: 'Confirm your DarElKhair email',
+      text:
+        `Welcome to DarElKhair! Please confirm your email address.\n\n` +
+        `Open this link to verify your account (valid for 24 hours):\n${verifyUrl}\n\n` +
+        `If you didn't create an account, you can safely ignore this email.`,
+      html:
+        `<p>Welcome to DarElKhair! Please confirm your email address.</p>` +
+        `<p><a href="${verifyUrl}">Verify your account</a> (valid for 24 hours).</p>` +
+        `<p>If you didn't create an account, you can safely ignore this email.</p>`,
+    });
   }
 
   private hashToken(raw: string): string {
