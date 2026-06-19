@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { Loader2 } from 'lucide-react';
 import { useRouter, Link } from '@/i18n/navigation';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { PasswordInput } from '@/components/ui/password-input';
 import {
   Form,
   FormControl,
@@ -82,11 +82,7 @@ export function ResetPasswordForm({ token }: { token?: string }) {
               <FormItem>
                 <FormLabel>{t('resetPassword.newPassword')}</FormLabel>
                 <FormControl>
-                  <Input
-                    type="password"
-                    autoComplete="new-password"
-                    {...field}
-                  />
+                  <PasswordInput autoComplete="new-password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

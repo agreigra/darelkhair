@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import type {
+  EmailVerificationToken,
   PasswordResetToken,
   Prisma,
   RefreshToken,
@@ -95,6 +96,45 @@ export class AuthRepository {
     await this.prisma.user.update({
       where: { id: userId },
       data: { passwordHash },
+    });
+  }
+
+  // ── Email verification ──
+
+  /** Invalidate any outstanding verification tokens before issuing a new one. */
+  async deleteEmailVerificationTokensForUser(userId: string): Promise<void> {
+    await this.prisma.emailVerificationToken.deleteMany({ where: { userId } });
+  }
+
+  createEmailVerificationToken(data: {
+    userId: string;
+    tokenHash: string;
+    expiresAt: Date;
+  }): Promise<EmailVerificationToken> {
+    return this.prisma.emailVerificationToken.create({ data });
+  }
+
+  findEmailVerificationTokenByHash(
+    tokenHash: string,
+  ): Promise<(EmailVerificationToken & { user: User }) | null> {
+    return this.prisma.emailVerificationToken.findUnique({
+      where: { tokenHash },
+      include: { user: true },
+    });
+  }
+
+  markEmailVerificationTokenUsed(id: string): Promise<EmailVerificationToken> {
+    return this.prisma.emailVerificationToken.update({
+      where: { id },
+      data: { usedAt: new Date() },
+    });
+  }
+
+  /** Mark a user's email as verified (used by the verify flow). */
+  async setEmailVerified(userId: string): Promise<void> {
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { emailVerified: true },
     });
   }
 }

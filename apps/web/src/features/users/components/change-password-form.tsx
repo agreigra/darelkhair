@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { Check, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { PasswordInput } from '@/components/ui/password-input';
 import {
   Card,
   CardContent,
@@ -64,11 +64,7 @@ export function ChangePasswordForm() {
                 <FormItem>
                   <FormLabel>{t('password.current')}</FormLabel>
                   <FormControl>
-                    <Input
-                      type="password"
-                      autoComplete="current-password"
-                      {...field}
-                    />
+                    <PasswordInput autoComplete="current-password" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -81,11 +77,7 @@ export function ChangePasswordForm() {
                 <FormItem>
                   <FormLabel>{t('password.new')}</FormLabel>
                   <FormControl>
-                    <Input
-                      type="password"
-                      autoComplete="new-password"
-                      {...field}
-                    />
+                    <PasswordInput autoComplete="new-password" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

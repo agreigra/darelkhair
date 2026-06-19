@@ -15,6 +15,8 @@ import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
+import { VerifyEmailDto } from './dto/verify-email.dto';
+import { ResendVerificationDto } from './dto/resend-verification.dto';
 import { Public } from './decorators/public.decorator';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { REFRESH_COOKIE, refreshCookieOptions } from './auth.cookies';
@@ -23,6 +25,11 @@ import type { PublicUser, RequestContext } from './types/auth.types';
 interface SessionResponse {
   user: PublicUser;
   accessToken: string;
+}
+
+interface RegisterResponse {
+  verificationRequired: true;
+  email: string;
 }
 
 @Controller('auth')
@@ -37,10 +44,10 @@ export class AuthController {
   async register(
     @Body() dto: RegisterDto,
     @Req() req: Request,
-    @Res({ passthrough: true }) res: Response,
-  ): Promise<SessionResponse> {
-    const result = await this.auth.register(dto, this.context(req));
-    return this.completeSession(res, result);
+  ): Promise<RegisterResponse> {
+    // No session is issued — the user must verify their email before logging in.
+    const { email } = await this.auth.register(dto, this.context(req));
+    return { verificationRequired: true, email };
   }
 
   @Public()
@@ -103,6 +110,29 @@ export class AuthController {
     @Req() req: Request,
   ): Promise<{ success: boolean }> {
     await this.auth.resetPassword(dto, this.context(req));
+    return { success: true };
+  }
+
+  @Public()
+  @Post('verify-email')
+  @HttpCode(HttpStatus.OK)
+  async verifyEmail(
+    @Body() dto: VerifyEmailDto,
+    @Req() req: Request,
+  ): Promise<{ success: boolean }> {
+    await this.auth.verifyEmail(dto, this.context(req));
+    return { success: true };
+  }
+
+  @Public()
+  @Post('resend-verification')
+  @HttpCode(HttpStatus.OK)
+  async resendVerification(
+    @Body() dto: ResendVerificationDto,
+    @Req() req: Request,
+  ): Promise<{ success: boolean }> {
+    await this.auth.resendVerification(dto, this.context(req));
+    // Always 200 — never reveal whether the email exists or is already verified.
     return { success: true };
   }
 
